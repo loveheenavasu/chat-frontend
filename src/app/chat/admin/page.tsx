@@ -8,6 +8,7 @@ import { Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import styles from "../../chat/admin/admin.module.css";
 import SourceCard from "@/components/SourceCard";
+import Activity from "@/components/Activity";
 
 const Admin = () => {
   const [activeButton, setActive] = useState<string>("Text");
@@ -20,6 +21,8 @@ const Admin = () => {
         return <WebsiteCard />;
       case "Files":
         return <FIlesCard />;
+      case "Activity":
+        return <Activity />;
       default:
         return (
           <AdminTextSpace
@@ -38,7 +41,6 @@ const Admin = () => {
     <>
       <AdminHeader />
       <Box height={"80px"}></Box>
-
       <Box
         display={"flex"}
         justifyContent={"space-between"}
@@ -48,10 +50,12 @@ const Admin = () => {
           <AdminSideBar activeButton={activeButton} setActive={setActive} />
         </Box>
         <Box className={styles.adminCenterWrapper}>{renderCards()}</Box>
+
         <Box className={styles.adminRightWrapper}>
-          <SourceCard inputData={inputData} activeButton={activeButton} />
+          < SourceCard inputData={inputData} activeButton={activeButton} />
         </Box>
-      </Box>
+
+      </Box >
     </>
   );
 };

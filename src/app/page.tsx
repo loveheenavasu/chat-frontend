@@ -64,6 +64,7 @@ export default function Home() {
               // removeLocalStorageItem();
               removeParticularItemFromLocalStorage("documentId");
               router.push("/chat/admin");
+              console.log('hello')
             }}
           >
             Create Chatbot

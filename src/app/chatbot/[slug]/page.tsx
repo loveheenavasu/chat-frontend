@@ -24,6 +24,7 @@ const ChatBot = ({ params }: any) => {
       message: "Welcome to our Chatbot",
     },
   ]);
+  console.log(chatMessage, 'd3vuf3uf34')
 
   const [chatId, setChatId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
