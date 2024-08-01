@@ -14,6 +14,7 @@ interface Message {
   chatId: number | null;
   type: "AI" | "user" | string;
   message: string;
+  chatSessionId: number | null;
 }
 
 const ChatBot = ({ params }: any) => {
@@ -22,10 +23,12 @@ const ChatBot = ({ params }: any) => {
       chatId: null,
       type: "AI",
       message: "Welcome to our Chatbot",
+      chatSessionId: null,
     },
   ]);
 
   const [chatId, setChatId] = useState<string>("");
+  const [chatSessionId, setChatSessionId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const id = params.slug;
 
@@ -41,6 +44,7 @@ const ChatBot = ({ params }: any) => {
         setLoading(false);
       }
       setChatId(data?.chatId);
+      setChatSessionId(data?.sessionId);
       setChatMessage((prev) => [...prev, data]);
     });
     SOCKET.on("hi", (e) => console.log(e, "EVENT", SOCKET.id));
@@ -63,9 +67,10 @@ const ChatBot = ({ params }: any) => {
       text: message,
       connectId: chatId || SOCKET.id,
       documentId: id,
+      ...(chatSessionId && { chatSessionId }),
     });
   };
-
+  console.log(chatMessage);
   return (
     <Box>
       <ChatHeader />
