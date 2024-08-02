@@ -18,7 +18,12 @@ import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 
-const AdminTextSpace = ({ inputData, setInputData, logoutLoading }: any) => {
+const AdminTextSpace = ({
+  inputData,
+  setInputData,
+  logoutLoading,
+  setIncreaseCounter,
+}: any) => {
   const [isEditId, setIsEditId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [screenLoading, setscreenLoading] = useState<boolean>(false);
@@ -66,6 +71,7 @@ const AdminTextSpace = ({ inputData, setInputData, logoutLoading }: any) => {
         fetchData(response.data?.data?.documentId);
       }
       setLoading(false);
+      setIncreaseCounter((prev: number) => prev + 1);
     } catch (error) {
       console.error("Error adding data:", error);
       setLoading(false);
@@ -85,6 +91,7 @@ const AdminTextSpace = ({ inputData, setInputData, logoutLoading }: any) => {
       });
       if (response?.data) {
         toast.success(response?.data?.message);
+        setIncreaseCounter((prev) => prev + 1);
       }
       setLoading(false);
     } catch (error: any) {

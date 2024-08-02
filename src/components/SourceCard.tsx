@@ -18,17 +18,22 @@ import { useState, useEffect } from "react";
 import { getLocalStorageItem, getOriginUrl } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
 
-const SourceCard = ({ inputData, activeButton }: any) => {
+const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [generatedLink, setGeneratedLink] = useState("");
   const router = useRouter();
   const documentID = getLocalStorageItem("documentId");
   const authToken = getLocalStorageItem("authToken");
+
   useEffect(() => {
     if (!authToken) {
       router.push("/login");
     }
   }, [authToken]);
 
+  useEffect(() => {
+    if (documentID) setGeneratedLink(`${getOriginUrl()}/chatbot/${documentID}`);
+  }, [increaseCounter]);
   return (
     <Box>
       <Card>
@@ -68,24 +73,20 @@ const SourceCard = ({ inputData, activeButton }: any) => {
               />
             </Flex>
           )}
-          {inputData && documentID && activeButton === "Text" && (
+          {inputData && activeButton === "Text" && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
-                <Text fontWeight="bold">
-                  {`${getOriginUrl()}/chatbot/${documentID}`}
-                </Text>
+                <Text fontWeight="bold">{generatedLink}</Text>
               </Link>
-
+              {/* 
               <IconButton
                 aria-label="Copy"
                 icon={<CopyIcon />}
                 onClick={() => {
-                  navigator.clipboard.writeText(
-                    `${getOriginUrl()}/chatbot/${documentID}`
-                  );
+                  navigator.clipboard.writeText(generatedLink);
                   toast.success("Text copied");
                 }}
-              />
+              /> */}
             </Flex>
           )}
         </CardBody>
