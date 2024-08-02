@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { getLocalStorageItem } from "./localStorage";
+import { useRouter } from "next/router";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -17,8 +18,21 @@ axiosInstance.interceptors.request.use(
     config.headers["ngrok-skip-browser-warning"] = true;
     return config;
   },
-
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const { response } = error;
+    if (response && response.status === 400) {
+      const router = useRouter();
+      router.push("/login");
+    }
     return Promise.reject(error);
   }
 );

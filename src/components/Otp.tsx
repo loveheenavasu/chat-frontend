@@ -33,7 +33,7 @@ export default function Otp() {
         }
       );
       if (response.status === 200) {
-        setLocalStorageItem("authToken", verifyOtpToken);
+        // setLocalStorageItem("authToken", verifyOtpToken);
         setLoading(false);
         toast.success(response.data.message);
         router.push("/");
