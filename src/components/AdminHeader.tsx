@@ -36,6 +36,18 @@ const AdminHeader = () => {
             ChatBot
           </Heading>
           <Spacer />
+
+          <Box mr="6">
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              cursor="pointer"
+              onClick={() => router.push("/")}
+            >
+              All chatbots
+            </Text>
+          </Box>
+
           <Box>
             <Text
               fontSize="xl"
@@ -49,7 +61,7 @@ const AdminHeader = () => {
           <IconButton
             display={{ base: "flex", md: "none" }}
             aria-label="Open menu"
-            //   icon={<HamburgerIcon />}
+            // icon={<HamburgerIcon />}
             bg="transparent"
             color="white"
             _hover={{ bg: "transparent" }}

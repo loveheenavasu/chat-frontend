@@ -23,11 +23,13 @@ const AdminTextSpace = ({ inputData, setInputData, logoutLoading }: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [screenLoading, setscreenLoading] = useState<boolean>(false);
   const fetchData = async (documentId: any) => {
+    console.log(documentId, "documentIdd");
     try {
       setscreenLoading(true);
       const response = await axiosInstance.get(
         `/user/text${documentId ? `?documentId=${documentId}` : ""}`
       );
+
       if (response.data) {
         setInputData(response?.data?.text);
         setIsEditId(response?.data?._id);
@@ -40,11 +42,12 @@ const AdminTextSpace = ({ inputData, setInputData, logoutLoading }: any) => {
 
   useEffect(() => {
     const documentId = getLocalStorageItem("documentId");
+    console.log(documentId, "wkfhsdjk");
     fetchData(documentId);
   }, []);
   const handleAdd = async () => {
-    if (!inputData) {
-      toast.error("Please Enter the Text");
+    if (!inputData || inputData.length < 250) {
+      toast.error("Please enter the text with minimum 250 characters");
       return;
     }
     setLoading(true);
@@ -53,13 +56,14 @@ const AdminTextSpace = ({ inputData, setInputData, logoutLoading }: any) => {
       const documentId = getLocalStorageItem("documentId");
       const response = await axiosInstance.post(`/user/text`, {
         text: inputData,
-        documentId,
+        ...(documentId && { documentId }),
       });
+      console.log(response);
 
       if (response?.data) {
         setLocalStorageItem("documentId", response?.data?.data?.documentId);
         toast.success(response?.data?.messgage);
-        fetchData(response.data.data.documentId);
+        fetchData(response.data?.data?.documentId);
       }
       setLoading(false);
     } catch (error) {

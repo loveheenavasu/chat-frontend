@@ -25,7 +25,7 @@ const SourceCard = ({ inputData, activeButton }: any) => {
   const authToken = getLocalStorageItem("authToken");
   useEffect(() => {
     if (!authToken) {
-      router.push("/login");  
+      router.push("/login");
     }
   }, [authToken]);
 
@@ -68,7 +68,7 @@ const SourceCard = ({ inputData, activeButton }: any) => {
               />
             </Flex>
           )}
-          {inputData && documentID && activeButton !== "Files" && (
+          {inputData && documentID && activeButton === "Text" && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">
