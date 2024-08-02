@@ -22,8 +22,8 @@ import { removeParticularItemFromLocalStorage } from "@/utils/localStorage";
 
 export default function Home() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+  console.log(loading, "loadasdasings")
   const router = useRouter();
   const fetchData = async () => {
     try {
@@ -113,6 +113,7 @@ export default function Home() {
                   </Box>
                 </CardBody>
               </Card>
+
             )}
           </React.Fragment>
         )}

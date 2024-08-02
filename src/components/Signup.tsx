@@ -22,6 +22,7 @@ export default function Signup() {
   });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const handleChange = (e: any) => {
     const { id, value } = e.target;
     setFormData((prevState) => ({
@@ -29,12 +30,14 @@ export default function Signup() {
       [id]: value,
     }));
   };
+
+
   const handleSubmit = async (e: any) => {
     try {
       e.preventDefault();
       if (!formData.password || !formData.email) {
         toast.error("Please fill all the fields");
-        return;
+        return
       }
       if (formData.password !== formData.confirmPassword) {
         toast.error("Please enter same password");

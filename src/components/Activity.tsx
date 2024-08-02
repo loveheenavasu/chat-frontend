@@ -2,7 +2,6 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 import ChatBase from "./ChatBase";
 import { useEffect, useState, } from "react";
 import axiosInstance from "@/utils/axiosInstance";
-import { useRouter } from "next/navigation";
 
 interface Message {
     map(arg0: (msg: any, id: any) => import("react").JSX.Element): import("react").ReactNode;
@@ -28,9 +27,17 @@ const formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 };
-
+// export const handleChatBase = async (sessionId: number, setIsLoading: any, setUserMessages: any) => {
+//     setIsLoading(true);
+//     try {
+//         const response = await axiosInstance.get(`user/chat?sessionId=${sessionId}`);
+//         setUserMessages(response.data?.data?.messages || response.data?.data || []);
+//     } catch (error) {
+//         console.error("Error fetching user messages:", error);
+//     }
+//     setIsLoading(false);
+// }
 const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
-    const router = useRouter()
     const [chatMessages, setChatMessages] = useState<ChatMessage[]>(initialChatMessages);
     const [userMessages, setUserMessages] = useState<Message[]>();
     const [isLoading, setIsLoading] = useState(loading);
@@ -52,15 +59,16 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
         fetchChatRecords();
     }, [])
     console.log(chatMessages, 'chatMessages')
+
     const handleChatBase = async (sessionId: number) => {
         setIsLoading(true);
         try {
             const response = await axiosInstance.get(`user/chat?sessionId=${sessionId}`);
             setUserMessages(response.data?.data?.messages || response.data?.data || []);
+
         } catch (error) {
             console.error("Error fetching user messages:", error);
         }
-        setIsLoading(false);
     }
     console.log(userMessages, 'db3vvf84f')
 
@@ -78,12 +86,13 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
                             border='1px solid #e2e8f0'
                             borderRadius='10px'
                             background='#F4F4F5'
-                            onClick={() => handleChatBase(ele?.message[0]?.sessionId)}
                             style={{ cursor: 'pointer' }}
                         >
                             {ele.message.map((msg, index) => (
                                 <Box
                                     key={msg._id}
+                                    onClick={() => handleChatBase(msg?.sessionId)}
+
                                 >
                                     <Text color='black' fontSize='13px'
                                         color={msg.messageType === "USER" ? "gray" : "black"}

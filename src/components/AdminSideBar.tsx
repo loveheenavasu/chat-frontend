@@ -26,10 +26,11 @@ const AdminSideBar = ({ setActive, activeButton }: AdminSidebarProps) => {
 
   return (
     <Box className={styles.leftSidebar}>
-      {sourceType.map(({ label, icon }, i) => {
+      {sourceType.map(({ label, icon }, index) => {
         return (
           <section>
             <Box
+              key={label + index}
               className={
                 label === activeButton
                   ? styles.activeButton

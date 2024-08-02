@@ -47,6 +47,10 @@ const LoginCard = () => {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
   const isLoggedIn = getLocalStorageItem("authToken");
 
   useEffect(() => {
@@ -95,46 +99,76 @@ const LoginCard = () => {
   const errorMessage = (error?: string) => {
     console.log(error, "error");
   };
+
+  const validate = () => {
+    let formIsValid = true;
+    let errors: any = {};
+    if (!loginData.email) {
+      formIsValid = false;
+      errors.email = "Please enter your email.";
+    } else if (!/\S+@\S+\.\S+/.test(loginData.email)) {
+      formIsValid = false;
+      errors.email = "Email is not valid.";
+    }
+    if (!loginData.password) {
+      formIsValid = false;
+      errors.password = "Please enter your password.";
+    }
+    else if (loginData.password.length < 8) {
+      formIsValid = false;
+      errors.password = "Password must be at least 8 characters long.";
+    }
+    setErrors(errors);
+    return formIsValid;
+  };
   const handleSubmit = async (e: any) => {
-    try {
-      e.preventDefault();
-      setLoading(true);
-      const response = await axiosInstance.post("/user/login", loginData);
-      if (response.status === 200) {
-        Cookies.set("authToken", response?.data?.data?.accessToken);
-        setLocalStorageItem("authToken", response?.data?.data?.accessToken);
-        toast.success(response.data?.message);
+    if (validate()) {
+      try {
+        e.preventDefault();
+        setLoading(true);
+        const response = await axiosInstance.post("/user/login", loginData);
+        if (response.status === 200) {
+          Cookies.set("authToken", response?.data?.data?.accessToken);
+          setLocalStorageItem("authToken", response?.data?.data?.accessToken);
+          toast.success(response.data?.message);
+          setLoading(false);
+          router.push("/");
+          location.reload();
+        }
+      } catch (error: any) {
+        toast.error(error.response?.data?.message);
+        // setErrors({ ...errors, form: error.response.data.errorMessage });
         setLoading(false);
-        router.push("/");
-        location.reload();
       }
-    } catch (error: any) {
-      toast.error(error.response?.data?.message);
-      setLoading(false);
     }
   };
 
   return (
     <Box className={styles.cardContainer}>
       <FormControl id="username" mb={4} onSubmit={handleSubmit}>
-        <FormLabel>Username</FormLabel>
+        <FormLabel display='flex' gap='3px'>Email <Text textColor='red'>*</Text></FormLabel>
         <Input
           type="text"
           value={loginData?.email}
           onChange={(e) =>
             setLoginData({ ...loginData, email: e.target.value })
           }
+          required
         />
+        {errors.email && <Text color="red.500">{errors.email}</Text>}
       </FormControl>
       <FormControl id="password" mb={6}>
-        <FormLabel>Password</FormLabel>
+        <FormLabel display='flex' gap='3px'>Password <Text textColor='red'>*</Text>
+        </FormLabel>
         <Input
           type="password"
           value={loginData?.password}
           onChange={(e) =>
             setLoginData({ ...loginData, password: e.target.value })
           }
+          required
         />
+        {errors.password && <Text color="red.500">{errors.password}</Text>}
       </FormControl>
       <Button
         colorScheme="cyan"

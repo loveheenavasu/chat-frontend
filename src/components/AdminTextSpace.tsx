@@ -22,6 +22,7 @@ const AdminTextSpace = ({ inputData, setInputData, logoutLoading }: any) => {
   const [isEditId, setIsEditId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [screenLoading, setscreenLoading] = useState<boolean>(false);
+
   const fetchData = async (documentId: any) => {
     try {
       setscreenLoading(true);
@@ -61,6 +62,7 @@ const AdminTextSpace = ({ inputData, setInputData, logoutLoading }: any) => {
         toast.success(response?.data?.messgage);
         fetchData(response.data.data.documentId);
       }
+      console.log(response.data?.data?.documentId, '3fnf4f4f')
       setLoading(false);
     } catch (error) {
       console.error("Error adding data:", error);

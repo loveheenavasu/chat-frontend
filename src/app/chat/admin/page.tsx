@@ -9,6 +9,8 @@ import React, { useState } from "react";
 import styles from "../../chat/admin/admin.module.css";
 import SourceCard from "@/components/SourceCard";
 import Activity from "@/components/Activity";
+import { IoMdArrowBack } from "react-icons/io";
+import Link from "next/link";
 
 const Admin = () => {
   const [activeButton, setActive] = useState<string>("Text");
@@ -40,6 +42,12 @@ const Admin = () => {
   return (
     <>
       <AdminHeader />
+      <Box p='5px' border='1px solid #fff' w='30%' display='flex' alignItems='center'>
+        <Box m='5px' p='20px' display=' flex' alignItems='center' gap={1}>
+          <Link href='/' > <IoMdArrowBack size='30px' /></Link>
+          Back
+        </Box>
+      </Box>
       <Box height={"80px"}></Box>
       <Box
         display={"flex"}
@@ -47,6 +55,7 @@ const Admin = () => {
         className={styles.adminWrapper}
       >
         <Box className={styles.adminLeftWrapper}>
+
           <AdminSideBar activeButton={activeButton} setActive={setActive} />
         </Box>
         <Box className={styles.adminCenterWrapper}>{renderCards()}</Box>
