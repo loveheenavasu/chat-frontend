@@ -4,11 +4,8 @@ import ChatContainer from "@/components/ChatContainer";
 import ChatFooter from "@/components/ChatFooter";
 import ChatHeader from "@/components/ChatHeader";
 import { Box } from "@chakra-ui/react";
-
 import { SOCKET } from "../../../services/socket";
-
 import { useRouter } from "next/navigation";
-import styles from "../chatbot.module.css";
 
 interface Message {
   chatId: number | null;
@@ -26,7 +23,7 @@ const ChatBot = ({ params }: any) => {
       chatSessionId: null,
     },
   ]);
-  console.log(chatMessage, 'd3vuf3uf34')
+  console.log(chatMessage, "d3vuf3uf34");
 
   const [chatId, setChatId] = useState<string>("");
   const [chatSessionId, setChatSessionId] = useState<string>("");
@@ -36,7 +33,7 @@ const ChatBot = ({ params }: any) => {
   useEffect(() => {
     SOCKET.connect();
     SOCKET.on("connect", () => {
-      console.log(SOCKET.id, "wjefre");
+      console.log(SOCKET.id, "socketId");
     });
     SOCKET.on("searches", (data) => {
       if (data.type === "USER") {
@@ -77,7 +74,7 @@ const ChatBot = ({ params }: any) => {
       <ChatHeader />
       <ChatContainer chatMessage={chatMessage} loading={loading} />
       {loading && (
-        <Box className={styles.chatSvg}>
+        <Box bg="#e9e9ff">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 100 100"

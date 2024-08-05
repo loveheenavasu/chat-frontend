@@ -1,7 +1,6 @@
 "use client";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import styles from "./resetpassword.module.css";
 import LoginCard from "@/components/LoginCard";
 import Image from "next/image";
 import Resetpassword from "@/components/Resetpassword";
@@ -9,14 +8,20 @@ import Resetpassword from "@/components/Resetpassword";
 const Reset = () => {
   return (
     <>
-      <Box className={styles.loginContainer}>
-        <Box className={styles.leftlogin}>
+      <Flex>
+        <Flex
+          padding="20px"
+          justifyContent="center"
+          alignItems="center"
+          bg="#5080a4"
+          w="50%"
+          direction="column"
+        >
           <Resetpassword />
-        </Box>
-        <Box className={styles.rightlogin}>
-          <Box className={styles.imageWrapper}>
+        </Flex>
+        <Box w="50%">
+          <Box position="relative" w="100%" h="100%" bg="black">
             <Image
-              className={styles.mainPhoto}
               objectFit="cover"
               layout="fill"
               src="/chatbot2.jpg"
@@ -24,7 +29,7 @@ const Reset = () => {
             />
           </Box>
         </Box>
-      </Box>
+      </Flex>
     </>
   );
 };

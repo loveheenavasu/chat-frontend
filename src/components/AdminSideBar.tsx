@@ -37,17 +37,12 @@ const AdminSideBar = ({ setActive, activeButton }: AdminSidebarProps) => {
                 paddingLeft={'10px'}
                 borderRadius={'5px'}
                 textAlign={'center'}
-                // className={
-                //   label === activeButton
-                //     ? styles.activeButton
-                //     : styles.buttonsWrapper
-                // }
                 style={label === activeButton ? {
                   background: '#f9f9f9', color: 'blue'
                 } : {}}
                 onClick={() => handleClick(label)}
               >
-                <Flex alignItems='center' justifyContent={'space-between'}>
+                <Flex alignItems='center'>
                   {icon}
                   <Box width={"110px"} padding={"5px"}>
                     <Text fontWeight={500}>{label}</Text>

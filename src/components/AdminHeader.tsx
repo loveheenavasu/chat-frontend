@@ -50,7 +50,7 @@ const AdminHeader = () => {
                   cursor="pointer"
                   onClick={() => router.push("/")}
                 >
-                  All chatbots
+                  All ChatBot
                 </Text>
               </Box>
 
