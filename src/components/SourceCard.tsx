@@ -73,12 +73,13 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
               />
             </Flex>
           )}
+
           {inputData && activeButton === "Text" && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">{generatedLink}</Text>
               </Link>
-              {/* 
+
               <IconButton
                 aria-label="Copy"
                 icon={<CopyIcon />}
@@ -86,7 +87,28 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
                   navigator.clipboard.writeText(generatedLink);
                   toast.success("Text copied");
                 }}
-              /> */}
+              />
+            </Flex>
+          )}
+
+          {activeButton === "Activity" && documentID && (
+            <Flex>
+              <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
+                <Text fontWeight="bold">
+                  {`${getOriginUrl()}/chatbot/${documentID}`}
+                </Text>
+              </Link>
+
+              <IconButton
+                aria-label="Copy"
+                icon={<CopyIcon />}
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `${getOriginUrl()}/chatbot/${documentID}`
+                  );
+                  toast.success("Text copied");
+                }}
+              />
             </Flex>
           )}
         </CardBody>
