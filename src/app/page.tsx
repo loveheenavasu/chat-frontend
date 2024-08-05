@@ -23,7 +23,7 @@ import { removeParticularItemFromLocalStorage } from "@/utils/localStorage";
 export default function Home() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(loading, "loadasdasings")
+  console.log(loading, "loadasdasings");
   const router = useRouter();
   const fetchData = async () => {
     try {
@@ -64,7 +64,7 @@ export default function Home() {
               // removeLocalStorageItem();
               removeParticularItemFromLocalStorage("documentId");
               router.push("/chat/admin");
-              console.log('hello')
+              console.log("hello");
             }}
           >
             Create Chatbot
@@ -72,7 +72,7 @@ export default function Home() {
         </Flex>
 
         {loading ? (
-          <Box display="flex" justifyContent="center">
+          <Flex justifyContent="center">
             <Spinner
               thickness="4px"
               speed="0.65s"
@@ -80,7 +80,7 @@ export default function Home() {
               color="blue.500"
               size="md"
             />
-          </Box>
+          </Flex>
         ) : (
           <React.Fragment>
             {data?.length > 0 ? (
@@ -93,11 +93,7 @@ export default function Home() {
               <Card boxShadow="none" width="60%" margin="auto">
                 <CardBody>
                   <Image objectFit="cover" src="/chatAi.jpg" alt="Chakra UI" />
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    flexDirection="column"
-                  >
+                  <Flex justifyContent="center" flexDirection="column">
                     <Center as="b" color="#4299E1" fontSize="2xl" p={1}>
                       No Chatbot has been added yet.
                     </Center>
@@ -110,10 +106,9 @@ export default function Home() {
                     >
                       Add New Chatbot by clicking on create chatbot
                     </Center>
-                  </Box>
+                  </Flex>
                 </CardBody>
               </Card>
-
             )}
           </React.Fragment>
         )}

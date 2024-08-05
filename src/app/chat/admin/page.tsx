@@ -25,7 +25,7 @@ const Admin = () => {
       case "Files":
         return <FIlesCard />;
       case "Activity":
-        return <Activity />;
+        return <Activity loading={loading} />;
       default:
         return (
           <AdminTextSpace
@@ -44,9 +44,18 @@ const Admin = () => {
   return (
     <>
       <AdminHeader />
-      <Box p='5px' border='1px solid #fff' w='30%' display='flex' alignItems='center'>
-        <Box m='5px' p='20px' display=' flex' alignItems='center' gap={1}>
-          <Link href='/' > <IoMdArrowBack size='30px' /></Link>
+      <Box
+        p="5px"
+        border="1px solid #fff"
+        w="30%"
+        display="flex"
+        alignItems="center"
+      >
+        <Box m="5px" p="20px" display=" flex" alignItems="center" gap={1}>
+          <Link href="/">
+            {" "}
+            <IoMdArrowBack size="30px" />
+          </Link>
           Back
         </Box>
       </Box>
@@ -57,7 +66,6 @@ const Admin = () => {
         className={styles.adminWrapper}
       >
         <Box className={styles.adminLeftWrapper}>
-
           <AdminSideBar activeButton={activeButton} setActive={setActive} />
         </Box>
         <Box className={styles.adminCenterWrapper}>{renderCards()}</Box>
@@ -69,8 +77,7 @@ const Admin = () => {
             activeButton={activeButton}
           />
         </Box>
-
-      </Box >
+      </Box>
     </>
   );
 };

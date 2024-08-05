@@ -1,13 +1,20 @@
-import { Avatar, Box, Heading, WrapItem } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import React from "react";
-import styles from "../app/chatbot/chatbot.module.css";
-
 
 const ChatHeader = () => {
   return (
-    <Box className={styles.chatHeader}>
-      <Heading size={"md"}> ChatBOT </Heading>
-    </Box>
+    <Flex
+      w="100%"
+      color="white"
+      bg="#575782"
+      h="65px"
+      p="10px"
+      alignItems="center"
+      paddingLeft="30px"
+      gap="10px"
+    >
+      <Heading size="md"> ChatBOT </Heading>
+    </Flex>
   );
 };
 

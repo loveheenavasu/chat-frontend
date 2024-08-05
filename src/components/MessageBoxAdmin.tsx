@@ -1,6 +1,5 @@
-import { Avatar, Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
-import styles from "../app/chatbot/chatbot.module.css";
 
 export enum Role {
   User = "USER",
@@ -21,9 +20,17 @@ interface MessageBoxAdminProps {
 const MessageBoxAdmin = ({ data, loading }: MessageBoxAdminProps) => {
   return (
     <>
-      <Box className={styles.messageBox}>
-        <Box className={styles.chat}>{data?.message}</Box>
-      </Box>
+      <Flex alignItems="start" p="20px" gap="5px" maxW="50%">
+        <Box
+          minH="45px"
+          padding="10px"
+          borderRadius="10px"
+          bg="white"
+          boxShadow="0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);"
+        >
+          {data?.message}
+        </Box>
+      </Flex>
     </>
   );
 };

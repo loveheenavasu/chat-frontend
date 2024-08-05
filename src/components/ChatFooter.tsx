@@ -1,7 +1,6 @@
 "use client";
-import { Avatar, Box, Input, WrapItem } from "@chakra-ui/react";
+import { Flex, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
-import styles from "../app/chatbot/chatbot.module.css";
 import { VscSend } from "react-icons/vsc";
 
 interface ChatFooterProps {
@@ -19,12 +18,21 @@ const ChatFooter = ({ handleSend }: ChatFooterProps) => {
   };
   return (
     <form style={{ width: "100%" }} onSubmit={sendMessage}>
-      <Box className={styles.chatFooter}>
+      <Flex
+        color="white"
+        w="100%"
+        bg="#575782"
+        h="80px"
+        padding="10px"
+        alignItems="center"
+        paddingLeft="30px"
+        gap="10px"
+      >
         <Input
-          className={styles.messageInput}
-          color={"black"}
+          bg="white"
+          color="black"
           variant="filled"
-          height={"40px"}
+          height="40px"
           placeholder="Enter message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -37,7 +45,7 @@ const ChatFooter = ({ handleSend }: ChatFooterProps) => {
           fontSize={30}
           onClick={sendMessage}
         />
-      </Box>
+      </Flex>
     </form>
   );
 };

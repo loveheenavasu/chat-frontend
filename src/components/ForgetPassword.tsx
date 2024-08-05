@@ -9,7 +9,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import styles from "../app/signUp/signup.module.css";
 import { toast } from "react-toastify";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
@@ -54,7 +53,16 @@ export default function ForgetPasswordCard() {
   };
 
   return (
-    <Box className={styles.cardContainer} as="form" onSubmit={handleSubmit}>
+    <Box
+      w="80%"
+      margin="auto"
+      padding="20px"
+      boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+      borderRadius="8px"
+      bg="white"
+      as="form"
+      onSubmit={handleSubmit}
+    >
       <FormControl id="email" mb={4}>
         <FormLabel>Email</FormLabel>
         <Input type="text" value={formData.email} onChange={handleChange} />

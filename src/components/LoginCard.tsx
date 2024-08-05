@@ -3,13 +3,13 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import styles from "../app/login/login.module.css";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 import axios from "axios";
@@ -121,8 +121,7 @@ const LoginCard = () => {
     if (!loginData.password) {
       formIsValid = false;
       errors.password = "Please enter your password.";
-    }
-    else if (loginData.password.length < 8) {
+    } else if (loginData.password.length < 8) {
       formIsValid = false;
       errors.password = "Password must be at least 8 characters long.";
     }
@@ -152,9 +151,18 @@ const LoginCard = () => {
   };
 
   return (
-    <Box className={styles.cardContainer}>
+    <Box
+      w="80%"
+      margin="auto"
+      padding="20px"
+      boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+      borderRadius="8px"
+      bg="white"
+    >
       <FormControl id="username" mb={4} onSubmit={handleSubmit}>
-        <FormLabel display='flex' gap='3px'>Email <Text textColor='red'>*</Text></FormLabel>
+        <FormLabel display="flex" gap="3px">
+          Email <Text textColor="red">*</Text>
+        </FormLabel>
         <Input
           type="text"
           value={loginData?.email}
@@ -166,7 +174,8 @@ const LoginCard = () => {
         {errors.email && <Text color="red.500">{errors.email}</Text>}
       </FormControl>
       <FormControl id="password" mb={6}>
-        <FormLabel display='flex' gap='3px'>Password <Text textColor='red'>*</Text>
+        <FormLabel display="flex" gap="3px">
+          Password <Text textColor="red">*</Text>
         </FormLabel>
         <Input
           type="password"
@@ -180,24 +189,24 @@ const LoginCard = () => {
       </FormControl>
       <Button
         colorScheme="cyan"
-        color={"white"}
+        color="white"
         width="full"
         isLoading={loading}
         onClick={handleSubmit}
       >
         Login
       </Button>
-      <Box className={styles.googlelogin}>
+      <Flex w="100%" justifyContent="center" marginTop="20px">
         <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-      </Box>
+      </Flex>
       <Text
-        cursor={"pointer"}
+        cursor="pointer"
         as="b"
         p={4}
-        display={"flex"}
-        justifyContent={"center"}
+        display="flex"
+        justifyContent="center"
       >
-        Don't have an Account?{" "}
+        Don't have an Account?
         <Text
           color="#0bc5ea"
           as="b"

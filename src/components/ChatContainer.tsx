@@ -1,6 +1,5 @@
-import { Box } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
-import styles from "../app/chatbot/chatbot.module.css";
 import MessageBoxAdmin, { Role } from "./MessageBoxAdmin";
 
 interface chatMessage {
@@ -23,25 +22,26 @@ const ChatContainer = ({ chatMessage, loading }: ChatContainerProps) => {
     }
   }, [chatMessage]);
   return (
-    <Box
+    <Flex
       ref={containerRef}
-      className={`${styles.chatContainer} ${loading ? styles.chatLoading : ""}`}
+      w="100%"
+      direction="column"
+      bg="#e9e9ff"
+      overflowY="auto"
+      h={loading ? "70vh" : "80vh"}
     >
       {chatMessage?.map((ele, id) => {
         return (
-          <Box
+          <Flex
             key={id}
-            className={
-              ele?.type === Role.AI
-                ? styles.chatContainerAdmin
-                : styles.chatContainerUser
-            }
+            w="100%"
+            justifyContent={ele?.type === Role.AI ? "flex-start" : "flex-end"}
           >
             <MessageBoxAdmin data={ele} loading={loading} />
-          </Box>
+          </Flex>
         );
       })}
-    </Box>
+    </Flex>
   );
 };
 
