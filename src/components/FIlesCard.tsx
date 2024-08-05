@@ -25,7 +25,7 @@ import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 const FIlesCard = () => {
   const [file, setFile] = useState<any>({});
   const [data, setData] = useState<any>(null);
-  const [loading, setIsLoading] = useState(true);
+  const [loading, setIsLoading] = useState(false);
   const [deleteFileLoading, setDeleteFileLoading] = useState("");
   const [isFileUpload, setIsFileUpload] = useState(false);
 
@@ -34,6 +34,10 @@ const FIlesCard = () => {
   };
   const fetchData = async (documentId: any) => {
     try {
+      if (!file.name) {
+        setIsFileUpload(false);
+        return;
+      }
       setIsLoading(true);
       const response = await axiosInstance.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${documentId ? `?documentId=${documentId}` : ""

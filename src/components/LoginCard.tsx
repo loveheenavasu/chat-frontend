@@ -23,6 +23,8 @@ import { toast } from "react-toastify";
 type LoginData = {
   email: string;
   name: string;
+  firstname: string;
+  lastname: string;
   image: string;
   socialToken: string;
   isAdmin: boolean;
@@ -35,6 +37,8 @@ type ResponseMessage = {
 };
 
 interface CustomJwtPayload extends JwtPayload {
+  firstname: string;
+  lastname: string;
   email: string;
   name: string;
   picture: string;
@@ -81,7 +85,11 @@ const LoginCard = () => {
       const USER_CREDENTIAL = jwtDecode(
         response.credential
       ) as CustomJwtPayload;
+      console.log(USER_CREDENTIAL);
+
       const newLoginData = {
+        firstname: USER_CREDENTIAL?.given_name,
+        lastname: USER_CREDENTIAL?.family_name,
         email: USER_CREDENTIAL?.email,
         name: USER_CREDENTIAL?.name,
         image: USER_CREDENTIAL?.picture,

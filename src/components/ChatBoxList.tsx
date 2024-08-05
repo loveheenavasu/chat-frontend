@@ -13,27 +13,28 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { DeleteChatbotPopUp } from "./DeleteChatbotPopUp";
 
 export default function ChatBoxList({ item, refetch }: any) {
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  // const [deleteLoading, setDeleteLoading] = useState(false);
   const router = useRouter();
   const { textId } = item || {};
-  const handleDelete = async () => {
-    try {
-      setDeleteLoading(true);
-      const response = await axiosInstance.delete(
-        `/user/chatbot?documentId=${item?.documentId}`
-      );
-      if (response.data) {
-        toast.success(response.data.message);
-        refetch();
-      }
+  // const handleDelete = async () => {
+  //   try {
+  //     setDeleteLoading(true);
+  //     const response = await axiosInstance.delete(
+  //       `/user/chatbot?documentId=${item?.documentId}`
+  //     );
+  //     if (response.data) {
+  //       toast.success(response.data.message);
+  //       refetch();
+  //     }
 
-      setDeleteLoading(false);
-    } catch (error) {
-      setDeleteLoading(false);
-    }
-  };
+  //     setDeleteLoading(false);
+  //   } catch (error) {
+  //     setDeleteLoading(false);
+  //   }
+  // };
   return (
     <Card maxW="xs" cursor={"pointer"}>
       <Image objectFit="cover" src="/chatAi.jpg" alt="Chakra UI" />
@@ -83,7 +84,7 @@ export default function ChatBoxList({ item, refetch }: any) {
             View
           </Button>
 
-          <Button
+          {/* <Button
             flex="1"
             colorScheme="gray"
             variant="ghost"
@@ -92,7 +93,9 @@ export default function ChatBoxList({ item, refetch }: any) {
             leftIcon={<DeleteIcon color={"red"} />}
           >
             Delete
-          </Button>
+          </Button> */}
+
+          <DeleteChatbotPopUp refetch={refetch} item={item} />
         </Flex>
       </CardFooter>
     </Card>

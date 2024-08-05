@@ -16,6 +16,7 @@ const Admin = () => {
   const [activeButton, setActive] = useState<string>("Text");
   const [inputData, setInputData] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [increaseCounter, setIncreaseCounter] = useState(0);
 
   const renderCards = () => {
     switch (activeButton) {
@@ -31,6 +32,7 @@ const Admin = () => {
             inputData={inputData}
             setInputData={setInputData}
             logoutLoading={loading}
+            setIncreaseCounter={setIncreaseCounter}
           />
         );
     }
@@ -61,7 +63,11 @@ const Admin = () => {
         <Box className={styles.adminCenterWrapper}>{renderCards()}</Box>
 
         <Box className={styles.adminRightWrapper}>
-          < SourceCard inputData={inputData} activeButton={activeButton} />
+          <SourceCard
+            inputData={inputData}
+            increaseCounter={increaseCounter}
+            activeButton={activeButton}
+          />
         </Box>
 
       </Box >

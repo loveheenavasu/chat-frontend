@@ -108,7 +108,7 @@ export default function Home() {
                       p={1}
                       textAlign="center"
                     >
-                      Add New Chatbot by clicking the button on top right
+                      Add New Chatbot by clicking on create chatbot
                     </Center>
                   </Box>
                 </CardBody>
