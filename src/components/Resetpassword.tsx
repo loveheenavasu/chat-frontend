@@ -9,7 +9,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import styles from "../app/resetPassword/resetpassword.module.css";
 import { toast } from "react-toastify";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
@@ -48,8 +47,7 @@ export default function Resetpassword() {
     if (!formData.confirmPassword) {
       formIsValid = false;
       errors.confirmPassword = "Please confirm your password.";
-    }
-    else if (formData.password.length < 8) {
+    } else if (formData.password.length < 8) {
       formIsValid = false;
       errors.password = "Password must be at least 8 characters long.";
     }
@@ -84,7 +82,7 @@ export default function Resetpassword() {
           setLoading(true);
         }
       } catch (error: any) {
-        setErrors({ ...errors, form: error.response.data.errorMessage })
+        setErrors({ ...errors, form: error.response.data.errorMessage });
         // toast.error(error.response.data.message);
         setLoading(false);
       }
@@ -92,7 +90,16 @@ export default function Resetpassword() {
   };
 
   return (
-    <Box className={styles.cardContainer} as="form" onSubmit={handleSubmit}>
+    <Box
+      w="80%"
+      margin="auto"
+      padding="20px"
+      boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+      borderRadius="8px"
+      bg="white"
+      as="form"
+      onSubmit={handleSubmit}
+    >
       <FormControl id="password" mb={6}>
         <FormLabel>Password</FormLabel>
         <Input
@@ -109,7 +116,9 @@ export default function Resetpassword() {
           value={formData.confirmPassword}
           onChange={handleChange}
         />
-        {errors.confirmPassword && <Text color="red.500">{errors.confirmPassword}</Text>}
+        {errors.confirmPassword && (
+          <Text color="red.500">{errors.confirmPassword}</Text>
+        )}
       </FormControl>
 
       <Button

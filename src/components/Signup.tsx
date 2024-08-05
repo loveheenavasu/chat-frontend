@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import React, { useState } from "react";
-import styles from "../app/signUp/signup.module.css";
 import { toast } from "react-toastify";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
@@ -35,8 +34,6 @@ export default function Signup() {
   const router = useRouter();
 
   const onSubmit: SubmitHandler<SignupFormInputs> = async (formData) => {
-    console.log("clikk");
-    console.log(formData);
     try {
       if (formData.password !== formData.confirmPassword) {
         toast.error("Please enter the same password");
@@ -72,7 +69,15 @@ export default function Signup() {
   };
 
   return (
-    <form className={styles.cardContainer} onSubmit={handleSubmit(onSubmit)}>
+    <form
+      w="80%"
+      margin="auto"
+      padding="20px"
+      boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+      borderRadius="8px"
+      bg="white"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <FormControl id="firstName" mb={4}>
         <FormLabel>First Name</FormLabel>
         <Input
