@@ -23,6 +23,10 @@ export default function Resetpassword() {
     password: "",
     confirmPassword: "",
   });
+  const [errors, setErrors] = useState({
+    password: "",
+    confirmPassword: "",
+  });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const uniqueCode = getLocalStorageItem("uniqueCode");
@@ -33,30 +37,57 @@ export default function Resetpassword() {
       [id]: value,
     }));
   };
-  const handleSubmit = async (e: any) => {
-    try {
-      e.preventDefault();
-      if (formData.password !== formData.confirmPassword) {
-        return toast.error("please enter the same password");
-      }
-      if (formData.password.length < 4) {
-        return toast.error("your password is too small ");
-      }
-      setLoading(true);
-      const response = await axiosInstance.post("user/reset", {
-        uniqueCode,
-        password: formData.password,
-      });
-      toast.success(response?.data?.message);
-      if (response.status === 200) {
-        removeLocalStorageItem();
-        router.push(`/login`);
+  const validate = () => {
+    let formIsValid = true;
+    let errors: any = {};
 
+    if (!formData.password) {
+      formIsValid = false;
+      errors.password = "Please enter your password.";
+    }
+    if (!formData.confirmPassword) {
+      formIsValid = false;
+      errors.confirmPassword = "Please confirm your password.";
+    }
+    else if (formData.password.length < 8) {
+      formIsValid = false;
+      errors.password = "Password must be at least 8 characters long.";
+    }
+    if (formData.password !== formData.confirmPassword) {
+      formIsValid = false;
+      errors.confirmPassword = "Passwords do not match.";
+    }
+
+    setErrors(errors);
+    return formIsValid;
+  };
+  const handleSubmit = async (e: any) => {
+    if (validate()) {
+      try {
+        e.preventDefault();
+        // if (formData.password !== formData.confirmPassword) {
+        //   return toast.error("please enter the same password");
+        // }
+        // if (formData.password.length < 4) {
+        //   return toast.error("your password is too small ");
+        // }
         setLoading(true);
+        const response = await axiosInstance.post("user/reset", {
+          uniqueCode,
+          password: formData.password,
+        });
+        toast.success(response?.data?.message);
+        if (response.status === 200) {
+          removeLocalStorageItem();
+          router.push(`/login`);
+
+          setLoading(true);
+        }
+      } catch (error: any) {
+        setErrors({ ...errors, form: error.response.data.errorMessage })
+        // toast.error(error.response.data.message);
+        setLoading(false);
       }
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-      setLoading(false);
     }
   };
 
@@ -69,6 +100,7 @@ export default function Resetpassword() {
           value={formData.password}
           onChange={handleChange}
         />
+        {errors.password && <Text color="red.500">{errors.password}</Text>}
       </FormControl>
       <FormControl id="confirmPassword" mb={6}>
         <FormLabel>Confirm Password</FormLabel>
@@ -77,6 +109,7 @@ export default function Resetpassword() {
           value={formData.confirmPassword}
           onChange={handleChange}
         />
+        {errors.confirmPassword && <Text color="red.500">{errors.confirmPassword}</Text>}
       </FormControl>
 
       <Button

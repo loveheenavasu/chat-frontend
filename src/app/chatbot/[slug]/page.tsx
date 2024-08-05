@@ -26,6 +26,7 @@ const ChatBot = ({ params }: any) => {
       chatSessionId: null,
     },
   ]);
+  console.log(chatMessage, 'd3vuf3uf34')
 
   const [chatId, setChatId] = useState<string>("");
   const [chatSessionId, setChatSessionId] = useState<string>("");

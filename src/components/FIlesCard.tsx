@@ -40,8 +40,7 @@ const FIlesCard = () => {
       }
       setIsLoading(true);
       const response = await axiosInstance.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${
-          documentId ? `?documentId=${documentId}` : ""
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${documentId ? `?documentId=${documentId}` : ""
         }`
       );
       setData(response?.data?.data);
@@ -76,6 +75,8 @@ const FIlesCard = () => {
 
   const handleUploadFile = async () => {
     try {
+
+
       if (!file.name) {
         toast.error("No file selected");
         return;
@@ -109,7 +110,7 @@ const FIlesCard = () => {
     }
   };
   const fileTypes = ["DOC", "PDF", "DOCX", "TXT", "CSV"];
-
+  console.log(loading, data, "DATADETAIL")
   return (
     <Box className={styles.fileCardWrapper}>
       <Card className={styles.textSpaceWrapper} align="center">
@@ -220,10 +221,14 @@ const FIlesCard = () => {
               </Box>
             )}
           </Box>
+          {data?.length === 0 ? (
+            <Text textAlign="center">no data found!</Text>
+          ) : (
+            null
+          )}
         </CardFooter>
       </Card>
     </Box>
   );
 };
-
 export default FIlesCard;

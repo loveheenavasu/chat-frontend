@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import styles from "../app/adminpanel/admin.module.css";
 import { CiFileOn, CiGlobe, CiTextAlignLeft } from "react-icons/ci";
 import { IoChatbubblesOutline } from "react-icons/io5";
+import { LuMessagesSquare } from "react-icons/lu";
+
 
 interface AdminSidebarProps {
   setActive?: any;
@@ -13,6 +15,7 @@ const AdminSideBar = ({ setActive, activeButton }: AdminSidebarProps) => {
   const sourceType = [
     { label: "Files", icon: <CiFileOn fontSize={25} /> },
     { label: "Text", icon: <CiTextAlignLeft fontSize={25} /> },
+    { label: "Activity", icon: <LuMessagesSquare fontSize={25} /> },
     // { label: "Website", icon: <CiGlobe fontSize={25} /> },
     // { label: "Q&A", icon: <IoChatbubblesOutline fontSize={25} /> },
   ];
@@ -23,10 +26,11 @@ const AdminSideBar = ({ setActive, activeButton }: AdminSidebarProps) => {
 
   return (
     <Box className={styles.leftSidebar}>
-      {sourceType.map(({ label, icon }, i) => {
+      {sourceType.map(({ label, icon }, index) => {
         return (
-          <>
+          <section>
             <Box
+              key={label + index}
               className={
                 label === activeButton
                   ? styles.activeButton
@@ -39,7 +43,7 @@ const AdminSideBar = ({ setActive, activeButton }: AdminSidebarProps) => {
                 <Text fontWeight={500}>{label}</Text>
               </Box>
             </Box>
-          </>
+          </section>
         );
       })}
     </Box>

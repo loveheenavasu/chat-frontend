@@ -44,7 +44,7 @@ const AdminDataBox = () => {
   };
 
   return (
-    <>
+    <section>
       <Box className={styles.dataBoxWrapper}>
         {loading ? (
           skeletonData.map((ele, i) => (
@@ -73,7 +73,7 @@ const AdminDataBox = () => {
           <Box>No data available</Box>
         )}
       </Box>
-    </>
+    </section>
   );
 };
 
