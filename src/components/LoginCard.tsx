@@ -70,12 +70,16 @@ const LoginCard = () => {
 `,
         data
       );
-      const { accessToken, _id } = response.data;
+      const { accessToken, _id, expiresIn } = response.data;
+      const expirationTime: any = new Date().getTime() + expiresIn * 1000;
+      console.log(expirationTime, 'expirationTime')
       Cookies.set("authToken", accessToken);
       setLocalStorageItem("authToken", accessToken);
       setLocalStorageItem("userId", _id);
+      Cookies.set('tokenExpiration', expirationTime);
       location.reload();
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error, "Error during authentication");
     }
   };

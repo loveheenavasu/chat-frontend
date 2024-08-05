@@ -1,7 +1,5 @@
 import React from "react";
-import { Box, Heading, IconButton, Spacer, Text } from "@chakra-ui/react";
-import styles from "../app/adminpanel/admin.module.css";
-
+import { Box, Flex, Heading, IconButton, Spacer, Text } from "@chakra-ui/react";
 import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -25,49 +23,59 @@ const AdminHeader = () => {
   };
   return (
     <Box>
-      <Box className={styles.adminHeaderWrapper}>
-        <Box className={styles.subheadingAdmin}>
-          <Heading
-            fontSize="xl"
-            cursor={"pointer"}
-            fontWeight="bold"
-            onClick={() => router.push("/")}
+      <Box w={'100%'} height={'50px'}>
+        <Flex alignItems={'center'} height={'50px'}>
+          <Box
+            w={'100%'}
+            background={'#7ab3e7'}
+            color={'white'}
+            height={'100%'}
+            padding={'15px'}
           >
-            ChatBot
-          </Heading>
-          <Spacer />
+            <Flex alignItems={'center'}>
+              <Heading
+                fontSize="xl"
+                cursor={"pointer"}
+                fontWeight="bold"
+                onClick={() => router.push("/")}
+              >
+                ChatBot
+              </Heading>
+              <Spacer />
 
-          <Box mr="6">
-            <Text
-              fontSize="xl"
-              fontWeight="bold"
-              cursor="pointer"
-              onClick={() => router.push("/")}
-            >
-              All chatbots
-            </Text>
-          </Box>
+              <Box mr="6">
+                <Text
+                  fontSize="xl"
+                  fontWeight="bold"
+                  cursor="pointer"
+                  onClick={() => router.push("/")}
+                >
+                  All ChatBot
+                </Text>
+              </Box>
 
-          <Box>
-            <Text
-              fontSize="xl"
-              fontWeight="bold"
-              cursor="pointer"
-              onClick={handleLogout}
-            >
-              Logout
-            </Text>
+              <Box>
+                <Text
+                  fontSize="xl"
+                  fontWeight="bold"
+                  cursor="pointer"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Text>
+              </Box>
+              <IconButton
+                display={{ base: "flex", md: "none" }}
+                aria-label="Open menu"
+                // icon={<HamburgerIcon />}
+                bg="transparent"
+                color="white"
+                _hover={{ bg: "transparent" }}
+                _active={{ bg: "transparent" }}
+              />
+            </Flex>
           </Box>
-          <IconButton
-            display={{ base: "flex", md: "none" }}
-            aria-label="Open menu"
-            // icon={<HamburgerIcon />}
-            bg="transparent"
-            color="white"
-            _hover={{ bg: "transparent" }}
-            _active={{ bg: "transparent" }}
-          />
-        </Box>
+        </Flex>
       </Box>
     </Box>
   );

@@ -20,40 +20,37 @@ const ChatBase = ({ chatMessage, loading }: ChatBaseProps) => {
 
   // })
   return (
-    <Box width="100%">
-      <Text color="black" fontSize="16px" fontWeight="600" pb="10px">
-        Source: Chatbase site
-      </Text>
-      <Box border="1px solid #e2e8f0" borderRadius="10px" p="5px">
-        <Box h={loading ? "70vh" : "68.9vh"} overflow="scroll">
-          {chatMessage ? (
-            chatMessage?.map((ele, id) => (
-              <Flex
-                key={id}
-                justifyContent={
-                  ele?.messageType === "AI" ? "flex-start" : "flex-end"
-                }
-                p="10px"
-              >
-                <Text
-                  fontSize="14px"
-                  background={ele.messageType === "AI" ? "#F4F4F5" : "blue"}
-                  borderRadius="7px"
-                  p="10px"
-                  color={ele.messageType === "AI" ? " black" : "white"}
-                >
+    <Box width='100%' >
+      <Text color='black' fontSize='16px' fontWeight='600' pb='10px'>Source: Chatbase site</Text>
+      <Box border='1px solid #e2e8f0' borderRadius='10px' p='5px' boxShadow={'sm'} >
+        <Box
+          style={loading ? { height: "70vh" } : {}}
+          height='500px'
+          overflow='scroll'
+        >
+          {(chatMessage ? chatMessage?.map((ele, id) => (
+            <Box
+              key={id}
+              width={'100%'}
+              p='10px'
+            >
+              <Flex justifyContent={
+                ele.messageType === "AI" ? "flex-start" : "flex-end"
+              } >
+                <Text fontSize='14px'
+                  background={ele.messageType === "AI" ? "#F4F4F5" : 'blue'} borderRadius='7px' p='10px'
+                  color={ele.messageType === "AI" ? " black" : 'white'}>
                   {ele.messageType === "USER" ? ele.message : ele.message}
                 </Text>
               </Flex>
-            ))
-          ) : (
-            <Box textAlign="center" p="20px">
-              loading......
             </Box>
-          )}
+          )) : (
+            <Box textAlign='center' p='20px'>loading......</Box>
+          ))
+          }
         </Box>
       </Box>
-    </Box>
+    </Box >
   );
 };
 
