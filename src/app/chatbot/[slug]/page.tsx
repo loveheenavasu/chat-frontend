@@ -23,7 +23,6 @@ const ChatBot = ({ params }: any) => {
       chatSessionId: null,
     },
   ]);
-  console.log(chatMessage, "d3vuf3uf34");
 
   const [chatId, setChatId] = useState<string>("");
   const [chatSessionId, setChatSessionId] = useState<string>("");
@@ -47,7 +46,7 @@ const ChatBot = ({ params }: any) => {
     });
     SOCKET.on("hi", (e) => console.log(e, "EVENT", SOCKET.id));
     SOCKET.on("error", () => {
-      console.log(SOCKET, "sdfsefsd");
+      console.log(SOCKET, "Socket");
     });
 
     return () => {

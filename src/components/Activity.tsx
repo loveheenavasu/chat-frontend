@@ -44,12 +44,12 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
   useEffect(() => {
     const fetchChatRecords = async () => {
       const documentId = localStorage.getItem("documentId");
-      console.log(documentId, "gf");
+
       try {
         const response = await axiosInstance.get(
           `/user/chat-history?documentId=${documentId ? `${documentId}` : ""}`
         );
-        console.log(response.data, "RESPONSEEE");
+
         setChatMessages(
           response.data?.data?.messages || response.data?.data || []
         );
