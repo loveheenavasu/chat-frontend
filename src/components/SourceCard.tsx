@@ -73,7 +73,8 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
               />
             </Flex>
           )}
-          {inputData && activeButton === "Text" && (
+
+          {inputData && documentID && activeButton === "Text" && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">{generatedLink}</Text>
@@ -83,7 +84,9 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
                 aria-label="Copy"
                 icon={<CopyIcon />}
                 onClick={() => {
-                  navigator.clipboard.writeText(generatedLink);
+                  navigator.clipboard.writeText(
+                    `${getOriginUrl()}/chatbot/${documentID}`
+                  );
                   toast.success("Text copied");
                 }}
               />
@@ -93,14 +96,18 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
           {activeButton === "Activity" && documentID && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
-                <Text fontWeight="bold">{generatedLink}</Text>
+                <Text fontWeight="bold">
+                  {`${getOriginUrl()}/chatbot/${documentID}`}
+                </Text>
               </Link>
 
               <IconButton
                 aria-label="Copy"
                 icon={<CopyIcon />}
                 onClick={() => {
-                  navigator.clipboard.writeText(generatedLink);
+                  navigator.clipboard.writeText(
+                    `${getOriginUrl()}/chatbot/${documentID}`
+                  );
                   toast.success("Text copied");
                 }}
               />

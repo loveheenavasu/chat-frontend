@@ -84,7 +84,7 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
                                                 onClick={() => handleChatBase(msg?.sessionId)}
 
                                             >
-                                                <Text color='black' fontSize='13px'
+                                                <Text fontSize='13px'
                                                     color={msg.messageType === "USER" ? "gray" : "black"}
                                                     sx={{
                                                         display: '-webkit-box',

@@ -29,7 +29,6 @@ const AdminTextSpace = ({
   const [screenLoading, setscreenLoading] = useState<boolean>(false);
 
   const fetchData = async (documentId: any) => {
-    console.log(documentId, "documentIdd");
     try {
       setscreenLoading(true);
       const response = await axiosInstance.get(
@@ -48,7 +47,7 @@ const AdminTextSpace = ({
 
   useEffect(() => {
     const documentId = getLocalStorageItem("documentId");
-    console.log(documentId, "wkfhsdjk");
+
     fetchData(documentId);
   }, []);
   const handleAdd = async () => {

@@ -2,7 +2,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
 import OtpInput from "react-otp-input";
 import { toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";

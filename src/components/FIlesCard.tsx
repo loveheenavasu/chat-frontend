@@ -75,8 +75,6 @@ const FIlesCard = () => {
 
   const handleUploadFile = async () => {
     try {
-
-
       if (!file.name) {
         toast.error("No file selected");
         return;
@@ -110,7 +108,7 @@ const FIlesCard = () => {
     }
   };
   const fileTypes = ["DOC", "PDF", "DOCX", "TXT", "CSV"];
-  console.log(loading, data, "DATADETAIL")
+
   return (
     <Box>
       <Card width='100%' padding='20px' textAlign='start'
