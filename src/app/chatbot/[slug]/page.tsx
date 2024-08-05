@@ -62,7 +62,7 @@ const ChatBot = ({ params }: any) => {
 
     SOCKET.emit("search", {
       text: message,
-      connectId: chatId || SOCKET.id,
+      // connectId: chatId || SOCKET.id,
       documentId: id,
       ...(chatSessionId && { chatSessionId }),
     });
