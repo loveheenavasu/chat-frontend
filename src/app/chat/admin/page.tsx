@@ -4,7 +4,7 @@ import AdminSideBar from "@/components/AdminSideBar";
 import AdminTextSpace from "@/components/AdminTextSpace";
 import FIlesCard from "@/components/FIlesCard";
 import WebsiteCard from "@/components/WebsiteCard";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
 import styles from "../../chat/admin/admin.module.css";
 import SourceCard from "@/components/SourceCard";
@@ -25,7 +25,7 @@ const Admin = () => {
       case "Files":
         return <FIlesCard />;
       case "Activity":
-        return <Activity />;
+        return <Activity initialChatMessages={[]} loading={false} />;
       default:
         return (
           <AdminTextSpace
@@ -44,32 +44,34 @@ const Admin = () => {
   return (
     <>
       <AdminHeader />
-      <Box p='5px' border='1px solid #fff' w='30%' display='flex' alignItems='center'>
-        <Box m='5px' p='20px' display=' flex' alignItems='center' gap={1}>
-          <Link href='/' > <IoMdArrowBack size='30px' /></Link>
-          Back
-        </Box>
+      <Box p='5px' border='1px solid #fff' w='30%'>
+        <Flex>
+          <Box m='5px' p='20px'>
+            <Link href='/' > <IoMdArrowBack size='30px' /></Link>
+            Back
+          </Box>
+        </Flex>
       </Box>
       <Box height={"80px"}></Box>
-      <Box
-        display={"flex"}
-        justifyContent={"space-between"}
-        className={styles.adminWrapper}
-      >
-        <Box className={styles.adminLeftWrapper}>
+      <Box>
+        <Flex justifyContent={"space-between"}>
+          <Box paddingLeft='85px' width='20%' height='100vh'>
 
-          <AdminSideBar activeButton={activeButton} setActive={setActive} />
-        </Box>
-        <Box className={styles.adminCenterWrapper}>{renderCards()}</Box>
+            <AdminSideBar activeButton={activeButton} setActive={setActive} />
+          </Box>
+          <Box width='55%' height='100vh'>{renderCards()}</Box>
 
-        <Box className={styles.adminRightWrapper}>
-          <SourceCard
-            inputData={inputData}
-            increaseCounter={increaseCounter}
-            activeButton={activeButton}
-          />
-        </Box>
-
+          <Box padding='30px'
+            padding-top='0px !important'
+            width='30%' height='100vh'
+          >
+            <SourceCard
+              inputData={inputData}
+              increaseCounter={increaseCounter}
+              activeButton={activeButton}
+            />
+          </Box>
+        </Flex>
       </Box >
     </>
   );

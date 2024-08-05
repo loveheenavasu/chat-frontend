@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import styles from "../app/chatbot/chatbot.module.css";
 
 interface Message {
@@ -23,27 +23,27 @@ const ChatBase = ({ chatMessage, loading }: ChatBaseProps) => {
     return (
         <Box width='100%' >
             <Text color='black' fontSize='16px' fontWeight='600' pb='10px'>Source: Chatbase site</Text>
-            <Box border='1px solid #e2e8f0' borderRadius='10px' p='5px' >
+            <Box border='1px solid #e2e8f0' borderRadius='10px' p='5px' boxShadow={'sm'} >
                 <Box
-                    className={` ${loading ? styles.chatLoading : ""}`}
+                    style={loading ? { height: "70vh" } : {}}
                     height='500px'
                     overflow='scroll'
                 >
                     {(chatMessage ? chatMessage?.map((ele, id) => (
                         <Box
                             key={id}
-                            className={
-                                ele?.messageType === "AI"
-                                    ? styles.chatContainerAdmin
-                                    : styles.chatContainerUser
-                            }
+                            width={'100%'}
                             p='10px'
                         >
-                            <Text fontSize='14px'
-                                background={ele.messageType === "AI" ? "#F4F4F5" : 'blue'} borderRadius='7px' p='10px'
-                                color={ele.messageType === "AI" ? " black" : 'white'}>
-                                {ele.messageType === "USER" ? ele.message : ele.message}
-                            </Text>
+                            <Flex justifyContent={
+                                ele.messageType === "AI" ? "flex-start" : "flex-end"
+                            } >
+                                <Text fontSize='14px'
+                                    background={ele.messageType === "AI" ? "#F4F4F5" : 'blue'} borderRadius='7px' p='10px'
+                                    color={ele.messageType === "AI" ? " black" : 'white'}>
+                                    {ele.messageType === "USER" ? ele.message : ele.message}
+                                </Text>
+                            </Flex>
                         </Box>
                     )) : (
                         <Box textAlign='center' p='20px'>loading......</Box>
@@ -51,7 +51,7 @@ const ChatBase = ({ chatMessage, loading }: ChatBaseProps) => {
                     }
                 </Box>
             </Box>
-        </Box>
+        </Box >
     );
 };
 

@@ -112,121 +112,135 @@ const FIlesCard = () => {
   const fileTypes = ["DOC", "PDF", "DOCX", "TXT", "CSV"];
   console.log(loading, data, "DATADETAIL")
   return (
-    <Box className={styles.fileCardWrapper}>
-      <Card className={styles.textSpaceWrapper} align="center">
-        <CardHeader>
-          <Heading size="md" textAlign={"start"} pt={"0px!important"}>
-            {" "}
-            Files
-          </Heading>
-        </CardHeader>
-        <CardBody
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          pt={"0px !important"}
-          width={"100%"}
-        >
-          <Box className="file-uploader-class">
-            <FileUploader
-              handleChange={handleUpload}
-              name="file"
-              types={fileTypes}
-              onDrop={handleUpload}
-            />
-          </Box>
-        </CardBody>
+    <Box>
+      <Card width='100%' padding='20px' textAlign='start'
+        border=' 1px solid #e2e8f0' boxShadow='sm'
+      >
+        <Flex alignItems={'center'} flexDirection={'column'}>
+          <CardHeader>
+            <Heading size="md" textAlign={"start"} pt={"0px!important"}>
+              {" "}
+              Files
+            </Heading>
+          </CardHeader>
 
-        <Box
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          flexDirection={"column"}
-          gap={"10px"}
-        >
-          <Button
-            sx={{ color: "white", backgroundColor: "#5188b9" }}
-            colorScheme="blue"
-            onClick={handleUploadFile}
-            isLoading={isFileUpload}
+          <CardBody
+            pt={"0px !important"}
+            width={"100%"}
           >
-            {"Upload file"}
-          </Button>
-        </Box>
-
-        <CardFooter flexDirection={"column"} width={"100%"}>
-          <Box>
-            {file.name && (
-              <>
-                <Text fontWeight={"bold"} textAlign={"center"}>
-                  Attached Files
-                </Text>
-                <Text textAlign={"center"} fontWeight={"bold"}>
-                  {file?.name}
-                </Text>
-              </>
-            )}
-          </Box>
-
-          <Box>
-            {!loading ? (
-              <>
-                {data?.length > 0 && (
-                  <>
-                    <Text fontWeight={"bold"} textAlign={"center"} padding={4}>
-                      Already Selected File
-                    </Text>
-                    <Divider padding={2} />
-                  </>
-                )}
-
-                {data?.map((item: any) => {
-                  return (
-                    <Flex
-                      width={"80%"}
-                      margin={"auto"}
-                      alignItems="center"
-                      gap="2"
-                      padding={2}
-                    >
-                      <Box p="2">
-                        <Heading size="md">{item.fileName}</Heading>
-                      </Box>
-                      <Spacer />
-                      <ButtonGroup gap="2">
-                        <Button
-                          colorScheme="blue"
-                          isLoading={deleteFileLoading === item?._id}
-                          onClick={() => {
-                            setDeleteFileLoading(item?._id);
-                            handleDeleteFile(item.documentId, item?.docNo);
-                          }}
-                        >
-                          <DeleteIcon />
-                        </Button>
-                      </ButtonGroup>
-                    </Flex>
-                  );
-                })}
-              </>
-            ) : (
-              <Box display={"flex"} justifyContent={"center"}>
-                <Spinner
-                  thickness="4px"
-                  speed="0.65s"
-                  emptyColor="gray.200"
-                  color="blue.500"
-                  size="md"
+            <Flex alignItems={"center"}
+              justifyContent={"center"}
+            >
+              <Box className="file-uploader-class">
+                <FileUploader
+                  handleChange={handleUpload}
+                  name="file"
+                  types={fileTypes}
+                  onDrop={handleUpload}
                 />
               </Box>
-            )}
+            </Flex>
+          </CardBody>
+
+          <Box
+            justifyContent={"center"}
+            alignItems={"center"}
+
+          >
+            <Flex justifyContent={"center"}
+              alignItems={"center"}
+              flexDirection={"column"}
+              gap={"10px"}
+            >
+              <Button
+                sx={{ color: "white", backgroundColor: "#5188b9" }}
+                colorScheme="blue"
+                onClick={handleUploadFile}
+                isLoading={isFileUpload}
+              >
+                {"Upload file"}
+              </Button>
+            </Flex>
+
           </Box>
-          {data?.length === 0 ? (
-            <Text textAlign="center">no data found!</Text>
-          ) : (
-            null
-          )}
-        </CardFooter>
+
+          <CardFooter flexDirection={"column"} width={"100%"}>
+            <Box>
+              {file.name && (
+                <>
+                  <Text fontWeight={"bold"} textAlign={"center"}>
+                    Attached Files
+                  </Text>
+                  <Text textAlign={"center"} fontWeight={"bold"}>
+                    {file?.name}
+                  </Text>
+                </>
+              )}
+            </Box>
+
+            <Box>
+              {!loading ? (
+                <>
+                  {data?.length > 0 && (
+                    <>
+                      <Text fontWeight={"bold"} textAlign={"center"} padding={4}>
+                        Already Selected File
+                      </Text>
+                      <Divider padding={2} />
+                    </>
+                  )}
+
+                  {data?.map((item: any) => {
+                    return (
+                      <Flex
+                        width={"80%"}
+                        margin={"auto"}
+                        alignItems="center"
+                        gap="2"
+                        padding={2}
+                      >
+                        <Box p="2">
+                          <Heading size="md">{item.fileName}</Heading>
+                        </Box>
+                        <Spacer />
+                        <ButtonGroup gap="2">
+                          <Button
+                            colorScheme="blue"
+                            isLoading={deleteFileLoading === item?._id}
+                            onClick={() => {
+                              setDeleteFileLoading(item?._id);
+                              handleDeleteFile(item.documentId, item?.docNo);
+                            }}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        </ButtonGroup>
+                      </Flex>
+                    );
+                  })}
+                </>
+              ) : (
+                <Box >
+                  <Flex justifyContent={"center"}>
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="blue.500"
+                      size="md"
+                    />
+                  </Flex>
+
+                </Box>
+              )}
+            </Box>
+            {data?.length === 0 ? (
+              <Text textAlign="center">no data found!</Text>
+            ) : (
+              null
+            )}
+          </CardFooter>
+        </Flex>
       </Card>
     </Box>
   );
