@@ -55,11 +55,11 @@ const ChatBot = ({ params }: any) => {
   }, []);
 
   const handleSend = (e: React.FormEvent, message: string) => {
-    if (message === "") {
+    if (message === "" || message.trim() === "") {
       return null;
     }
-    e.preventDefault();
 
+    e.preventDefault();
     SOCKET.emit("search", {
       text: message,
       // connectId: chatId || SOCKET.id,
