@@ -91,7 +91,7 @@ const AdminTextSpace = ({
       });
       if (response?.data) {
         toast.success(response?.data?.message);
-        setIncreaseCounter((prev) => prev + 1);
+        setIncreaseCounter((prev: any) => prev + 1);
       }
       setLoading(false);
     } catch (error: any) {
