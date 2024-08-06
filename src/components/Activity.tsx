@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 
 interface Message {
-    map(arg0: (msg: any, index: any) => import("react").JSX.Element): import("react").ReactNode;
     _id: string;
     message: string;
     messageType: "USER" | "AI";
@@ -12,9 +11,9 @@ interface Message {
     sessionId: number;
 }
 interface ChatMessage {
-    _Id?: string;
+    _id?: string;
     chatID?: number | null;
-    message: Message;
+    message: Message[];
 }
 
 interface ChatContainerProps {
@@ -28,15 +27,13 @@ const formatTime = (timestamp: number) => {
 };
 
 const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
-    const [chatMessages, setChatMessages] =
-        useState<ChatMessage[]>(initialChatMessages);
-    const [userMessages, setUserMessages] = useState<Message[]>();
+    const [chatMessages, setChatMessages] = useState<ChatMessage[]>(initialChatMessages);
+    const [userMessages, setUserMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(loading);
-
 
     useEffect(() => {
         const fetchChatRecords = async () => {
-            const documentId = localStorage.getItem('documentId')
+            const documentId = localStorage.getItem('documentId');
             try {
                 const response = await axiosInstance.get(`/user/chat-history?documentId=${documentId ? `${documentId}` : ''}`);
                 setChatMessages(response.data?.data?.messages || response.data?.data || []);
@@ -46,18 +43,18 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
         };
 
         fetchChatRecords();
-    }, [])
+    }, []);
 
     const handleChatBase = async (sessionId: number) => {
         setIsLoading(true);
         try {
             const response = await axiosInstance.get(`user/chat?sessionId=${sessionId}`);
             setUserMessages(response.data?.data?.messages || response.data?.data || []);
-
         } catch (error) {
             console.error("Error fetching user messages:", error);
         }
-    }
+        setIsLoading(false);
+    };
 
     return (
         <Box>
@@ -66,9 +63,9 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
                     <Heading fontSize='20px'>Chats Logs</Heading>
                 </Box>
                 <Box>
-                    <Flex gap='20px' >
+                    <Flex gap='20px'>
                         <Box w={'70%'}>
-                            <Flex flexDirection={'column'} gap={'10px'} >
+                            <Flex flexDirection={'column'} gap={'10px'}>
                                 {chatMessages?.map((ele, id) => (
                                     <Box
                                         key={id}
@@ -82,7 +79,6 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
                                             <Box
                                                 key={msg._id}
                                                 onClick={() => handleChatBase(msg?.sessionId)}
-
                                             >
                                                 <Text fontSize='13px'
                                                     color={msg.messageType === "USER" ? "gray" : "black"}
@@ -92,30 +88,26 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
                                                         WebkitBoxOrient: 'vertical',
                                                         WebkitLineClamp: "2",
                                                     }}
-
                                                 >
                                                     {msg.messageType === "USER" ? `Customer: ${msg.message}` : `Bot: ${msg.message}`}
                                                 </Text>
                                             </Box>
                                         ))}
-                                        {
-                                            ele.message ? ele.message.map((time, index) => (
-                                                <Text textAlign='end' color='gray.400' fontSize='12px'>
-                                                    {time.messageType === "AI" ? formatTime(time.createdAt) : null}
-                                                </Text>
-                                            )) : (
-                                                null
-                                            )
-                                        }
+                                        {ele.message.map((time, index) => (
+                                            <Text key={index} textAlign='end' color='gray.400' fontSize='12px'>
+                                                {time.messageType === "AI" ? formatTime(time.createdAt) : null}
+                                            </Text>
+                                        ))}
                                     </Box>
                                 ))}
                             </Flex>
                         </Box>
-                        <ChatBase chatMessage={userMessages} loading={loading} />
+                        <ChatBase userMessages={userMessages} loading={isLoading} />
                     </Flex>
                 </Box>
-            </Box >
+            </Box>
         </Box>
     );
 };
+
 export default Activity;

@@ -69,8 +69,8 @@ export default function Signup() {
   };
 
   return (
-    <form
-      w="80%"
+    <Box
+      width="80%"
       margin="auto"
       padding="20px"
       boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
@@ -155,6 +155,6 @@ export default function Signup() {
           Login
         </Text>
       </Text>
-    </form>
+    </Box>
   );
 }
