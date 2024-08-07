@@ -1,16 +1,7 @@
 "use client";
-import AdminHeader from "@/components/AdminHeader";
-import AdminSideBar from "@/components/AdminSideBar";
 import AdminTextSpace from "@/components/AdminTextSpace";
-import FIlesCard from "@/components/FIlesCard";
-import WebsiteCard from "@/components/WebsiteCard";
 import { Box, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
-import styles from "../../chat/admin/admin.module.css";
-import SourceCard from "@/components/SourceCard";
-import Activity from "@/components/Activity";
-import { IoMdArrowBack } from "react-icons/io";
-import Link from "next/link";
 import Layout from "@/components/Layout";
 
 const Admin = () => {

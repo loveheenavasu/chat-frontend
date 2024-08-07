@@ -3,6 +3,7 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -27,6 +28,7 @@ export default function Signup() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<SignupFormInputs>();
 
@@ -36,7 +38,9 @@ export default function Signup() {
   const onSubmit: SubmitHandler<SignupFormInputs> = async (formData) => {
     try {
       if (formData.password !== formData.confirmPassword) {
-        toast.error("Please enter the same password");
+        setError("confirmPassword", {
+          message: "Please enter the same password",
+        });
         return;
       }
       setLoading(true);
@@ -77,6 +81,17 @@ export default function Signup() {
       borderRadius="8px"
       bg="white"
     >
+      <Flex
+        w="100%"
+        justifyContent="center"
+        alignItems="center"
+        fontWeight={700}
+        fontSize="xl"
+        my="2"
+      >
+        <Text>SIGNUP</Text>
+      </Flex>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl id="firstName" mb={4}>
           <FormLabel>First Name</FormLabel>

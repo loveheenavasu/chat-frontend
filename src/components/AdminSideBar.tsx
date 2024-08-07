@@ -1,46 +1,45 @@
 "use client";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { CiFileOn, CiGlobe, CiTextAlignLeft } from "react-icons/ci";
-import { IoChatbubblesOutline } from "react-icons/io5";
+import React from "react";
+import { CiFileOn, CiTextAlignLeft } from "react-icons/ci";
 import { LuMessagesSquare } from "react-icons/lu";
 
 interface AdminSidebarProps {
-  setActive?: any;
+  setActiveButton?: any;
   activeButton?: string;
 }
-const AdminSideBar = ({ setActive, activeButton }: AdminSidebarProps) => {
+const AdminSideBar = ({ setActiveButton, activeButton }: AdminSidebarProps) => {
   const router = useRouter();
   const sourceType = [
     {
       label: "Files",
       icon: <CiFileOn fontSize={25} />,
-      path: "/chat/admin/files",
+      path: "/admin/chat/files",
     },
     {
       label: "Text",
       icon: <CiTextAlignLeft fontSize={25} />,
-      path: "/chat/admin",
+      path: "/admin/chat",
     },
     {
       label: "Activity",
       icon: <LuMessagesSquare fontSize={25} />,
-      path: "/chat/admin/activity",
+      path: "/admin/chat/activity",
     },
     // { label: "Website", icon: <CiGlobe fontSize={25} /> },
     // { label: "Q&A", icon: <IoChatbubblesOutline fontSize={25} /> },
   ];
 
   const handleClick = (label: string, path: string) => {
-    if (setActive) {
-      setActive(label);
+    if (setActiveButton) {
+      setActiveButton(label);
     }
     router.push(path);
   };
 
   return (
-    <Box w={"150px"} borderRadius={"5px"}>
+    <Box w="120px" borderRadius={"5px"}>
       <Flex flexDirection={"column"} gap={"4px"}>
         {sourceType.map(({ label, icon, path }, index) => {
           return (
@@ -60,11 +59,9 @@ const AdminSideBar = ({ setActive, activeButton }: AdminSidebarProps) => {
                 }
                 onClick={() => handleClick(label, path)}
               >
-                <Flex alignItems="center">
+                <Flex alignItems="center" cursor="pointer" gap="2" p="2">
                   {icon}
-                  <Box width={"110px"} padding={"5px"}>
-                    <Text fontWeight={500}>{label}</Text>
-                  </Box>
+                  <Text fontWeight={500}>{label}</Text>
                 </Flex>
               </Box>
             </section>

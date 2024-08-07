@@ -45,15 +45,15 @@ export default function Home() {
     <>
       <AdminHeader />
 
-      <Box width={"70%"} margin={"auto"}>
+      <Box width="70%" margin="auto">
         <Flex
           display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          width={"80%"}
-          margin={"auto"}
+          justifyContent="start"
+          alignItems="center"
+          width={"100%"}
+          py="5"
         >
-          <Text fontWeight={"bold"} p="4" fontSize={32}>
+          <Text fontWeight="bold" fontSize={32}>
             Chatbots
           </Text>
           <Spacer />
@@ -61,9 +61,8 @@ export default function Home() {
           <Button
             colorScheme="blue"
             onClick={() => {
-              // removeLocalStorageItem();
               removeParticularItemFromLocalStorage("documentId");
-              router.push("/chat/admin");
+              router.push("/admin/chat");
             }}
           >
             Create Chatbot
@@ -83,7 +82,7 @@ export default function Home() {
         ) : (
           <React.Fragment>
             {data?.length > 0 ? (
-              <Grid templateColumns="repeat(4, 1fr)" gap={6} padding={4}>
+              <Grid templateColumns="repeat(4, 1fr)" gap={6} py="4">
                 {data.map((item) => (
                   <ChatBoxList item={item} refetch={fetchData} />
                 ))}

@@ -72,14 +72,13 @@ const LoginCard = () => {
       );
       const { accessToken, _id, expiresIn } = response.data;
       const expirationTime: any = new Date().getTime() + expiresIn * 1000;
-      console.log(expirationTime, 'expirationTime')
+      console.log(expirationTime, "expirationTime");
       Cookies.set("authToken", accessToken);
       setLocalStorageItem("authToken", accessToken);
       setLocalStorageItem("userId", _id);
-      Cookies.set('tokenExpiration', expirationTime);
+      Cookies.set("tokenExpiration", expirationTime);
       location.reload();
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error, "Error during authentication");
     }
   };
@@ -163,6 +162,16 @@ const LoginCard = () => {
       borderRadius="8px"
       bg="white"
     >
+      <Flex
+        w="100%"
+        justifyContent="center"
+        alignItems="center"
+        fontWeight={700}
+        fontSize="xl"
+        my="2"
+      >
+        <Text>LOGIN</Text>
+      </Flex>
       <FormControl id="username" mb={4} onSubmit={handleSubmit}>
         <FormLabel display="flex" gap="3px">
           Email <Text textColor="red">*</Text>
@@ -227,14 +236,14 @@ const LoginCard = () => {
         display={"flex"}
         justifyContent={"center"}
       >
-        Forgotten Your password ?{" "}
+        Forgotten your password ?{" "}
         <Text
           color="#0bc5ea"
           as="b"
           marginLeft={1}
           onClick={() => router.push("/forgetpassword")}
         >
-          Forget Password
+          Forgot Password
         </Text>
       </Text>
     </Box>
