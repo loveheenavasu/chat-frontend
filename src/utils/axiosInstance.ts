@@ -29,9 +29,8 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     const { response } = error;
-    if (response && response.status === 400) {
-      const router = useRouter();
-      router.push("/login");
+    if (response && response.status === 401) {
+      window.location.href = "/login"
     }
     return Promise.reject(error);
   }

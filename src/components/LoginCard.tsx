@@ -147,7 +147,7 @@ const LoginCard = () => {
           location.reload();
         }
       } catch (error: any) {
-        toast.error(error.response?.data?.message);
+        toast.error(error.response?.data.message);
         // setErrors({ ...errors, form: error.response.data.errorMessage });
         setLoading(false);
       }
