@@ -34,6 +34,7 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
   useEffect(() => {
     if (documentID) setGeneratedLink(`${getOriginUrl()}/chatbot/${documentID}`);
   }, [increaseCounter]);
+
   return (
     <Box>
       <Card>
@@ -53,64 +54,72 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
             </Button>
           )}
 
-          {activeButton === "Files" && documentID && (
+          {activeButton === "Files" && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">
-                  {`${getOriginUrl()}/chatbot/${documentID}`}
+                  {/* {`${getOriginUrl()}/chatbot/${documentID}`} */}
+                  {generatedLink}
                 </Text>
               </Link>
 
-              <IconButton
-                aria-label="Copy"
-                icon={<CopyIcon />}
-                onClick={() => {
-                  navigator.clipboard.writeText(
-                    `${getOriginUrl()}/chatbot/${documentID}`
-                  );
-                  toast.success("Text copied");
-                }}
-              />
+              {documentID && (
+                <IconButton
+                  aria-label="Copy"
+                  icon={<CopyIcon />}
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `${getOriginUrl()}/chatbot/${documentID}`
+                    );
+                    toast.success("Text copied");
+                  }}
+                />
+              )}
             </Flex>
           )}
 
-          {inputData && documentID && activeButton === "Text" && (
+          {activeButton === "Text" && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">{generatedLink}</Text>
               </Link>
 
-              <IconButton
-                aria-label="Copy"
-                icon={<CopyIcon />}
-                onClick={() => {
-                  navigator.clipboard.writeText(
-                    `${getOriginUrl()}/chatbot/${documentID}`
-                  );
-                  toast.success("Text copied");
-                }}
-              />
+              {documentID && (
+                <IconButton
+                  aria-label="Copy"
+                  icon={<CopyIcon />}
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `${getOriginUrl()}/chatbot/${documentID}`
+                    );
+                    toast.success("Text copied");
+                  }}
+                />
+              )}
             </Flex>
           )}
 
-          {activeButton === "Activity" && documentID && (
+          {activeButton === "Activity" && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">
-                  {`${getOriginUrl()}/chatbot/${documentID}`}
+                  {/* {`${getOriginUrl()}/chatbot/${documentID}`} */}
+                  {generatedLink}
                 </Text>
               </Link>
 
-              <IconButton
-                aria-label="Copy"
-                icon={<CopyIcon />}
-                onClick={() => {
-                  navigator.clipboard.writeText(
-                    `${getOriginUrl()}/chatbot/${documentID}`
-                  );
-                  toast.success("Text copied");
-                }}
-              />
+              {documentID && (
+                <IconButton
+                  aria-label="Copy"
+                  icon={<CopyIcon />}
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `${getOriginUrl()}/chatbot/${documentID}`
+                    );
+                    toast.success("Text copied");
+                  }}
+                />
+              )}
             </Flex>
           )}
         </CardBody>
