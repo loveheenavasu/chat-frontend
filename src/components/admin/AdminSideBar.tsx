@@ -27,8 +27,6 @@ const AdminSideBar = ({ setActiveButton, activeButton }: AdminSidebarProps) => {
       icon: <LuMessagesSquare fontSize={25} />,
       path: "/admin/chat/activity",
     },
-    // { label: "Website", icon: <CiGlobe fontSize={25} /> },
-    // { label: "Q&A", icon: <IoChatbubblesOutline fontSize={25} /> },
   ];
 
   const handleClick = (label: string, path: string) => {

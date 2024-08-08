@@ -30,7 +30,7 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
   const [isFileUpload, setIsFileUpload] = useState(false);
   const [documentId, setDocumentId] = useState(
     getLocalStorageItem("documentId")
-  ); // Add state for document ID
+  );
 
   const handleUpload = (file: any) => {
     setFile(file);
@@ -53,7 +53,7 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
 
   useEffect(() => {
     fetchData(documentId);
-  }, [documentId]); // Add documentId as dependency
+  }, [documentId]);
 
   const handleDeleteFile = async (id: string, docNo: number) => {
     try {
@@ -91,7 +91,7 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
         setLocalStorageItem("documentId", newDocumentId);
         toast.success(response?.data?.message);
         setFile({});
-        setDocumentId(newDocumentId); // Update document ID state
+        setDocumentId(newDocumentId);
         fetchData(newDocumentId);
       }
       setIsFileUpload(false);

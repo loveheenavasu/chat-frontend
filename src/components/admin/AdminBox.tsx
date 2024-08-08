@@ -2,7 +2,6 @@
 
 import { Box, Button, Flex, Textarea } from "@chakra-ui/react";
 import React, { useState } from "react";
-import styles from "../app/adminpanel/admin.module.css";
 import axiosInstance from "@/utils/axiosInstance";
 import AdminDataBox from "./AdminDataBox";
 
@@ -17,12 +16,12 @@ const AdminBox = () => {
   };
 
   return (
-    <Box w='50%' height={'100%'} padding={'20px'}>
-      <Flex justifyContent={'center'}>
-        <Box height={'100%'} padding={'20px'} w={'50%'}>
-          <Flex justifyContent={'center'}>
-            <Box w={'100%'} height={'50%'}>
-              <Flex flexDirection={'column'} gap={'10px'}>
+    <Box w="50%" height={"100%"} padding={"20px"}>
+      <Flex justifyContent={"center"}>
+        <Box height={"100%"} padding={"20px"} w={"50%"}>
+          <Flex justifyContent={"center"}>
+            <Box w={"100%"} height={"50%"}>
+              <Flex flexDirection={"column"} gap={"10px"}>
                 <Textarea
                   placeholder="Feed data"
                   value={inputData}
@@ -30,8 +29,8 @@ const AdminBox = () => {
                   size={"lg"}
                   rows={10}
                 />
-                <Box w='100%'>
-                  <Flex justifyContent={'center'}>
+                <Box w="100%">
+                  <Flex justifyContent={"center"}>
                     <Button
                       size="sm"
                       colorScheme="cyan"
@@ -47,8 +46,8 @@ const AdminBox = () => {
             </Box>
           </Flex>
         </Box>
-        <Box width={'50%'} padding={'20px'} height={'100%'}>
-          <Flex justifyContent={'center'}>
+        <Box width={"50%"} padding={"20px"} height={"100%"}>
+          <Flex justifyContent={"center"}>
             <AdminDataBox />
           </Flex>
         </Box>

@@ -40,27 +40,33 @@ const Header = () => {
               </Heading>
               <Spacer />
 
-              <Box mr="6">
-                <Text
-                  fontSize="xl"
-                  fontWeight="bold"
-                  cursor="pointer"
-                  onClick={() => router.push("/")}
-                >
-                  All ChatBot
-                </Text>
-              </Box>
+              {pathname.startsWith("/chatbot") ? (
+                ""
+              ) : (
+                <>
+                  <Box mr="6">
+                    <Text
+                      fontSize="xl"
+                      fontWeight="bold"
+                      cursor="pointer"
+                      onClick={() => router.push("/")}
+                    >
+                      All ChatBot
+                    </Text>
+                  </Box>
 
-              <Box>
-                <Text
-                  fontSize="xl"
-                  fontWeight="bold"
-                  cursor="pointer"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Text>
-              </Box>
+                  <Box>
+                    <Text
+                      fontSize="xl"
+                      fontWeight="bold"
+                      cursor="pointer"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Text>
+                  </Box>
+                </>
+              )}
             </Flex>
           </Box>
         </Flex>

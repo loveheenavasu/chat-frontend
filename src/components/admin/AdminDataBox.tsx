@@ -1,7 +1,6 @@
 "use client";
 import { Box, Flex, Skeleton, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import styles from "../app/adminpanel/admin.module.css";
 import axiosInstance from "@/utils/axiosInstance";
 import { MdDeleteOutline } from "react-icons/md";
 
@@ -45,44 +44,43 @@ const AdminDataBox = () => {
 
   return (
     <section>
-      <Box height={'80%'} overflowY={'auto'}>
-        <Flex gap={'20px'} flexDirection={'column'}>
+      <Box height={"80%"} overflowY={"auto"}>
+        <Flex gap={"20px"} flexDirection={"column"}>
           {loading ? (
             skeletonData.map((ele, i) => (
               <Box
                 key={i}
                 sx={{ borderRadius: "20px" }}
-                className={styles.dataBox}
-                w={'550px'}
-                padding={'15px'}
-                height={'250px'}
-                borderRadius={'20px'}
-                backgroundColor={'#e8f8ff'}
-                position={'relative'}
+                w={"550px"}
+                padding={"15px"}
+                height={"250px"}
+                borderRadius={"20px"}
+                backgroundColor={"#e8f8ff"}
+                position={"relative"}
               >
-                <Flex justifyContent={'space-between'} alignItems={'center'}>
+                <Flex justifyContent={"space-between"} alignItems={"center"}>
                   <Skeleton height={100} width={"100%"} />
                 </Flex>
               </Box>
             ))
           ) : listingData.length > 0 ? (
             listingData.map((ele, i) => (
-              <Box key={i}
-                w={'550px'}
-                padding={'15px'}
-                height={'250px'}
-                borderRadius={'20px'}
-                backgroundColor={'#e8f8ff'}
-                position={'relative'}
-                className={styles.dataBox}>
-                <Flex justifyContent={'space-between'} alignItems={'center'}>
-                  <Box maxW={'490px'}>
+              <Box
+                key={i}
+                w={"550px"}
+                padding={"15px"}
+                height={"250px"}
+                borderRadius={"20px"}
+                backgroundColor={"#e8f8ff"}
+                position={"relative"}
+              >
+                <Flex justifyContent={"space-between"} alignItems={"center"}>
+                  <Box maxW={"490px"}>
                     <Text>{ele.text}</Text>
                   </Box>
                   <MdDeleteOutline
                     onClick={() => handleDelete(ele._id)}
                     fontSize={20}
-                    className={styles.iconDelete}
                   />
                 </Flex>
               </Box>

@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
-import MessageBoxAdmin, { Role } from "./MessageBoxAdmin";
+import MessageBoxAdmin, { Role } from "../MessageBoxAdmin";
 
 interface chatMessage {
   chatID?: number | null;

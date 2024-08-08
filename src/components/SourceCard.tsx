@@ -57,10 +57,7 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
           {activeButton === "Files" && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
-                <Text fontWeight="bold">
-                  {/* {`${getOriginUrl()}/chatbot/${documentID}`} */}
-                  {generatedLink}
-                </Text>
+                <Text fontWeight="bold">{generatedLink}</Text>
               </Link>
 
               {documentID && (
@@ -102,10 +99,7 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
           {activeButton === "Activity" && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
-                <Text fontWeight="bold">
-                  {/* {`${getOriginUrl()}/chatbot/${documentID}`} */}
-                  {generatedLink}
-                </Text>
+                <Text fontWeight="bold">{generatedLink}</Text>
               </Link>
 
               {documentID && (

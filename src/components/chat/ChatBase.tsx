@@ -15,7 +15,7 @@ interface ChatBaseProps {
 const ChatBase = ({ userMessages, loading }: ChatBaseProps) => {
   return (
     <Box width='100%'>
-      {/* <Text color='black' fontSize='16px' fontWeight='600' pb='10px'>Source: Chatbase site</Text> */}
+      
       <Box border='1px solid #e2e8f0' borderRadius='10px' p='5px' boxShadow='sm'>
         <Box
           style={loading ? { height: "70vh" } : {}}

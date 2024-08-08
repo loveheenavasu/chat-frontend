@@ -47,7 +47,7 @@ export default function ForgetPasswordCard() {
         router.push(`/otp?email=${formData.email}&isForget=true`);
       }
     } catch (error: any) {
-      console.log(error, 'ecvcvu4c')
+      console.log(error, "ecvcvu4c");
       toast.error(error.response?.data.message);
       setLoading(false);
     }
@@ -68,22 +68,6 @@ export default function ForgetPasswordCard() {
         <FormLabel>Email</FormLabel>
         <Input type="text" value={formData.email} onChange={handleChange} />
       </FormControl>
-      {/* <FormControl id="password" mb={6}>
-        <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </FormControl>
-      <FormControl id="confirmPassword" mb={6}>
-        <FormLabel>Confirm Password</FormLabel>
-        <Input
-          type="password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-      </FormControl> */}
 
       <Button
         colorScheme="cyan"

@@ -1,5 +1,5 @@
 "use client";
-import AdminTextSpace from "@/components/AdminTextSpace";
+import AdminTextSpace from "@/components/admin/AdminTextSpace";
 import { Box, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Layout from "@/components/layout/Layout";
