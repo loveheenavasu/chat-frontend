@@ -40,7 +40,8 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
     try {
       setIsLoading(true);
       const response = await axiosInstance.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${documentId ? `?documentId=${documentId}` : ""
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${
+          documentId ? `?documentId=${documentId}` : ""
         }`
       );
       setData(response?.data?.data);
@@ -122,16 +123,31 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
           <CardBody pt={"0px !important"} width={"100%"}>
             <Flex alignItems={"center"} justifyContent={"center"}>
               <Box className="file-uploader-class">
-                <FileUploader handleChange={handleUpload} name="file"
+                <FileUploader
+                  handleChange={handleUpload}
+                  name="file"
                   children={
-                    <Box border={'2px dotted blue'} borderRadius={'7px'} width='100%' display={'flex'} justifyContent={'center'} alignItems={'center'} p={'2'} >
-                      <BiImageAdd size={'40px'} color="blue" />
-                      <Box fontSize={'13px'}>
-                        Upload or drag a file right here Supported extensions next line<br />
+                    <Box
+                      border={"2px dotted blue"}
+                      borderRadius={"7px"}
+                      width="100%"
+                      display={"flex"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      p={"2"}
+                    >
+                      <BiImageAdd size={"40px"} color="blue" cursor="pointer" />
+                      <Box fontSize={"13px"}>
+                        Upload or drag a file right here Supported extensions
+                        next line
+                        <br />
                         {fileTypes.join(", ")}
                       </Box>
-                    </Box>}
-                  types={fileTypes} onDrop={handleUpload} />
+                    </Box>
+                  }
+                  types={fileTypes}
+                  onDrop={handleUpload}
+                />
               </Box>
             </Flex>
           </CardBody>
@@ -222,7 +238,9 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
                       ))}
                     </>
                   ) : (
-                    <Text textAlign="center">{!file.name ? "no data found!" : ""}</Text>
+                    <Text textAlign="center">
+                      {!file.name ? "no data found!" : ""}
+                    </Text>
                   )}
                 </>
               )}
