@@ -77,7 +77,7 @@ export default function ChatBoxList({ item, refetch }: any) {
             variant="ghost"
             onClick={() => {
               setLocalStorageItem("documentId", item?.documentId);
-              router.push("/chat/admin");
+              router.push("/admin/chat");
             }}
             leftIcon={<ViewIcon color={"#4299E1"} />}
           >

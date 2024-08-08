@@ -76,8 +76,7 @@ const LoginCard = () => {
       setLocalStorageItem("authToken", accessToken);
       setLocalStorageItem("userId", _id);
       location.reload();
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error, "Error during authentication");
     }
   };
@@ -200,7 +199,7 @@ const LoginCard = () => {
           onClick={handleSubmit}
         >
           Login
-        </Button>
+        </Button >
         <Flex w="100%" justifyContent="center" marginTop="20px">
           <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
         </Flex>
@@ -212,15 +211,15 @@ const LoginCard = () => {
           justifyContent="center"
         >
           Don't have an Account?
-          <Text
+          < Text
             color="#0bc5ea"
             as="b"
             marginLeft={1}
             onClick={() => router.push("/signUp")}
           >
             Sign up
-          </Text>
-        </Text>
+          </Text >
+        </Text >
         <Text
           cursor={"pointer"}
           as="b"
@@ -238,7 +237,7 @@ const LoginCard = () => {
             Forgot Password
           </Text>
         </Text>
-      </Box>
+      </Box >
     </>
   );
 };

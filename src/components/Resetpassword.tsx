@@ -3,6 +3,7 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -57,19 +58,22 @@ export default function Resetpassword() {
     }
 
     setErrors(errors);
+    console.log(formIsValid, "VALIDDD")
     return formIsValid;
   };
   const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
     if (validate()) {
       try {
-        e.preventDefault();
+        setLoading(true);
         // if (formData.password !== formData.confirmPassword) {
         //   return toast.error("please enter the same password");
         // }
         // if (formData.password.length < 4) {
         //   return toast.error("your password is too small ");
         // }
-        setLoading(true);
+        // setLoading(true);
         const response = await axiosInstance.post("user/reset", {
           uniqueCode,
           password: formData.password,
@@ -77,15 +81,17 @@ export default function Resetpassword() {
         toast.success(response?.data?.message);
         if (response.status === 200) {
           removeLocalStorageItem();
+          toast.success(response.data?.message);
           router.push(`/login`);
-
-          setLoading(true);
+          setLoading(false);
         }
       } catch (error: any) {
         // setErrors({ ...errors, form: error.response.data.errorMessage });
         toast.error(error.response.data.message);
         setLoading(false);
       }
+    } else {
+      console.log('ERROR paras')
     }
   };
 
@@ -100,8 +106,18 @@ export default function Resetpassword() {
       as="form"
       onSubmit={handleSubmit}
     >
+      <Flex
+        w="100%"
+        justifyContent="center"
+        alignItems="center"
+        fontWeight={700}
+        fontSize="xl"
+        my="2"
+      >
+        <Text>RESET PASSWORD</Text>
+      </Flex>
       <FormControl id="password" mb={6}>
-        <FormLabel>Password</FormLabel>
+        <FormLabel>New Password</FormLabel>
         <Input
           type="password"
           value={formData.password}
@@ -110,7 +126,7 @@ export default function Resetpassword() {
         {errors.password && <Text color="red.500">{errors.password}</Text>}
       </FormControl>
       <FormControl id="confirmPassword" mb={6}>
-        <FormLabel>Confirm Password</FormLabel>
+        <FormLabel>Confirm New Password</FormLabel>
         <Input
           type="password"
           value={formData.confirmPassword}

@@ -14,22 +14,23 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import styles from "../app/adminpanel/admin.module.css";
 import axiosInstance from "@/utils/axiosInstance";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { toast } from "react-toastify";
 import { FileUploader } from "react-drag-drop-files";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 import { BiImageAdd } from "react-icons/bi";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-
-const FIlesCard = () => {
+const FIlesCard = ({ setIncreaseCounter }: any) => {
   const [file, setFile] = useState<any>({});
   const [data, setData] = useState<any>(null);
   const [loading, setIsLoading] = useState(false);
   const [deleteFileLoading, setDeleteFileLoading] = useState("");
   const [isFileUpload, setIsFileUpload] = useState(false);
+  const [documentId, setDocumentId] = useState(
+    getLocalStorageItem("documentId")
+  ); // Add state for document ID
 
   const handleUpload = (file: any) => {
     setFile(file);
@@ -39,7 +40,8 @@ const FIlesCard = () => {
     try {
       setIsLoading(true);
       const response = await axiosInstance.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${documentId ? `?documentId=${documentId}` : ""}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${documentId ? `?documentId=${documentId}` : ""
+        }`
       );
       setData(response?.data?.data);
       setIsLoading(false);
@@ -49,13 +51,11 @@ const FIlesCard = () => {
   };
 
   useEffect(() => {
-    const documentId = getLocalStorageItem("documentId");
     fetchData(documentId);
-  }, []);
+  }, [documentId]); // Add documentId as dependency
 
   const handleDeleteFile = async (id: string, docNo: number) => {
     try {
-      const documentId = getLocalStorageItem("documentId");
       const response = await axiosInstance.delete(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/files/?documentId=${documentId}&docNo=${docNo}`
       );
@@ -77,23 +77,24 @@ const FIlesCard = () => {
       }
       setIsFileUpload(true);
       const id = getLocalStorageItem("documentId");
-
       const formData = new FormData();
       formData.append("file", file as any);
-      formData.append("documentId", id as any);
+      formData.append("documentId", documentId as any);
 
       const response = await axiosInstance.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/upload`,
         formData
       );
       if (response.data) {
-        setLocalStorageItem("documentId", response.data?.data.documentId);
+        const newDocumentId = response.data?.data.documentId;
+        setLocalStorageItem("documentId", newDocumentId);
         toast.success(response?.data?.message);
         setFile({});
-        fetchData(response.data?.data.documentId);
+        setDocumentId(newDocumentId); // Update document ID state
+        fetchData(newDocumentId);
       }
-
       setIsFileUpload(false);
+      setIncreaseCounter((prev: any) => prev + 1);
     } catch (err) {
       setIsFileUpload(false);
       console.error("Upload failed", err);
@@ -104,7 +105,13 @@ const FIlesCard = () => {
 
   return (
     <Box>
-      <Card width="100%" padding="20px" textAlign="start" border="1px solid #e2e8f0" boxShadow="sm">
+      <Card
+        width="100%"
+        padding="20px"
+        textAlign="start"
+        border="1px solid #e2e8f0"
+        boxShadow="sm"
+      >
         <Flex alignItems={"center"} flexDirection={"column"}>
           <CardHeader>
             <Heading size="md" textAlign={"start"} pt={"0px!important"}>
@@ -130,7 +137,12 @@ const FIlesCard = () => {
           </CardBody>
 
           <Box justifyContent={"center"} alignItems={"center"}>
-            <Flex justifyContent={"center"} alignItems={"center"} flexDirection={"column"} gap={"10px"}>
+            <Flex
+              justifyContent={"center"}
+              alignItems={"center"}
+              flexDirection={"column"}
+              gap={"10px"}
+            >
               <Button
                 sx={{ color: "white", backgroundColor: "#5188b9" }}
                 colorScheme="blue"
@@ -160,19 +172,36 @@ const FIlesCard = () => {
               {loading ? (
                 <Box>
                   <Flex justifyContent={"center"}>
-                    <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="md" />
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="blue.500"
+                      size="md"
+                    />
                   </Flex>
                 </Box>
               ) : (
                 <>
                   {data?.length > 0 ? (
                     <>
-                      <Text fontWeight={"bold"} textAlign={"center"} padding={4}>
+                      <Text
+                        fontWeight={"bold"}
+                        textAlign={"center"}
+                        padding={4}
+                      >
                         Already Selected File
                       </Text>
                       <Divider padding={2} />
                       {data.map((item: any) => (
-                        <Flex key={item._id} width={"80%"} margin={"auto"} alignItems="center" gap="2" padding={2}>
+                        <Flex
+                          key={item._id}
+                          width={"80%"}
+                          margin={"auto"}
+                          alignItems="center"
+                          gap="2"
+                          padding={2}
+                        >
                           <Box p="2">
                             <Heading size="md">{item.fileName}</Heading>
                           </Box>

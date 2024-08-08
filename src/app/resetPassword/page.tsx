@@ -1,5 +1,5 @@
 "use client";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import LoginCard from "@/components/LoginCard";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import Resetpassword from "@/components/Resetpassword";
 const Reset = () => {
   return (
     <>
-      <Flex>
+      <Flex w="100%" h="100vh">
         <Flex
           padding="20px"
           justifyContent="center"
