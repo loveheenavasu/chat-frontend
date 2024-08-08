@@ -37,7 +37,7 @@ export default function ChatBoxList({ item, refetch }: any) {
   // };
   return (
     <Card maxW="xs" cursor={"pointer"}>
-      <Image objectFit="cover" src="/chatAi.jpg" alt="Chakra UI" />
+      <Image objectFit="cover" src="/images/chatAi.jpg" alt="Chakra UI" />
       <Text as="b" p="2" fontSize="sm" isTruncated>
         {textId?.type === "TEXT" ? textId?.text : textId?.fileName}
       </Text>

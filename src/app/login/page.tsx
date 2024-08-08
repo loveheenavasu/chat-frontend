@@ -1,12 +1,12 @@
 "use client";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import LoginCard from "@/components/LoginCard";
+import LoginCard from "@/components/forms/LoginCard";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getLocalStorageItem } from "@/utils/localStorage";
 
-const Login = () => {
+const page = () => {
   const router = useRouter();
   const authToken = getLocalStorageItem("authToken");
   useEffect(() => {
@@ -33,7 +33,7 @@ const Login = () => {
             <Image
               objectFit="cover"
               layout="fill"
-              src="/chatbot2.jpg"
+              src="/images/chatbot2.jpg"
               alt="mainPhoto"
             />
           </Box>
@@ -43,4 +43,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default page;

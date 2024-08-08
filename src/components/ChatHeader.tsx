@@ -1,7 +1,7 @@
 import { Flex, Heading } from "@chakra-ui/react";
 import React from "react";
 
-const ChatHeader = () => {
+const Header = () => {
   return (
     <Flex
       w="100%"
@@ -18,4 +18,4 @@ const ChatHeader = () => {
   );
 };
 
-export default ChatHeader;
+export default Header;

@@ -1,10 +1,10 @@
 "use client";
 import FIlesCard from "@/components/FIlesCard";
-import Layout from "@/components/Layout";
+import Layout from "@/components/layout/Layout";
 import { Box, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 
-const Files = () => {
+const page = () => {
   const [increaseCounter, setIncreaseCounter] = useState(0);
   return (
     <Layout increaseCounter={increaseCounter}>
@@ -17,4 +17,4 @@ const Files = () => {
   );
 };
 
-export default Files;
+export default page;

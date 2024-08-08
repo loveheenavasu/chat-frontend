@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import AdminHeader from "@/components/AdminHeader";
+import Header from "@/components/common/Header";
 import AdminSideBar from "@/components/AdminSideBar";
 import SourceCard from "@/components/SourceCard";
 import { Box, Flex } from "@chakra-ui/react";
@@ -25,7 +25,7 @@ const Layout = ({ inputData, increaseCounter, children }: any) => {
 
   return (
     <>
-      <AdminHeader />
+      <Header />
       <Box p="5px" border="1px solid #fff" w="fit-content">
         <Link href="/">
           <Flex

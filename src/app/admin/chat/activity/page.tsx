@@ -1,9 +1,9 @@
 import Activity from "@/components/Activity";
 import FIlesCard from "@/components/FIlesCard";
-import Layout from "@/components/Layout";
+import Layout from "@/components/layout/Layout";
 import { Box, Flex } from "@chakra-ui/react";
 
-const Files = () => {
+const page = () => {
   return (
     <Layout>
       <Flex justifyContent="center">
@@ -15,4 +15,4 @@ const Files = () => {
   );
 };
 
-export default Files;
+export default page;
