@@ -15,7 +15,7 @@ interface ChatBaseProps {
 const ChatBase = ({ userMessages, loading }: ChatBaseProps) => {
   return (
     <Box width='100%'>
-      <Text color='black' fontSize='16px' fontWeight='600' pb='10px'>Source: Chatbase site</Text>
+      {/* <Text color='black' fontSize='16px' fontWeight='600' pb='10px'>Source: Chatbase site</Text> */}
       <Box border='1px solid #e2e8f0' borderRadius='10px' p='5px' boxShadow='sm'>
         <Box
           style={loading ? { height: "70vh" } : {}}
@@ -42,7 +42,13 @@ const ChatBase = ({ userMessages, loading }: ChatBaseProps) => {
                 </Box>
               ))
             ) : (
-              <Box textAlign='center' p='20px'>No messages yet...</Box>
+              <Box textAlign='center' p='20px' textColor={'gray.500'}
+                margin={'auto'}
+                h={'-webkit-fill-available'}>
+                <Flex alignItems={'center'} justifyContent={'center'}>
+                  Please select a chat to view.
+                </Flex>
+              </Box>
             )
           )}
         </Box>

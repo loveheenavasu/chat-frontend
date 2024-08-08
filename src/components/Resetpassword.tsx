@@ -83,7 +83,7 @@ export default function Resetpassword() {
         }
       } catch (error: any) {
         // setErrors({ ...errors, form: error.response.data.errorMessage });
-        // toast.error(error.response.data.message);
+        toast.error(error.response.data.message);
         setLoading(false);
       }
     }

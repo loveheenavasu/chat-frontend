@@ -47,7 +47,8 @@ export default function ForgetPasswordCard() {
         router.push(`/otp?email=${formData.email}&isForget=true`);
       }
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      console.log(error, 'ecvcvu4c')
+      toast.error(error.response?.data.message);
       setLoading(false);
     }
   };
