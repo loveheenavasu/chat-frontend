@@ -6,6 +6,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Text,
 } from "@chakra-ui/react";
@@ -67,13 +68,6 @@ export default function Resetpassword() {
     if (validate()) {
       try {
         setLoading(true);
-        // if (formData.password !== formData.confirmPassword) {
-        //   return toast.error("please enter the same password");
-        // }
-        // if (formData.password.length < 4) {
-        //   return toast.error("your password is too small ");
-        // }
-        // setLoading(true);
         const response = await axiosInstance.post("user/reset", {
           uniqueCode,
           password: formData.password,
@@ -96,57 +90,60 @@ export default function Resetpassword() {
   };
 
   return (
-    <Box
-      w="80%"
-      margin="auto"
-      padding="20px"
-      boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
-      borderRadius="8px"
-      bg="white"
-      as="form"
-      onSubmit={handleSubmit}
-    >
-      <Flex
-        w="100%"
-        justifyContent="center"
-        alignItems="center"
-        fontWeight={700}
-        fontSize="xl"
-        my="2"
+    <>
+      <Text textColor={'white'} p={'20px'} as="b" fontSize={36}>Reset Your Password</Text>
+      <Box
+        w="80%"
+        padding="20px"
+        boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+        borderRadius="8px"
+        bg="white"
+        as="form"
+        onSubmit={handleSubmit}
       >
-        <Text>RESET PASSWORD</Text>
-      </Flex>
-      <FormControl id="password" mb={6}>
-        <FormLabel>New Password</FormLabel>
-        <Input
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        {errors.password && <Text color="red.500">{errors.password}</Text>}
-      </FormControl>
-      <FormControl id="confirmPassword" mb={6}>
-        <FormLabel>Confirm New Password</FormLabel>
-        <Input
-          type="password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-        {errors.confirmPassword && (
-          <Text color="red.500">{errors.confirmPassword}</Text>
-        )}
-      </FormControl>
+        <Flex
+          w="100%"
+          justifyContent="center"
+          alignItems="center"
+          fontWeight={700}
+          fontSize="xl"
+          my="2"
+        >
+        </Flex>
+        <FormControl id="password" mb={6}>
+          <FormLabel>New Password</FormLabel>
+          <Input
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="enter your new password"
+          />
+          {errors.password && <Text color="red.500">{errors.password}</Text>}
+        </FormControl>
+        <FormControl id="confirmPassword" mb={6}>
+          <FormLabel>Confirm New Password</FormLabel>
+          <Input
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            placeholder="confirm your password"
 
-      <Button
-        colorScheme="cyan"
-        color={"white"}
-        width="full"
-        type="submit"
-        isLoading={loading}
-      >
-        Confirm
-      </Button>
-      {/* <Text
+          />
+          {errors.confirmPassword && (
+            <Text color="red.500">{errors.confirmPassword}</Text>
+          )}
+        </FormControl>
+
+        <Button
+          colorScheme="cyan"
+          color={"white"}
+          width="full"
+          type="submit"
+          isLoading={loading}
+        >
+          Confirm
+        </Button>
+        {/* <Text
         cursor={"pointer"}
         as="b"
         p={4}
@@ -163,6 +160,7 @@ export default function Resetpassword() {
           Login{" "}
         </Text>
       </Text> */}
-    </Box>
+      </Box>
+    </>
   );
 }

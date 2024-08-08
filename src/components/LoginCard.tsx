@@ -155,7 +155,7 @@ const LoginCard = () => {
 
   return (
     <>
-      <Heading textColor={'white'} p={'20px'} fontFamily={'serif'}>Login</Heading>
+      <Text textColor={'white'} p={'20px'} as="b" fontSize={36}>Login</Text>
       <Box
         w="80%"
         padding="20px"
@@ -173,6 +173,7 @@ const LoginCard = () => {
             onChange={(e) =>
               setLoginData({ ...loginData, email: e.target.value })
             }
+            placeholder="enter your email"
             required
           />
           {errors.email && <Text color="red.500">{errors.email}</Text>}
@@ -188,6 +189,7 @@ const LoginCard = () => {
               setLoginData({ ...loginData, password: e.target.value })
             }
             required
+            placeholder="enter your password"
           />
           {errors.password && <Text color="red.500">{errors.password}</Text>}
         </FormControl>

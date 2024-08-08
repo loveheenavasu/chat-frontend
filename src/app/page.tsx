@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AdminHeader from "@/components/AdminHeader";
 import ChatBoxList from "@/components/ChatBoxList";
 import axiosInstance from "@/utils/axiosInstance";
@@ -25,7 +25,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(`/user/chatbot`);
@@ -36,11 +36,16 @@ export default function Home() {
     } catch (error) {
       setLoading(false);
     }
-  };
+  }, []);
+
   useEffect(() => {
     fetchData();
   }, []);
 
+  const handleCreateChatbot = () => {
+    removeParticularItemFromLocalStorage("documentId");
+    router.push("/admin/chat");
+  };
   return (
     <>
       <AdminHeader />
@@ -48,7 +53,7 @@ export default function Home() {
       <Box width="70%" margin="auto">
         <Flex
           display={"flex"}
-          justifyContent="start"
+          justifyContent="space-between"
           alignItems="center"
           width={"100%"}
           py="5"
@@ -60,10 +65,7 @@ export default function Home() {
 
           <Button
             colorScheme="blue"
-            onClick={() => {
-              removeParticularItemFromLocalStorage("documentId");
-              router.push("/admin/chat");
-            }}
+            onClick={handleCreateChatbot}
           >
             Create Chatbot
           </Button>

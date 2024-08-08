@@ -75,7 +75,7 @@ export default function Signup() {
 
   return (
     <>
-      <Heading textColor={'white'} p={'20px'} fontFamily={'serif'}>Signup</Heading>
+      <Text textColor={'white'} p={'20px'} as="b" fontSize={36}>SignUp</Text>
       <Box
         w="80%"
         margin="auto"
@@ -90,6 +90,8 @@ export default function Signup() {
             <Input
               type="text"
               {...register("firstName", { required: "First name is required" })}
+              placeholder="enter your first name"
+              textColor='black'
             />
             {errors.firstName && (
               <Text color="red.500">{errors.firstName.message}</Text>
@@ -97,13 +99,17 @@ export default function Signup() {
           </FormControl>
           <FormControl id="lastName" mb={4}>
             <FormLabel>Last Name</FormLabel>
-            <Input type="text" {...register("lastName")} />
+            <Input type="text" {...register("lastName")}
+              placeholder="enter your last name"
+            />
           </FormControl>
           <FormControl id="email" mb={4}>
             <FormLabel display={'flex'} gap={'3px'}>Email<Text textColor="red">*</Text></FormLabel>
             <Input
               type="email"
               {...register("email", { required: "Email is required" })}
+              placeholder="enter your email"
+
             />
             {errors.email && <Text color="red.500">{errors.email.message}</Text>}
           </FormControl>
@@ -118,6 +124,7 @@ export default function Signup() {
                   message: "Password must be at least 8 characters",
                 },
               })}
+              placeholder="enter your password"
             />
             {errors.password && (
               <Text color="red.500">{errors.password.message}</Text>
@@ -130,6 +137,7 @@ export default function Signup() {
               {...register("confirmPassword", {
                 required: "Please confirm your password",
               })}
+              placeholder="confirm your password"
             />
             {errors.confirmPassword && (
               <Text color="red.500">{errors.confirmPassword.message}</Text>

@@ -2,7 +2,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
 import Image from "next/image";
-import ForgetPasswordCard from "../../components/ForgetPassword";
+import ForgetPasswordCard from "@/components/ForgetPassword";
 
 const ForgetPassword = () => {
   return (

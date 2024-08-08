@@ -127,7 +127,7 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
                     <Box border={'2px dotted blue'} borderRadius={'7px'} width='100%' display={'flex'} justifyContent={'center'} alignItems={'center'} p={'2'} >
                       <BiImageAdd size={'40px'} color="blue" />
                       <Box fontSize={'13px'}>
-                        Upload or drag a file right here Supported extensions next line<br />
+                        Upload or drag a file right here supported extensions next line<br />
                         {fileTypes.join(", ")}
                       </Box>
                     </Box>}
@@ -222,7 +222,7 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
                       ))}
                     </>
                   ) : (
-                    <Text textAlign="center">{!file.name ? "no data found!" : ""}</Text>
+                    <Text textAlign="center" textColor={'gray.400'}>{!file.name ? "no data found!" : ""}</Text>
                   )}
                 </>
               )}

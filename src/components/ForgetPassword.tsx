@@ -54,21 +54,23 @@ export default function ForgetPasswordCard() {
   };
 
   return (
-    <Box
-      w="80%"
-      margin="auto"
-      padding="20px"
-      boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
-      borderRadius="8px"
-      bg="white"
-      as="form"
-      onSubmit={handleSubmit}
-    >
-      <FormControl id="email" mb={4}>
-        <FormLabel>Email</FormLabel>
-        <Input type="text" value={formData.email} onChange={handleChange} />
-      </FormControl>
-      {/* <FormControl id="password" mb={6}>
+    <>
+      <Text textColor={'white'} p={'20px'} as="b" fontSize={36}>Enter Your Email Address</Text>
+      <Box
+        w="80%"
+        padding="20px"
+        boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+        borderRadius="8px"
+        bg="white"
+        as="form"
+        onSubmit={handleSubmit}
+      >
+        <FormControl id="email" mb={4}>
+          <FormLabel>Email</FormLabel>
+          <Input type="text" value={formData.email} onChange={handleChange}
+            placeholder="enter your email" />
+        </FormControl>
+        {/* <FormControl id="password" mb={6}>
         <FormLabel>Password</FormLabel>
         <Input
           type="password"
@@ -85,32 +87,33 @@ export default function ForgetPasswordCard() {
         />
       </FormControl> */}
 
-      <Button
-        colorScheme="cyan"
-        color={"white"}
-        width="full"
-        type="submit"
-        isLoading={loading}
-      >
-        Forget password
-      </Button>
-      <Text
-        cursor={"pointer"}
-        as="b"
-        p={4}
-        display={"flex"}
-        justifyContent={"center"}
-      >
-        Don't have an Account?{" "}
-        <Text
-          color="#0bc5ea"
-          as="b"
-          marginLeft={1}
-          onClick={() => router.push("/login")}
+        <Button
+          colorScheme="cyan"
+          color={"white"}
+          width="full"
+          type="submit"
+          isLoading={loading}
         >
-          Login{" "}
+          Forget password
+        </Button>
+        <Text
+          cursor={"pointer"}
+          as="b"
+          p={4}
+          display={"flex"}
+          justifyContent={"center"}
+        >
+          Don't have an Account?{" "}
+          <Text
+            color="#0bc5ea"
+            as="b"
+            marginLeft={1}
+            onClick={() => router.push("/login")}
+          >
+            Login{" "}
+          </Text>
         </Text>
-      </Text>
-    </Box>
+      </Box>
+    </>
   );
 }
