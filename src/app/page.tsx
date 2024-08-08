@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import AdminHeader from "@/components/AdminHeader";
+import Header from "@/components/common/Header";
 import ChatBoxList from "@/components/ChatBoxList";
 import axiosInstance from "@/utils/axiosInstance";
 import {
@@ -43,7 +43,7 @@ export default function Home() {
 
   return (
     <>
-      <AdminHeader />
+      <Header />
 
       <Box width="70%" margin="auto">
         <Flex
@@ -90,7 +90,11 @@ export default function Home() {
             ) : (
               <Card boxShadow="none" width="60%" margin="auto">
                 <CardBody>
-                  <Image objectFit="cover" src="/chatAi.jpg" alt="Chakra UI" />
+                  <Image
+                    objectFit="cover"
+                    src="/images/chatAi.jpg"
+                    alt="Chakra UI"
+                  />
                   <Flex justifyContent="center" flexDirection="column">
                     <Center as="b" color="#4299E1" fontSize="2xl" p={1}>
                       No Chatbot has been added yet.

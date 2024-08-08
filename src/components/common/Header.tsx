@@ -1,12 +1,12 @@
 import React from "react";
-import { Box, Flex, Heading, IconButton, Spacer, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
 import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { removeLocalStorageItem } from "@/utils/localStorage";
 
-const AdminHeader = () => {
+const Header = () => {
   const router = useRouter();
   const handleLogout = async () => {
     try {
@@ -21,25 +21,22 @@ const AdminHeader = () => {
       toast.error("something went wrong");
     }
   };
+  const pathname = usePathname();
+
   return (
     <Box>
-      <Box w={'100%'} height={'50px'}>
-        <Flex alignItems={'center'} height={'50px'}>
+      <Box w={"100%"} height={"50px"}>
+        <Flex alignItems={"center"} height={"50px"}>
           <Box
-            w={'100%'}
-            background={'#7ab3e7'}
-            color={'white'}
-            height={'100%'}
-            padding={'15px'}
+            w={"100%"}
+            bg={`${pathname.startsWith("/chatbot") ? "#575782" : "#7ab3e7"}`}
+            color={"white"}
+            height={"100%"}
+            padding={"15px"}
           >
-            <Flex alignItems={'center'}>
-              <Heading
-                fontSize="xl"
-                cursor={"pointer"}
-                fontWeight="bold"
-                onClick={() => router.push("/")}
-              >
-                ChatBot
+            <Flex alignItems={"center"}>
+              <Heading fontSize="xl" cursor={"pointer"} fontWeight="bold">
+                ChatBOT
               </Heading>
               <Spacer />
 
@@ -64,15 +61,6 @@ const AdminHeader = () => {
                   Logout
                 </Text>
               </Box>
-              <IconButton
-                display={{ base: "flex", md: "none" }}
-                aria-label="Open menu"
-                // icon={<HamburgerIcon />}
-                bg="transparent"
-                color="white"
-                _hover={{ bg: "transparent" }}
-                _active={{ bg: "transparent" }}
-              />
             </Flex>
           </Box>
         </Flex>
@@ -81,4 +69,4 @@ const AdminHeader = () => {
   );
 };
 
-export default AdminHeader;
+export default Header;

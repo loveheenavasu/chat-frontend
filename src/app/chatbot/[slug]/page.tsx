@@ -2,10 +2,9 @@
 import React, { Suspense, useEffect, useState } from "react";
 import ChatContainer from "@/components/ChatContainer";
 import ChatFooter from "@/components/ChatFooter";
-import ChatHeader from "@/components/ChatHeader";
+import Header from "@/components/common/Header";
 import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
-import { useRouter } from "next/navigation";
 
 interface Message {
   chatId: number | null;
@@ -14,7 +13,7 @@ interface Message {
   chatSessionId: number | null;
 }
 
-const ChatBot = ({ params }: any) => {
+const page = ({ params }: any) => {
   const [chatMessage, setChatMessage] = useState<Message[]>([
     {
       chatId: null,
@@ -70,7 +69,7 @@ const ChatBot = ({ params }: any) => {
   console.log(chatMessage);
   return (
     <Box>
-      <ChatHeader />
+      <Header />
       <ChatContainer chatMessage={chatMessage} loading={loading} />
       {loading && (
         <Box bg="#e9e9ff">
@@ -117,4 +116,4 @@ const ChatBot = ({ params }: any) => {
   );
 };
 
-export default ChatBot;
+export default page;

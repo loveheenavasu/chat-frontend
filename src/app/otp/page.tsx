@@ -2,7 +2,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import React, { Suspense } from "react";
 import Image from "next/image";
-import Otp from "@/components/Otp";
+import Otp from "@/components/forms/Otp";
 
 const page = () => {
   return (
@@ -27,7 +27,7 @@ const page = () => {
           <Image
             objectFit="cover"
             layout="fill"
-            src="/chatbot2.jpg"
+            src="/images/chatbot2.jpg"
             alt="mainPhoto"
           />
         </Box>

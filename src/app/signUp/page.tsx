@@ -1,9 +1,9 @@
 "use client";
 import { Box, Flex, Image } from "@chakra-ui/react";
 import React from "react";
-import Signup from "@/components/Signup";
+import Signup from "@/components/forms/Signup";
 
-const signup = () => {
+const page = () => {
   return (
     <Flex h="100vh">
       <Flex
@@ -22,7 +22,7 @@ const signup = () => {
             w="100%"
             h="100%"
             objectFit="cover"
-            src="/signup.png"
+            src="/images/chatbot2.jpg"
             alt="mainPhoto"
           />
         </Box>
@@ -31,4 +31,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default page;

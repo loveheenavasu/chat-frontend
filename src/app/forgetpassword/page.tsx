@@ -2,9 +2,9 @@
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
 import Image from "next/image";
-import ForgetPasswordCard from "../../components/ForgetPassword";
+import ForgetPasswordCard from "../../components/forms/ForgetPassword";
 
-const ForgetPassword = () => {
+const page = () => {
   return (
     <>
       <Flex h="100vh">
@@ -23,7 +23,7 @@ const ForgetPassword = () => {
             <Image
               objectFit="cover"
               layout="fill"
-              src="/chatbot2.jpg"
+              src="/images/chatbot2.jpg"
               alt="mainPhoto"
             />
           </Box>
@@ -33,4 +33,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default page;

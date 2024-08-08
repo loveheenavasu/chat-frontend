@@ -2,9 +2,9 @@
 import AdminTextSpace from "@/components/AdminTextSpace";
 import { Box, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
-import Layout from "@/components/Layout";
+import Layout from "@/components/layout/Layout";
 
-const Admin = () => {
+const page = () => {
   const [loading, setLoading] = useState(false);
   const [inputData, setInputData] = useState<string>("");
   const [increaseCounter, setIncreaseCounter] = useState(0);
@@ -29,4 +29,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default page;

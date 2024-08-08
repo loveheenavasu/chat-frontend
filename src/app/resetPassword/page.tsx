@@ -1,11 +1,11 @@
 "use client";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import LoginCard from "@/components/LoginCard";
+import LoginCard from "@/components/forms/LoginCard";
 import Image from "next/image";
-import Resetpassword from "@/components/Resetpassword";
+import Resetpassword from "@/components/forms/Resetpassword";
 
-const Reset = () => {
+const page = () => {
   return (
     <>
       <Flex w="100%" h="100vh">
@@ -24,7 +24,7 @@ const Reset = () => {
             <Image
               objectFit="cover"
               layout="fill"
-              src="/chatbot2.jpg"
+              src="/images/chatbot2.jpg"
               alt="mainPhoto"
             />
           </Box>
@@ -34,4 +34,4 @@ const Reset = () => {
   );
 };
 
-export default Reset;
+export default page;
