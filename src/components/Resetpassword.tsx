@@ -3,6 +3,7 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -69,7 +70,7 @@ export default function Resetpassword() {
         // if (formData.password.length < 4) {
         //   return toast.error("your password is too small ");
         // }
-        setLoading(true);
+        // setLoading(true);
         const response = await axiosInstance.post("user/reset", {
           uniqueCode,
           password: formData.password,
@@ -100,8 +101,18 @@ export default function Resetpassword() {
       as="form"
       onSubmit={handleSubmit}
     >
+      <Flex
+        w="100%"
+        justifyContent="center"
+        alignItems="center"
+        fontWeight={700}
+        fontSize="xl"
+        my="2"
+      >
+        <Text>RESET PASSWORD</Text>
+      </Flex>
       <FormControl id="password" mb={6}>
-        <FormLabel>Password</FormLabel>
+        <FormLabel>New Password</FormLabel>
         <Input
           type="password"
           value={formData.password}
@@ -110,7 +121,7 @@ export default function Resetpassword() {
         {errors.password && <Text color="red.500">{errors.password}</Text>}
       </FormControl>
       <FormControl id="confirmPassword" mb={6}>
-        <FormLabel>Confirm Password</FormLabel>
+        <FormLabel>Confirm New Password</FormLabel>
         <Input
           type="password"
           value={formData.confirmPassword}
