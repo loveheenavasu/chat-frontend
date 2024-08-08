@@ -58,12 +58,15 @@ export default function Resetpassword() {
     }
 
     setErrors(errors);
+    console.log(formIsValid, "VALIDDD")
     return formIsValid;
   };
   const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
     if (validate()) {
       try {
-        e.preventDefault();
+        setLoading(true);
         // if (formData.password !== formData.confirmPassword) {
         //   return toast.error("please enter the same password");
         // }
@@ -78,15 +81,17 @@ export default function Resetpassword() {
         toast.success(response?.data?.message);
         if (response.status === 200) {
           removeLocalStorageItem();
+          toast.success(response.data?.message);
           router.push(`/login`);
-
-          setLoading(true);
+          setLoading(false);
         }
       } catch (error: any) {
         // setErrors({ ...errors, form: error.response.data.errorMessage });
-        // toast.error(error.response.data.message);
+        toast.error(error.response.data.message);
         setLoading(false);
       }
+    } else {
+      console.log('ERROR paras')
     }
   };
 

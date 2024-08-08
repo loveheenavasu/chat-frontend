@@ -1,5 +1,5 @@
 "use client";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import LoginCard from "@/components/LoginCard";
 import Image from "next/image";

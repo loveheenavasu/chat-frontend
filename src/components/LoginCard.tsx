@@ -6,6 +6,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Text,
 } from "@chakra-ui/react";
@@ -70,13 +71,10 @@ const LoginCard = () => {
 `,
         data
       );
-      const { accessToken, _id, expiresIn } = response.data;
-      const expirationTime: any = new Date().getTime() + expiresIn * 1000;
-      console.log(expirationTime, "expirationTime");
+      const { accessToken, _id } = response.data;
       Cookies.set("authToken", accessToken);
       setLocalStorageItem("authToken", accessToken);
       setLocalStorageItem("userId", _id);
-      Cookies.set("tokenExpiration", expirationTime);
       location.reload();
     } catch (error) {
       console.error(error, "Error during authentication");
@@ -139,12 +137,14 @@ const LoginCard = () => {
         const response = await axiosInstance.post("/user/login", loginData);
         if (response.status === 200) {
           Cookies.set("authToken", response?.data?.data?.accessToken);
+          console.log(response, 'dbuucxwr')
           setLocalStorageItem("authToken", response?.data?.data?.accessToken);
           toast.success(response.data?.message);
           setLoading(false);
           router.push("/");
           location.reload();
         }
+
       } catch (error: any) {
         toast.error(error.response?.data.message);
         // setErrors({ ...errors, form: error.response.data.errorMessage });
@@ -154,99 +154,91 @@ const LoginCard = () => {
   };
 
   return (
-    <Box
-      w="80%"
-      margin="auto"
-      padding="20px"
-      boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
-      borderRadius="8px"
-      bg="white"
-    >
-      <Flex
-        w="100%"
-        justifyContent="center"
-        alignItems="center"
-        fontWeight={700}
-        fontSize="xl"
-        my="2"
+    <>
+      <Heading textColor={'white'} p={'20px'} fontFamily={'serif'}>Login</Heading>
+      <Box
+        w="80%"
+        padding="20px"
+        boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+        borderRadius="8px"
+        bg="white"
       >
-        <Text>LOGIN</Text>
-      </Flex>
-      <FormControl id="username" mb={4} onSubmit={handleSubmit}>
-        <FormLabel display="flex" gap="3px">
-          Email <Text textColor="red">*</Text>
-        </FormLabel>
-        <Input
-          type="text"
-          value={loginData?.email}
-          onChange={(e) =>
-            setLoginData({ ...loginData, email: e.target.value })
-          }
-          required
-        />
-        {errors.email && <Text color="red.500">{errors.email}</Text>}
-      </FormControl>
-      <FormControl id="password" mb={6}>
-        <FormLabel display="flex" gap="3px">
-          Password <Text textColor="red">*</Text>
-        </FormLabel>
-        <Input
-          type="password"
-          value={loginData?.password}
-          onChange={(e) =>
-            setLoginData({ ...loginData, password: e.target.value })
-          }
-          required
-        />
-        {errors.password && <Text color="red.500">{errors.password}</Text>}
-      </FormControl>
-      <Button
-        colorScheme="cyan"
-        color="white"
-        width="full"
-        isLoading={loading}
-        onClick={handleSubmit}
-      >
-        Login
-      </Button>
-      <Flex w="100%" justifyContent="center" marginTop="20px">
-        <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-      </Flex>
-      <Text
-        cursor="pointer"
-        as="b"
-        p={4}
-        display="flex"
-        justifyContent="center"
-      >
-        Don't have an Account?
-        <Text
-          color="#0bc5ea"
-          as="b"
-          marginLeft={1}
-          onClick={() => router.push("/signUp")}
+        <FormControl id="username" mb={4} onSubmit={handleSubmit}>
+          <FormLabel display="flex" gap="3px">
+            Email <Text textColor="red">*</Text>
+          </FormLabel>
+          <Input
+            type="text"
+            value={loginData?.email}
+            onChange={(e) =>
+              setLoginData({ ...loginData, email: e.target.value })
+            }
+            required
+          />
+          {errors.email && <Text color="red.500">{errors.email}</Text>}
+        </FormControl>
+        <FormControl id="password" mb={6}>
+          <FormLabel display="flex" gap="3px">
+            Password <Text textColor="red">*</Text>
+          </FormLabel>
+          <Input
+            type="password"
+            value={loginData?.password}
+            onChange={(e) =>
+              setLoginData({ ...loginData, password: e.target.value })
+            }
+            required
+          />
+          {errors.password && <Text color="red.500">{errors.password}</Text>}
+        </FormControl>
+        <Button
+          colorScheme="cyan"
+          color="white"
+          width="full"
+          isLoading={loading}
+          onClick={handleSubmit}
         >
-          Sign up
-        </Text>
-      </Text>
-      <Text
-        cursor={"pointer"}
-        as="b"
-        p={1}
-        display={"flex"}
-        justifyContent={"center"}
-      >
-        Forgotten your password ?{" "}
+          Login
+        </Button >
+        <Flex w="100%" justifyContent="center" marginTop="20px">
+          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+        </Flex>
         <Text
-          color="#0bc5ea"
+          cursor="pointer"
           as="b"
-          marginLeft={1}
-          onClick={() => router.push("/forgetpassword")}
+          p={4}
+          display="flex"
+          justifyContent="center"
         >
-          Forgot Password
+          Don't have an Account?
+          < Text
+            color="#0bc5ea"
+            as="b"
+            marginLeft={1}
+            onClick={() => router.push("/signUp")}
+          >
+            Sign up
+          </Text >
+        </Text >
+        <Text
+          cursor={"pointer"}
+          as="b"
+          p={1}
+          display={"flex"}
+          justifyContent={"center"}
+        >
+          Forgotten Your Password ?{" "}
+          <Text
+            color="#0bc5ea"
+            as="b"
+            marginLeft={1}
+            onClick={() => router.push("/forgetpassword")}
+          >
+            Forgot Password
+          </Text>
         </Text>
-      </Text>
-    </Box>
+      </Box >
+    </>
   );
 };
 

@@ -62,6 +62,7 @@ export default function Otp() {
       if (response.status === 200) {
         toast.success(response?.data?.message);
         setLocalStorageItem("uniqueCode", response?.data?.uniqueCode);
+        console.log("ENTERRRRHERREE")
         router.push("/resetPassword");
       }
     } catch (error: any) {

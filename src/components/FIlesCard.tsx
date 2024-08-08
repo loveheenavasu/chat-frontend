@@ -1,9 +1,4 @@
 "use client";
-import axiosInstance from "@/utils/axiosInstance";
-import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
-import { DeleteIcon } from "@chakra-ui/icons";
-import { FileUploader } from "react-drag-drop-files";
-
 import {
   Box,
   Button,
@@ -19,7 +14,11 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-
+import axiosInstance from "@/utils/axiosInstance";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { FileUploader } from "react-drag-drop-files";
+import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
+import { BiImageAdd } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -41,8 +40,7 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
     try {
       setIsLoading(true);
       const response = await axiosInstance.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${
-          documentId ? `?documentId=${documentId}` : ""
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${documentId ? `?documentId=${documentId}` : ""
         }`
       );
       setData(response?.data?.data);
@@ -78,6 +76,7 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
         return;
       }
       setIsFileUpload(true);
+      const id = getLocalStorageItem("documentId");
       const formData = new FormData();
       formData.append("file", file as any);
       formData.append("documentId", documentId as any);
@@ -123,12 +122,16 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
           <CardBody pt={"0px !important"} width={"100%"}>
             <Flex alignItems={"center"} justifyContent={"center"}>
               <Box className="file-uploader-class">
-                <FileUploader
-                  handleChange={handleUpload}
-                  name="file"
-                  types={fileTypes}
-                  onDrop={handleUpload}
-                />
+                <FileUploader handleChange={handleUpload} name="file"
+                  children={
+                    <Box border={'2px dotted blue'} borderRadius={'7px'} width='100%' display={'flex'} justifyContent={'center'} alignItems={'center'} p={'2'} >
+                      <BiImageAdd size={'40px'} color="blue" />
+                      <Box fontSize={'13px'}>
+                        Upload or drag a file right here Supported extensions next line<br />
+                        {fileTypes.join(", ")}
+                      </Box>
+                    </Box>}
+                  types={fileTypes} onDrop={handleUpload} />
               </Box>
             </Flex>
           </CardBody>
@@ -219,7 +222,7 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
                       ))}
                     </>
                   ) : (
-                    <Text textAlign="center">no data found!</Text>
+                    <Text textAlign="center">{!file.name ? "no data found!" : ""}</Text>
                   )}
                 </>
               )}

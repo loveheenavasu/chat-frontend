@@ -38,7 +38,7 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
       const documentId = localStorage.getItem("documentId");
       try {
         const response = await axiosInstance.get(
-          `/user/chat-history?documentId=${documentId ? `${documentId}` : ""}`
+          `/user/chat-history?documentId=${documentId ? `${documentId}` : null}`
         );
         setChatMessages(
           response.data?.data?.messages || response.data?.data || []
