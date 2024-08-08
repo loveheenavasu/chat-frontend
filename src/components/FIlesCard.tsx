@@ -135,8 +135,9 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
                       justifyContent={"center"}
                       alignItems={"center"}
                       p={"2"}
+                      cursor="pointer"
                     >
-                      <BiImageAdd size={"40px"} color="blue" cursor="pointer" />
+                      <BiImageAdd size={"40px"} color="blue" />
                       <Box fontSize={"13px"}>
                         Upload or drag a file right here Supported extensions
                         next line
