@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Header from "@/components/common/Header";
-import ChatBoxList from "@/components/ChatBoxList";
+import ChatBoxList from "@/components/chat/ChatBoxList";
 import axiosInstance from "@/utils/axiosInstance";
 import {
   Box,
@@ -44,7 +44,6 @@ export default function Home() {
   return (
     <>
       <Header />
-
       <Box width="70%" margin="auto">
         <Flex
           display={"flex"}

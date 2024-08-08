@@ -58,7 +58,7 @@ export default function Resetpassword() {
     }
 
     setErrors(errors);
-    console.log(formIsValid, "VALIDDD")
+    console.log(formIsValid, "VALIDDD");
     return formIsValid;
   };
   const handleSubmit = async (e: any) => {
@@ -67,13 +67,6 @@ export default function Resetpassword() {
     if (validate()) {
       try {
         setLoading(true);
-        // if (formData.password !== formData.confirmPassword) {
-        //   return toast.error("please enter the same password");
-        // }
-        // if (formData.password.length < 4) {
-        //   return toast.error("your password is too small ");
-        // }
-        // setLoading(true);
         const response = await axiosInstance.post("user/reset", {
           uniqueCode,
           password: formData.password,
@@ -86,12 +79,11 @@ export default function Resetpassword() {
           setLoading(false);
         }
       } catch (error: any) {
-        // setErrors({ ...errors, form: error.response.data.errorMessage });
         toast.error(error.response.data.message);
         setLoading(false);
       }
     } else {
-      console.log('ERROR paras')
+      console.log("ERROR paras");
     }
   };
 
@@ -146,23 +138,6 @@ export default function Resetpassword() {
       >
         Confirm
       </Button>
-      {/* <Text
-        cursor={"pointer"}
-        as="b"
-        p={4}
-        display={"flex"}
-        justifyContent={"center"}
-      >
-        Don't have an Account?{" "}
-        <Text
-          color="#0bc5ea"
-          as="b"
-          marginLeft={1}
-          onClick={() => router.push("/login")}
-        >
-          Login{" "}
-        </Text>
-      </Text> */}
     </Box>
   );
 }

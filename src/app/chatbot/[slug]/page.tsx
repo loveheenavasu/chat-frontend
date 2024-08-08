@@ -1,7 +1,7 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
-import ChatContainer from "@/components/ChatContainer";
-import ChatFooter from "@/components/ChatFooter";
+import ChatContainer from "@/components/chat/ChatContainer";
+import ChatFooter from "@/components/chat/ChatFooter";
 import Header from "@/components/common/Header";
 import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
@@ -61,7 +61,6 @@ const page = ({ params }: any) => {
     e.preventDefault();
     SOCKET.emit("search", {
       text: message,
-      // connectId: chatId || SOCKET.id,
       documentId: id,
       ...(chatSessionId && { chatSessionId }),
     });

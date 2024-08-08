@@ -33,7 +33,6 @@ export default function Otp() {
         }
       );
       if (response.status === 200) {
-        // setLocalStorageItem("authToken", verifyOtpToken);
         setLoading(false);
         toast.success(response.data.message);
         router.push("/");
@@ -62,7 +61,7 @@ export default function Otp() {
       if (response.status === 200) {
         toast.success(response?.data?.message);
         setLocalStorageItem("uniqueCode", response?.data?.uniqueCode);
-        console.log("ENTERRRRHERREE")
+        console.log("ENTERRRRHERREE");
         router.push("/resetPassword");
       }
     } catch (error: any) {

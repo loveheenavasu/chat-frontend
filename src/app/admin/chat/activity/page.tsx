@@ -1,5 +1,4 @@
 import Activity from "@/components/Activity";
-import FIlesCard from "@/components/FIlesCard";
 import Layout from "@/components/layout/Layout";
 import { Box, Flex } from "@chakra-ui/react";
 

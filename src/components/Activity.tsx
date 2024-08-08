@@ -1,6 +1,6 @@
 "use client";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import ChatBase from "./ChatBase";
+import ChatBase from "./chat/ChatBase";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/common/Header";
-import AdminSideBar from "@/components/AdminSideBar";
+import AdminSideBar from "@/components/admin/AdminSideBar";
 import SourceCard from "@/components/SourceCard";
 import { Box, Flex } from "@chakra-ui/react";
 import { IoMdArrowBack } from "react-icons/io";
