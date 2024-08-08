@@ -8,7 +8,7 @@ import Resetpassword from "@/components/Resetpassword";
 const Reset = () => {
   return (
     <>
-      <Flex>
+      <Flex w="100%" h="100vh">
         <Flex
           padding="20px"
           justifyContent="center"
