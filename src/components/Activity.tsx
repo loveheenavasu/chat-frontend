@@ -1,7 +1,7 @@
 "use client";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import ChatBase from "./chat/ChatBase";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 
 interface Message {
@@ -27,14 +27,11 @@ const formatTime = (timestamp: number) => {
   return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 };
 
-const Activity: React.FC<ChatContainerProps> = ({
-  initialChatMessages,
-  loading,
-}) => {
+const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
   const [chatMessages, setChatMessages] =
     useState<ChatMessage[]>(initialChatMessages);
   const [userMessages, setUserMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(loading);
+  const [isLoading, setIsLoading] = useState(loading);
 
   useEffect(() => {
     const fetchChatRecords = async () => {

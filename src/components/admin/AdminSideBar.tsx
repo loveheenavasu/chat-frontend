@@ -9,7 +9,7 @@ interface AdminSidebarProps {
   setActiveButton?: any;
   activeButton?: string;
 }
-const AdminSideBar:React.FC = ({ setActiveButton, activeButton }: AdminSidebarProps) => {
+const AdminSideBar = ({ setActiveButton, activeButton }: AdminSidebarProps) => {
   const router = useRouter();
   const sourceType = [
     {

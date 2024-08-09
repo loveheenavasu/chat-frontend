@@ -7,9 +7,9 @@ import OtpInput from "react-otp-input";
 import { toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
 
-const Otp: React.FC = () => {
-  const [otp, setOtp] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+export default function Otp() {
+  const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
@@ -125,6 +125,4 @@ const Otp: React.FC = () => {
       </Text>
     </>
   );
-};
-
-export default Otp
+}

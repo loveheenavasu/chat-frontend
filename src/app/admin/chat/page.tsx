@@ -5,9 +5,9 @@ import React, { useState } from "react";
 import Layout from "@/components/layout/Layout";
 
 const page = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [inputData, setInputData] = useState<string>("");
-  const [increaseCounter, setIncreaseCounter] = useState<number>(0);
+  const [increaseCounter, setIncreaseCounter] = useState(0);
   if (loading) {
     return;
   }

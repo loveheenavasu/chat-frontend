@@ -8,33 +8,25 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { setLocalStorageItem } from "@/utils/localStorage";
-
-interface FormData {
-  email: string;
-}
-
-const ForgetPasswordCard: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+export default function ForgetPasswordCard() {
+  const [formData, setFormData] = useState({
     email: "",
   });
-
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: any) => {
     const { id, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
   };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: any) => {
     try {
       e.preventDefault();
       if (!formData.email) {
@@ -105,6 +97,4 @@ const ForgetPasswordCard: React.FC = () => {
       </Text>
     </Box>
   );
-};
-
-export default ForgetPasswordCard;
+}

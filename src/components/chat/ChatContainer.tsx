@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
-import MessageBoxAdmin, { Role } from "./MessageBoxAdmin";
+import MessageBoxAdmin, { Role } from "../MessageBoxAdmin";
 
 interface chatMessage {
   chatID?: number | null;
@@ -13,10 +13,7 @@ interface ChatContainerProps {
   loading: boolean;
 }
 
-const ChatContainer: React.FC<ChatContainerProps> = ({
-  chatMessage,
-  loading,
-}) => {
+const ChatContainer = ({ chatMessage, loading }: ChatContainerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,7 +21,6 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   }, [chatMessage]);
-
   return (
     <Flex
       ref={containerRef}
@@ -32,7 +28,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
       direction="column"
       bg="#e9e9ff"
       overflowY="auto"
-      h={loading ? "70vh" : "82vh"}
+      h={loading ? "70vh" : "80vh"}
     >
       {chatMessage?.map((ele, id) => {
         return (
