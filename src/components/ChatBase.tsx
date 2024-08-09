@@ -1,4 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
+import CardContainer from "./cardContainer/CardContainer";
 
 interface Message {
   _id: string;
@@ -16,7 +17,11 @@ const ChatBase = ({ userMessages, loading }: ChatBaseProps) => {
   return (
     <Box width='100%'>
       {/* <Text color='black' fontSize='16px' fontWeight='600' pb='10px'>Source: Chatbase site</Text> */}
-      <Box border='1px solid #e2e8f0' borderRadius='10px' p='5px' boxShadow='sm'>
+      <CardContainer
+        border={'1px solid #e2e8f0'}
+        boxShadow={'sm'}
+        borderRadius="10px"
+      >
         <Box
           style={loading ? { height: "70vh" } : {}}
           height='500px'
@@ -52,9 +57,8 @@ const ChatBase = ({ userMessages, loading }: ChatBaseProps) => {
             )
           )}
         </Box>
-      </Box>
-    </Box>
+      </CardContainer >
+    </Box >
   );
 };
-
 export default ChatBase;

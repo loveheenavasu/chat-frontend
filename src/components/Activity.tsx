@@ -3,6 +3,7 @@ import { Box, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
 import ChatBase from "./ChatBase";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
+import CardContainer from "@/components/cardContainer/CardContainer";
 
 interface Message {
   _id: string;
@@ -72,8 +73,15 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
   };
 
   return (
-    <Box>
-      <Box border="1px solid #e2e8f0" borderRadius="10px" p="20px" w="100%" boxShadow={'sm'} height={'600px'}>
+    <Box >
+      <CardContainer
+        width={'100%'}
+        height="600px"
+        border={'1px solid #e2e8f0'}
+        boxShadow={'sm'}
+        padding={'20px'}
+        borderRadius={'10px'}
+        as={false}>
         <Box paddingBottom="20px">
           <Heading fontSize="20px">Chats Logs</Heading>
         </Box>
@@ -95,15 +103,16 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
               <Box w={"70%"}>
                 <Flex flexDirection={"column"} gap={"10px"}>
                   {chatMessages?.map((ele, id) => (
-                    <Box
-                      key={id}
-                      p="15px 20px"
-                      border="1px solid #e2e8f0"
-                      borderRadius="10px"
-                      background="#F4F4F5"
-                      style={{ cursor: "pointer" }}
+                    <CardContainer
+                      border={'1px solid #e2e8f0'}
+                      boxShadow={'sm'}
+                      borderRadius={'10px'}
+                      background={'#F4F4F5'}
+                      padding={"15px 20px"}
+                      as={false}
+                      cursor={'pointer'}
                     >
-                      {ele.message.map((msg, index) => (
+                      {ele.message.map((msg) => (
                         <Box
                           key={msg._id}
                           onClick={() => handleChatBase(msg?.sessionId)}
@@ -136,7 +145,7 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
                             : null}
                         </Text>
                       ))}
-                    </Box>
+                    </CardContainer>
                   ))}
 
                 </Flex>
@@ -145,7 +154,7 @@ const Activity = ({ initialChatMessages, loading }: ChatContainerProps) => {
             </Flex>
           )}
         </Box>
-      </Box>
+      </CardContainer>
     </Box>
   );
 };

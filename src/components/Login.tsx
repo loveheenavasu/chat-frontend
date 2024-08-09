@@ -20,6 +20,7 @@ import Cookies from "js-cookie";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
+import CardContainer from "@/components/cardContainer/CardContainer";
 
 type LoginData = {
   email: string;
@@ -45,7 +46,7 @@ interface CustomJwtPayload extends JwtPayload {
   picture: string;
 }
 
-const LoginCard = () => {
+const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -156,12 +157,15 @@ const LoginCard = () => {
   return (
     <>
       <Text textColor={'white'} p={'20px'} as="b" fontSize={36}>Login</Text>
-      <Box
-        w="80%"
-        padding="20px"
-        boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
-        borderRadius="8px"
-        bg="white"
+
+      <CardContainer
+        width="80%"
+        padding={"20px"}
+        boxShadow={"sm"}
+        border={'none'}
+        background={""}
+        borderRadius={'8px'}
+        as={true}
       >
         <FormControl id="username" mb={4} onSubmit={handleSubmit}>
           <FormLabel display="flex" gap="3px">
@@ -239,9 +243,9 @@ const LoginCard = () => {
             Forgot Password
           </Text>
         </Text>
-      </Box >
+      </CardContainer>
     </>
   );
 };
 
-export default LoginCard;
+export default Login;

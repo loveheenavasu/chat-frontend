@@ -1,12 +1,12 @@
 "use client";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import LoginCard from "@/components/LoginCard";
+import Login from "@/components/Login";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getLocalStorageItem } from "@/utils/localStorage";
 
-const Login = () => {
+const Page = () => {
   const router = useRouter();
   const authToken = getLocalStorageItem("authToken");
   useEffect(() => {
@@ -26,7 +26,7 @@ const Login = () => {
           w="50%"
           direction="column"
         >
-          <LoginCard />
+          <Login />
         </Flex>
         <Box w="50%">
           <Box position="relative" w="100%" h="100%" bg="black">
@@ -43,4 +43,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Page;

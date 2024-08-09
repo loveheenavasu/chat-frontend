@@ -17,6 +17,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
+import CardContainer from "./cardContainer/CardContainer";
 
 const AdminTextSpace = ({
   inputData,
@@ -114,8 +115,13 @@ const AdminTextSpace = ({
           </Flex>
         </Box>
       ) : (
-        <Card width='100%' padding='20px' textAlign='start' border='1px solid #e2e8f0'
+        <CardContainer
+          width="100%"
+          border={'1px solid #e2e8f0'}
           boxShadow={'sm'}
+          borderRadius={'10px'}
+          padding="20px"
+          as={false}
         >
           <Flex flexDirection={'column'} alignItems={'center'}>
             <CardHeader>
@@ -123,7 +129,14 @@ const AdminTextSpace = ({
                 Text
               </Heading>
             </CardHeader>
-            <CardBody pt={"0px !important"} width={"100%"}>
+            <CardContainer
+              width="100%"
+              border={'none'}
+              boxShadow={'none'}
+              background={""}
+              borderRadius={'none'}
+              padding={'15px 20px'}
+            >
               <Box>
                 <Textarea
                   placeholder="Enter Text"
@@ -132,7 +145,7 @@ const AdminTextSpace = ({
                   value={inputData}
                 />
               </Box>
-            </CardBody>
+            </CardContainer>
             <CardFooter>
               <Box>
                 <Flex justifyContent={'center'} alignItems={'center'} flexDirection={'column'} gap={'20px'}>
@@ -151,9 +164,9 @@ const AdminTextSpace = ({
               </Box>
             </CardFooter>
           </Flex>
-        </Card>
+        </CardContainer >
       )}
-    </Box>
+    </Box >
   );
 };
 
