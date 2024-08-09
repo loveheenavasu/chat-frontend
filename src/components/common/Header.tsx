@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { removeLocalStorageItem } from "@/utils/localStorage";
 
-const Header = () => {
+const Header: React.FC = () => {
   const router = useRouter();
   const handleLogout = async () => {
     try {

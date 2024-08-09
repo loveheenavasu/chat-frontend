@@ -24,8 +24,7 @@ type SignupFormInputs = {
   password: string;
   confirmPassword: string;
 };
-
-export default function Signup() {
+const Signup: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -33,7 +32,7 @@ export default function Signup() {
     formState: { errors },
   } = useForm<SignupFormInputs>();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const onSubmit: SubmitHandler<SignupFormInputs> = async (formData) => {
@@ -75,7 +74,9 @@ export default function Signup() {
 
   return (
     <>
-      <Heading textColor={'white'} p={'20px'} fontFamily={'serif'}>Signup</Heading>
+      <Heading textColor={"white"} p={"20px"} fontFamily={"serif"}>
+        Signup
+      </Heading>
       <Box
         w="80%"
         margin="auto"
@@ -86,7 +87,9 @@ export default function Signup() {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl id="firstName" mb={4}>
-            <FormLabel display={'flex'} gap={'3px'}>First Name <Text textColor="red">*</Text></FormLabel>
+            <FormLabel display={"flex"} gap={"3px"}>
+              First Name <Text textColor="red">*</Text>
+            </FormLabel>
             <Input
               type="text"
               {...register("firstName", { required: "First name is required" })}
@@ -100,15 +103,21 @@ export default function Signup() {
             <Input type="text" {...register("lastName")} />
           </FormControl>
           <FormControl id="email" mb={4}>
-            <FormLabel display={'flex'} gap={'3px'}>Email<Text textColor="red">*</Text></FormLabel>
+            <FormLabel display={"flex"} gap={"3px"}>
+              Email<Text textColor="red">*</Text>
+            </FormLabel>
             <Input
               type="email"
               {...register("email", { required: "Email is required" })}
             />
-            {errors.email && <Text color="red.500">{errors.email.message}</Text>}
+            {errors.email && (
+              <Text color="red.500">{errors.email.message}</Text>
+            )}
           </FormControl>
           <FormControl id="password" mb={6}>
-            <FormLabel display={'flex'} gap={'3px'}>Password<Text textColor="red">*</Text></FormLabel>
+            <FormLabel display={"flex"} gap={"3px"}>
+              Password<Text textColor="red">*</Text>
+            </FormLabel>
             <Input
               type="password"
               {...register("password", {
@@ -124,7 +133,9 @@ export default function Signup() {
             )}
           </FormControl>
           <FormControl id="confirmPassword" mb={6}>
-            <FormLabel display={'flex'} gap={'3px'}>Confirm Password <Text textColor="red">*</Text></FormLabel>
+            <FormLabel display={"flex"} gap={"3px"}>
+              Confirm Password <Text textColor="red">*</Text>
+            </FormLabel>
             <Input
               type="password"
               {...register("confirmPassword", {
@@ -166,4 +177,6 @@ export default function Signup() {
       </Box>
     </>
   );
-}
+};
+
+export default Signup;

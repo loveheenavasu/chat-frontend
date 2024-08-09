@@ -1,24 +1,26 @@
 "use client";
 import { Flex, Input } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { VscSend } from "react-icons/vsc";
 
 interface ChatFooterProps {
-  setMessage?: any;
+  setMessage?: string;
   message?: string;
   handleSend?: (e: React.FormEvent | React.MouseEvent, message: string) => void;
 }
-const ChatFooter = ({ handleSend }: ChatFooterProps) => {
+const ChatFooter: React.FC<ChatFooterProps> = ({ handleSend }) => {
   const [message, setMessage] = useState<string>("");
 
-  const sendMessage = (e: any) => {
+  const sendMessage = (e: FormEvent) => {
     e.preventDefault();
     handleSend?.(e, message);
     setMessage("");
   };
+
   return (
     <form style={{ width: "100%" }} onSubmit={sendMessage}>
       <Flex
+        bottom="0"
         color="white"
         w="100%"
         bg="#575782"
