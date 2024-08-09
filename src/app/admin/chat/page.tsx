@@ -6,7 +6,7 @@ import Layout from "@/components/layout/Layout";
 
 const page = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [inputData, setInputData] = useState<string>("");
+  const [inputData, setInputData] = useState("");
   const [increaseCounter, setIncreaseCounter] = useState<number>(0);
   if (loading) {
     return;

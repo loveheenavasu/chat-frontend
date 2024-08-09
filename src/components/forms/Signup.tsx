@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { setLocalStorageItem } from "@/utils/localStorage";
+import CardContainer from "@/components/cardContainer/CardContainer";
 
 type SignupFormInputs = {
   firstName: string;
@@ -74,107 +75,120 @@ const Signup: React.FC = () => {
 
   return (
     <>
-      <Heading textColor={"white"} p={"20px"} fontFamily={"serif"}>
-        Signup
-      </Heading>
-      <Box
-        w="80%"
-        margin="auto"
-        padding="20px"
-        boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
-        borderRadius="8px"
-        bg="white"
+      <Text textColor={"white"} p={"20px"} as="b" fontSize={36}>
+        SignUp
+      </Text>
+      <CardContainer
+        width="80%"
+        padding={"20px"}
+        boxShadow={"sm"}
+        border={"none"}
+        borderRadius={"8px"}
+        as={false}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl id="firstName" mb={4}>
-            <FormLabel display={"flex"} gap={"3px"}>
-              First Name <Text textColor="red">*</Text>
-            </FormLabel>
-            <Input
-              type="text"
-              {...register("firstName", { required: "First name is required" })}
-            />
-            {errors.firstName && (
-              <Text color="red.500">{errors.firstName.message}</Text>
-            )}
-          </FormControl>
-          <FormControl id="lastName" mb={4}>
-            <FormLabel>Last Name</FormLabel>
-            <Input type="text" {...register("lastName")} />
-          </FormControl>
-          <FormControl id="email" mb={4}>
-            <FormLabel display={"flex"} gap={"3px"}>
-              Email<Text textColor="red">*</Text>
-            </FormLabel>
-            <Input
-              type="email"
-              {...register("email", { required: "Email is required" })}
-            />
-            {errors.email && (
-              <Text color="red.500">{errors.email.message}</Text>
-            )}
-          </FormControl>
-          <FormControl id="password" mb={6}>
-            <FormLabel display={"flex"} gap={"3px"}>
-              Password<Text textColor="red">*</Text>
-            </FormLabel>
-            <Input
-              type="password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters",
-                },
-              })}
-            />
-            {errors.password && (
-              <Text color="red.500">{errors.password.message}</Text>
-            )}
-          </FormControl>
-          <FormControl id="confirmPassword" mb={6}>
-            <FormLabel display={"flex"} gap={"3px"}>
-              Confirm Password <Text textColor="red">*</Text>
-            </FormLabel>
-            <Input
-              type="password"
-              {...register("confirmPassword", {
-                required: "Please confirm your password",
-              })}
-            />
-            {errors.confirmPassword && (
-              <Text color="red.500">{errors.confirmPassword.message}</Text>
-            )}
-          </FormControl>
+        <>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl id="firstName" mb={4}>
+              <FormLabel display={"flex"} gap={"3px"}>
+                First Name <Text textColor="red">*</Text>
+              </FormLabel>
+              <Input
+                type="text"
+                {...register("firstName", {
+                  required: "First name is required",
+                })}
+                placeholder="enter your first name"
+                textColor="black"
+              />
+              {errors.firstName && (
+                <Text color="red.500">{errors.firstName.message}</Text>
+              )}
+            </FormControl>
+            <FormControl id="lastName" mb={4}>
+              <FormLabel>Last Name</FormLabel>
+              <Input
+                type="text"
+                {...register("lastName")}
+                placeholder="enter your last name"
+              />
+            </FormControl>
+            <FormControl id="email" mb={4}>
+              <FormLabel display={"flex"} gap={"3px"}>
+                Email<Text textColor="red">*</Text>
+              </FormLabel>
+              <Input
+                type="email"
+                {...register("email", { required: "Email is required" })}
+                placeholder="enter your email"
+              />
+              {errors.email && (
+                <Text color="red.500">{errors.email.message}</Text>
+              )}
+            </FormControl>
+            <FormControl id="password" mb={6}>
+              <FormLabel display={"flex"} gap={"3px"}>
+                Password<Text textColor="red">*</Text>
+              </FormLabel>
+              <Input
+                type="password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be at least 8 characters",
+                  },
+                })}
+                placeholder="enter your password"
+              />
+              {errors.password && (
+                <Text color="red.500">{errors.password.message}</Text>
+              )}
+            </FormControl>
+            <FormControl id="confirmPassword" mb={6}>
+              <FormLabel display={"flex"} gap={"3px"}>
+                Confirm Password <Text textColor="red">*</Text>
+              </FormLabel>
+              <Input
+                type="password"
+                {...register("confirmPassword", {
+                  required: "Please confirm your password",
+                })}
+                placeholder="confirm your password"
+              />
+              {errors.confirmPassword && (
+                <Text color="red.500">{errors.confirmPassword.message}</Text>
+              )}
+            </FormControl>
 
-          <Button
-            colorScheme="cyan"
-            color={"white"}
-            width="full"
-            type="submit"
-            isLoading={loading}
-          >
-            Send OTP
-          </Button>
-          <Text
-            cursor={"pointer"}
-            as="b"
-            p={4}
-            display={"flex"}
-            justifyContent={"center"}
-          >
-            Already have an account?{" "}
-            <Text
-              color="#0bc5ea"
-              as="b"
-              marginLeft={1}
-              onClick={() => router.push("/login")}
+            <Button
+              colorScheme="cyan"
+              color={"white"}
+              width="full"
+              type="submit"
+              isLoading={loading}
             >
-              Login
+              Send OTP
+            </Button>
+            <Text
+              cursor={"pointer"}
+              as="b"
+              p={4}
+              display={"flex"}
+              justifyContent={"center"}
+            >
+              Already have an account?{" "}
+              <Text
+                color="#0bc5ea"
+                as="b"
+                marginLeft={1}
+                onClick={() => router.push("/login")}
+              >
+                Login
+              </Text>
             </Text>
-          </Text>
-        </form>
-      </Box>
+          </form>
+        </>
+      </CardContainer>
     </>
   );
 };

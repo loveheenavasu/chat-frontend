@@ -32,7 +32,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
       direction="column"
       bg="#e9e9ff"
       overflowY="auto"
-      h={loading ? "70vh" : "82vh"}
+      h={loading ? "73vh" : "82vh"}
     >
       {chatMessage?.map((ele, id) => {
         return (
