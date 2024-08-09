@@ -18,7 +18,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 
-const AdminTextSpace: React.FC = ({
+const AdminTextSpace = ({
   inputData,
   setInputData,
   logoutLoading,
