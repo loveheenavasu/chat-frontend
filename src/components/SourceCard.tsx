@@ -19,8 +19,8 @@ import { getLocalStorageItem, getOriginUrl } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
 
 const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [generatedLink, setGeneratedLink] = useState("");
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [generatedLink, setGeneratedLink] = useState<string>("");
   const router = useRouter();
   const documentID = getLocalStorageItem("documentId");
   const authToken = getLocalStorageItem("authToken");
