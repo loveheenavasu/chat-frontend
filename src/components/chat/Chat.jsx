@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-const Chat: React.FC = () => {
+const Chat = () => {
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState < string > "";
+  const [input, setInput] = useState("");
 
   const sendMessage = () => {
     if (input.trim()) {
