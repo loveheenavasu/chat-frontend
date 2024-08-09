@@ -20,9 +20,9 @@ import {
 import { useRouter } from "next/navigation";
 import { removeParticularItemFromLocalStorage } from "@/utils/localStorage";
 
-export default function Home() {
+const Home: React.FC = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const router = useRouter();
   const fetchData = async () => {
@@ -116,4 +116,6 @@ export default function Home() {
       </Box>
     </>
   );
-}
+};
+
+export default Home;
