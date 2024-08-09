@@ -3,7 +3,7 @@
 import { useState } from "react";
 const Chat = () => {
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState("");
 
   const sendMessage = () => {
     if (input.trim()) {

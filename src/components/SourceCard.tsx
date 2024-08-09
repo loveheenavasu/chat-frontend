@@ -14,7 +14,7 @@ import { IconButton } from "@chakra-ui/react";
 import { Flex } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getLocalStorageItem, getOriginUrl } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
 

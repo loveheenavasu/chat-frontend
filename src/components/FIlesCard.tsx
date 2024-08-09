@@ -19,39 +19,24 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { FileUploader } from "react-drag-drop-files";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 import { BiImageAdd } from "react-icons/bi";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-interface FilesCardProps {
-  setIncreaseCounter: Dispatch<SetStateAction<number>>;
-}
-
-interface FileData {
-  name: string;
-}
-
-interface DocumentData {
-  _id: string;
-  documentId: string;
-  docNo: number;
-  fileName: string;
-}
-
-const FIlesCard: React.FC<FilesCardProps> = ({ setIncreaseCounter }) => {
-  const [file, setFile] = useState<FileData | null>(null);
-  const [data, setData] = useState<DocumentData[] | null>(null);
-  const [loading, setIsLoading] = useState<boolean>(false);
-  const [deleteFileLoading, setDeleteFileLoading] = useState<string>("");
-  const [isFileUpload, setIsFileUpload] = useState<boolean>(false);
-  const [documentId, setDocumentId] = useState<string | null | undefined>(
+const FIlesCard = ({ setIncreaseCounter }: any) => {
+  const [file, setFile] = useState<any>({});
+  const [data, setData] = useState<any>(null);
+  const [loading, setIsLoading] = useState(false);
+  const [deleteFileLoading, setDeleteFileLoading] = useState("");
+  const [isFileUpload, setIsFileUpload] = useState(false);
+  const [documentId, setDocumentId] = useState(
     getLocalStorageItem("documentId")
   );
 
-  const handleUpload = (file: FileData) => {
+  const handleUpload = (file: any) => {
     setFile(file);
   };
 
-  const fetchData = async (documentId: string | null | undefined) => {
+  const fetchData = async (documentId: any) => {
     try {
       setIsLoading(true);
       const response = await axiosInstance.get(
@@ -59,7 +44,7 @@ const FIlesCard: React.FC<FilesCardProps> = ({ setIncreaseCounter }) => {
           documentId ? `?documentId=${documentId}` : ""
         }`
       );
-      setData(response.data?.data || []);
+      setData(response?.data?.data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -87,7 +72,7 @@ const FIlesCard: React.FC<FilesCardProps> = ({ setIncreaseCounter }) => {
 
   const handleUploadFile = async () => {
     try {
-      if (!file) {
+      if (!file.name) {
         toast.error("No file selected");
         return;
       }
@@ -105,12 +90,12 @@ const FIlesCard: React.FC<FilesCardProps> = ({ setIncreaseCounter }) => {
         const newDocumentId = response.data?.data.documentId;
         setLocalStorageItem("documentId", newDocumentId);
         toast.success(response?.data?.message);
-        setFile(null);
+        setFile({});
         setDocumentId(newDocumentId);
         fetchData(newDocumentId);
       }
       setIsFileUpload(false);
-      setIncreaseCounter((prev: number) => prev + 1);
+      setIncreaseCounter((prev: any) => prev + 1);
     } catch (err) {
       setIsFileUpload(false);
       console.error("Upload failed", err);
@@ -188,7 +173,7 @@ const FIlesCard: React.FC<FilesCardProps> = ({ setIncreaseCounter }) => {
 
           <CardFooter flexDirection={"column"} width={"100%"}>
             <Box>
-              {file?.name && (
+              {file.name && (
                 <>
                   <Text fontWeight={"bold"} textAlign={"center"}>
                     Attached Files
@@ -215,7 +200,7 @@ const FIlesCard: React.FC<FilesCardProps> = ({ setIncreaseCounter }) => {
                 </Box>
               ) : (
                 <>
-                  {data && data.length > 0 ? (
+                  {data?.length > 0 ? (
                     <>
                       <Text
                         fontWeight={"bold"}
@@ -225,7 +210,7 @@ const FIlesCard: React.FC<FilesCardProps> = ({ setIncreaseCounter }) => {
                         Already Selected File
                       </Text>
                       <Divider padding={2} />
-                      {data.map((item: DocumentData) => (
+                      {data.map((item: any) => (
                         <Flex
                           key={item._id}
                           width={"80%"}
@@ -241,10 +226,10 @@ const FIlesCard: React.FC<FilesCardProps> = ({ setIncreaseCounter }) => {
                           <ButtonGroup gap="2">
                             <Button
                               colorScheme="blue"
-                              isLoading={deleteFileLoading === item._id}
+                              isLoading={deleteFileLoading === item?._id}
                               onClick={() => {
-                                setDeleteFileLoading(item._id);
-                                handleDeleteFile(item.documentId, item.docNo);
+                                setDeleteFileLoading(item?._id);
+                                handleDeleteFile(item.documentId, item?.docNo);
                               }}
                             >
                               <DeleteIcon />
@@ -255,7 +240,7 @@ const FIlesCard: React.FC<FilesCardProps> = ({ setIncreaseCounter }) => {
                     </>
                   ) : (
                     <Text textAlign="center">
-                      {!file?.name ? "no data found!" : ""}
+                      {!file.name ? "no data found!" : ""}
                     </Text>
                   )}
                 </>

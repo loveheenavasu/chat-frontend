@@ -103,7 +103,7 @@ const AdminTextSpace = ({
     <Box>
       {screenLoading || logoutLoading ? (
         <Box>
-          <Flex justifyContent={"center"}>
+          <Flex justifyContent={'center'}>
             <Spinner
               thickness="4px"
               speed="0.65s"
@@ -114,14 +114,10 @@ const AdminTextSpace = ({
           </Flex>
         </Box>
       ) : (
-        <Card
-          width="100%"
-          padding="20px"
-          textAlign="start"
-          border="1px solid #e2e8f0"
-          boxShadow={"sm"}
+        <Card width='100%' padding='20px' textAlign='start' border='1px solid #e2e8f0'
+          boxShadow={'sm'}
         >
-          <Flex flexDirection={"column"} alignItems={"center"}>
+          <Flex flexDirection={'column'} alignItems={'center'}>
             <CardHeader>
               <Heading size="md" textAlign={"start"} pt={"0px!important"}>
                 Text
@@ -139,12 +135,7 @@ const AdminTextSpace = ({
             </CardBody>
             <CardFooter>
               <Box>
-                <Flex
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  flexDirection={"column"}
-                  gap={"20px"}
-                >
+                <Flex justifyContent={'center'} alignItems={'center'} flexDirection={'column'} gap={'20px'}>
                   <Text fontSize={12}>
                     {inputData ? inputData?.length : 0} characters
                   </Text>
