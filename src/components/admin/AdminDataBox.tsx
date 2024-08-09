@@ -11,9 +11,9 @@ interface ListingData {
   updatedAt: number;
 }
 
-const AdminDataBox = () => {
+const AdminDataBox: React.FC = () => {
   const [listingData, setListingData] = useState<ListingData[]>([]);
-  const [loading, setLoading] = useState<Boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const getListingData = async () => {
     const response = await axiosInstance.get(
