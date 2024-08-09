@@ -5,7 +5,11 @@ import React from "react";
 import { CiFileOn, CiTextAlignLeft } from "react-icons/ci";
 import { LuMessagesSquare } from "react-icons/lu";
 
-const AdminSideBar = ({ setActiveButton, activeButton }: any) => {
+interface AdminSidebarProps {
+  setActiveButton?: any;
+  activeButton?: string;
+}
+const AdminSideBar = ({ setActiveButton, activeButton }: AdminSidebarProps) => {
   const router = useRouter();
   const sourceType = [
     {
