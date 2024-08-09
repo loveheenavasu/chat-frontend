@@ -9,7 +9,7 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
@@ -18,19 +18,24 @@ import {
   removeLocalStorageItem,
 } from "@/utils/localStorage";
 
-export default function Resetpassword() {
-  const [formData, setFormData] = useState({
+interface ResetCredentials {
+  password: string;
+  confirmPassword: string;
+}
+
+const Resetpassword: React.FC = () => {
+  const [formData, setFormData] = useState<ResetCredentials>({
     password: "",
     confirmPassword: "",
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<ResetCredentials>({
     password: "",
     confirmPassword: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const uniqueCode = getLocalStorageItem("uniqueCode");
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -61,7 +66,7 @@ export default function Resetpassword() {
     console.log(formIsValid, "VALIDDD");
     return formIsValid;
   };
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (validate()) {
@@ -140,4 +145,6 @@ export default function Resetpassword() {
       </Button>
     </Box>
   );
-}
+};
+
+export default Resetpassword;

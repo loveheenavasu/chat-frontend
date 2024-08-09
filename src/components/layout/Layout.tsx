@@ -1,5 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import Header from "@/components/common/Header";
 import AdminSideBar from "@/components/admin/AdminSideBar";
 import SourceCard from "@/components/SourceCard";
@@ -7,6 +13,12 @@ import { Box, Flex } from "@chakra-ui/react";
 import { IoMdArrowBack } from "react-icons/io";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+// interface LayoutProps {
+//   increaseCounter: number;
+//   setIncreaseCounter: Dispatch<SetStateAction<number>>;
+//   children: ReactNode;
+// }
 
 const Layout = ({ inputData, increaseCounter, children }: any) => {
   const pathname = usePathname();

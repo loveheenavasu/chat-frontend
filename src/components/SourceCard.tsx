@@ -14,13 +14,17 @@ import { IconButton } from "@chakra-ui/react";
 import { Flex } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getLocalStorageItem, getOriginUrl } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
 
-const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [generatedLink, setGeneratedLink] = useState("");
+const SourceCard: React.FC = ({
+  inputData,
+  activeButton,
+  increaseCounter,
+}: any) => {
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [generatedLink, setGeneratedLink] = useState<string>("");
   const router = useRouter();
   const documentID = getLocalStorageItem("documentId");
   const authToken = getLocalStorageItem("authToken");

@@ -10,7 +10,7 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 import axios from "axios";
@@ -45,14 +45,19 @@ interface CustomJwtPayload extends JwtPayload {
   picture: string;
 }
 
-const LoginCard = () => {
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+const LoginCard: React.FC = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [loginData, setLoginData] = useState({
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loginData, setLoginData] = useState<LoginCredentials>({
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<LoginCredentials>({
     email: "",
     password: "",
   });
@@ -129,7 +134,7 @@ const LoginCard = () => {
     setErrors(errors);
     return formIsValid;
   };
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     if (validate()) {
       try {
         e.preventDefault();
@@ -137,14 +142,13 @@ const LoginCard = () => {
         const response = await axiosInstance.post("/user/login", loginData);
         if (response.status === 200) {
           Cookies.set("authToken", response?.data?.data?.accessToken);
-          console.log(response, 'dbuucxwr')
+          console.log(response, "dbuucxwr");
           setLocalStorageItem("authToken", response?.data?.data?.accessToken);
           toast.success(response.data?.message);
           setLoading(false);
           router.push("/");
           location.reload();
         }
-
       } catch (error: any) {
         toast.error(error.response?.data.message);
         // setErrors({ ...errors, form: error.response.data.errorMessage });
@@ -155,7 +159,9 @@ const LoginCard = () => {
 
   return (
     <>
-      <Heading textColor={'white'} p={'20px'} fontFamily={'serif'}>Login</Heading>
+      <Heading textColor={"white"} p={"20px"} fontFamily={"serif"}>
+        Login
+      </Heading>
       <Box
         w="80%"
         padding="20px"
@@ -199,7 +205,7 @@ const LoginCard = () => {
           onClick={handleSubmit}
         >
           Login
-        </Button >
+        </Button>
         <Flex w="100%" justifyContent="center" marginTop="20px">
           <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
         </Flex>
@@ -211,15 +217,15 @@ const LoginCard = () => {
           justifyContent="center"
         >
           Don't have an Account?
-          < Text
+          <Text
             color="#0bc5ea"
             as="b"
             marginLeft={1}
             onClick={() => router.push("/signUp")}
           >
             Sign up
-          </Text >
-        </Text >
+          </Text>
+        </Text>
         <Text
           cursor={"pointer"}
           as="b"
@@ -237,7 +243,7 @@ const LoginCard = () => {
             Forgot Password
           </Text>
         </Text>
-      </Box >
+      </Box>
     </>
   );
 };
