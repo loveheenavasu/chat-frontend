@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import AdminDataBox from "./AdminDataBox";
 
-const AdminBox = () => {
+const AdminBox:React.FC = () => {
   const [inputData, setInputData] = useState<string>("");
 
   const handleAdd = async () => {

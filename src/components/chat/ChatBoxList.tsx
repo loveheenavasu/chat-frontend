@@ -4,8 +4,14 @@ import { ViewIcon } from "@chakra-ui/icons";
 import { Button, Card, CardFooter, Flex, Image, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { DeleteChatbotPopUp } from "../admin/DeleteChatbotPopUp";
+import React from "react";
 
-export default function ChatBoxList({ item, refetch }: any) {
+interface ChatBoxListProps {
+  item: any;
+  refetch: () => void;
+}
+
+const ChatBoxList: React.FC<ChatBoxListProps> = ({ item, refetch }) => {
   const router = useRouter();
   const { textId } = item || {};
 
@@ -49,4 +55,6 @@ export default function ChatBoxList({ item, refetch }: any) {
       </CardFooter>
     </Card>
   );
-}
+};
+
+export default ChatBoxList;

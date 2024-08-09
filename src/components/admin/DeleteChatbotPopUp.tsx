@@ -14,9 +14,17 @@ import {
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-const DeleteChatbotPopUp = ({ refetch, item }: any) => {
+interface DeleteChatbotPopUpProps {
+  item: any;
+  refetch: () => void;
+}
+
+const DeleteChatbotPopUp: React.FC<DeleteChatbotPopUpProps> = ({
+  refetch,
+  item,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const handleDelete = async () => {
     try {
