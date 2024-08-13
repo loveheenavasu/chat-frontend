@@ -36,7 +36,7 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
   }, [increaseCounter]);
 
   return (
-    <Box>
+    <Box w="100%">
       <CardContainer
         boxShadow="sm"
         border="1px solid #e2e8f0"
@@ -58,7 +58,7 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
             </Button>
           )}
 
-          {activeButton === "Files" && (
+          {!inputData && activeButton === "Files" && documentID && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">{generatedLink}</Text>
@@ -79,7 +79,7 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
             </Flex>
           )}
 
-          {activeButton === "Text" && (
+          {activeButton === "Text" && documentID && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">{generatedLink}</Text>

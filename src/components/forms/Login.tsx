@@ -164,7 +164,7 @@ const Login = () => {
       </Text>
 
       <CardContainer
-        width="80%"
+        width="90%"
         padding={"20px"}
         boxShadow={"sm"}
         border={"none"}
@@ -217,7 +217,7 @@ const Login = () => {
         <Text
           cursor="pointer"
           as="b"
-          p={4}
+          p="2"
           display="flex"
           justifyContent="center"
         >
@@ -243,7 +243,7 @@ const Login = () => {
             color="#0bc5ea"
             as="b"
             marginLeft={1}
-            onClick={() => router.push("/forgetpassword")}
+            onClick={() => router.push("/forgetPassword")}
           >
             Forgot Password
           </Text>

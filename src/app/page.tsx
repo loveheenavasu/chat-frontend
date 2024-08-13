@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "@/components/common/Header";
-import ChatBoxList from "@/components/chat/ChatBoxList";
+import ChatBoxList from "@/components/admin/ListingAllChatbot";
 import axiosInstance from "@/utils/axiosInstance";
 import {
   Box,

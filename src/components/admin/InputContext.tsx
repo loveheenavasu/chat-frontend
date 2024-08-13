@@ -13,7 +13,7 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
@@ -29,7 +29,7 @@ const AdminTextSpace = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [screenLoading, setscreenLoading] = useState<boolean>(false);
 
-  const fetchData = async (documentId: any) => {
+  const fetchData = useCallback(async (documentId: any) => {
     try {
       setscreenLoading(true);
       const response = await axiosInstance.get(
@@ -40,17 +40,18 @@ const AdminTextSpace = ({
         setInputData(response?.data?.text);
         setIsEditId(response?.data?._id);
       }
-      setscreenLoading(false);
     } catch (error) {
+      console.log(error);
+    } finally {
       setscreenLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const documentId = getLocalStorageItem("documentId");
-
     fetchData(documentId);
   }, []);
+
   const handleAdd = async () => {
     if (!inputData || inputData.length < 250) {
       toast.error("Please enter the text with minimum 250 characters");
@@ -60,46 +61,46 @@ const AdminTextSpace = ({
 
     try {
       const documentId = getLocalStorageItem("documentId");
-      const response = await axiosInstance.post(`/user/text`, {
+      const { data } = await axiosInstance.post(`/user/text`, {
         text: inputData,
         ...(documentId && { documentId }),
       });
-      console.log(response);
 
-      if (response?.data) {
-        setLocalStorageItem("documentId", response?.data?.data?.documentId);
-        toast.success(response?.data?.messgage);
-        fetchData(response.data?.data?.documentId);
+      if (data) {
+        setLocalStorageItem("documentId", data?.data?.documentId);
+        toast.success(data?.messgage);
+        fetchData(data?.data?.documentId);
       }
-      setLoading(false);
       setIncreaseCounter((prev: number) => prev + 1);
     } catch (error) {
       console.error("Error adding data:", error);
+    } finally {
       setLoading(false);
     }
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = useCallback(async () => {
     if (!inputData) {
       toast.error("Please Enter the Text");
       return;
     }
     setLoading(true);
     try {
-      const response = await axiosInstance.patch(`/user/text`, {
+      const { data } = await axiosInstance.patch(`/user/text`, {
         text: inputData,
         _id: isEditId,
       });
-      if (response?.data) {
-        toast.success(response?.data?.message);
+      if (data) {
+        toast.success(data?.message);
         setIncreaseCounter((prev: any) => prev + 1);
       }
-      setLoading(false);
     } catch (error: any) {
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.data?.message);
+    } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
   return (
     <Box>
       {screenLoading || logoutLoading ? (

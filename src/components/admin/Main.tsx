@@ -1,26 +1,14 @@
 "use client";
-import React, {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import Header from "@/components/common/Header";
-import AdminSideBar from "@/components/admin/AdminSideBar";
-import SourceCard from "@/components/SourceCard";
+import AdminSideBar from "@/components/admin/SideBar";
+import SourceCard from "@/components/admin/SourceCard";
 import { Box, Flex } from "@chakra-ui/react";
 import { IoMdArrowBack } from "react-icons/io";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// interface LayoutProps {
-//   increaseCounter: number;
-//   setIncreaseCounter: Dispatch<SetStateAction<number>>;
-//   children: ReactNode;
-// }
-
-const Layout = ({ inputData, increaseCounter, children }: any) => {
+const Main = ({ inputData, increaseCounter, children }: any) => {
   const pathname = usePathname();
   const [activeButton, setActiveButton] = useState<string>("");
 
@@ -63,7 +51,7 @@ const Layout = ({ inputData, increaseCounter, children }: any) => {
           <Box width="55%" height="100vh">
             {children}
           </Box>
-          <Box padding="30px" width="30%" height="100vh">
+          <Box padding="30px" width="36%" height="100vh">
             <SourceCard
               inputData={inputData}
               increaseCounter={increaseCounter}
@@ -76,4 +64,4 @@ const Layout = ({ inputData, increaseCounter, children }: any) => {
   );
 };
 
-export default Layout;
+export default Main;
