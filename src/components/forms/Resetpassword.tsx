@@ -6,6 +6,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Text,
 } from "@chakra-ui/react";
@@ -17,14 +18,14 @@ import {
   getLocalStorageItem,
   removeLocalStorageItem,
 } from "@/utils/localStorage";
+import CardContainer from "@/components/cardContainer/CardContainer";
 
 interface ResetCredentials {
   password: string;
   confirmPassword: string;
 }
-
 const Resetpassword: React.FC = () => {
-  const [formData, setFormData] = useState<ResetCredentials>({
+  const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
   });
@@ -93,57 +94,67 @@ const Resetpassword: React.FC = () => {
   };
 
   return (
-    <Box
-      w="80%"
-      margin="auto"
-      padding="20px"
-      boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
-      borderRadius="8px"
-      bg="white"
-      as="form"
-      onSubmit={handleSubmit}
-    >
-      <Flex
-        w="100%"
-        justifyContent="center"
-        alignItems="center"
-        fontWeight={700}
-        fontSize="xl"
-        my="2"
+    <>
+      <Text textColor={"white"} p={"20px"} as="b" fontSize={36}>
+        Reset Your Password
+      </Text>
+      <CardContainer
+        width="80%"
+        padding={"20px"}
+        boxShadow={"sm"}
+        border={"none"}
+        background={""}
+        borderRadius={"8px"}
+        as={false}
       >
-        <Text>RESET PASSWORD</Text>
-      </Flex>
-      <FormControl id="password" mb={6}>
-        <FormLabel>New Password</FormLabel>
-        <Input
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        {errors.password && <Text color="red.500">{errors.password}</Text>}
-      </FormControl>
-      <FormControl id="confirmPassword" mb={6}>
-        <FormLabel>Confirm New Password</FormLabel>
-        <Input
-          type="password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-        {errors.confirmPassword && (
-          <Text color="red.500">{errors.confirmPassword}</Text>
-        )}
-      </FormControl>
+        <>
+          <form onSubmit={handleSubmit}>
+            <Flex
+              w="100%"
+              justifyContent="center"
+              alignItems="center"
+              fontWeight={700}
+              fontSize="xl"
+              my="2"
+            ></Flex>
+            <FormControl id="password" mb={6}>
+              <FormLabel>New Password</FormLabel>
+              <Input
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="enter your new password"
+              />
+              {errors.password && (
+                <Text color="red.500">{errors.password}</Text>
+              )}
+            </FormControl>
+            <FormControl id="confirmPassword" mb={6}>
+              <FormLabel>Confirm New Password</FormLabel>
+              <Input
+                type="password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="confirm your password"
+              />
+              {errors.confirmPassword && (
+                <Text color="red.500">{errors.confirmPassword}</Text>
+              )}
+            </FormControl>
 
-      <Button
-        colorScheme="cyan"
-        color={"white"}
-        width="full"
-        type="submit"
-        isLoading={loading}
-      >
-        Confirm
-      </Button>
-    </Box>
+            <Button
+              colorScheme="cyan"
+              color={"white"}
+              width="full"
+              type="submit"
+              isLoading={loading}
+            >
+              Confirm
+            </Button>
+          </form>
+        </>
+      </CardContainer>
+    </>
   );
 };
 

@@ -1,20 +1,16 @@
 "use client";
-import AdminTextSpace from "@/components/admin/AdminTextSpace";
+import AdminTextSpace from "@/components/admin/InputContext";
 import { Box, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
-import Layout from "@/components/layout/Layout";
+import Main from "@/components/admin/Main";
 
 const page = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [inputData, setInputData] = useState<string>("");
+  const [inputData, setInputData] = useState("");
   const [increaseCounter, setIncreaseCounter] = useState<number>(0);
-  if (loading) {
-    return;
-  }
 
   return (
     <>
-      <Layout inputData={inputData} increaseCounter={increaseCounter}>
+      <Main inputData={inputData} increaseCounter={increaseCounter}>
         <Flex justifyContent="center">
           <Box height="100vh" w="100%">
             <AdminTextSpace
@@ -24,7 +20,7 @@ const page = () => {
             />
           </Box>
         </Flex>
-      </Layout>
+      </Main>
     </>
   );
 };

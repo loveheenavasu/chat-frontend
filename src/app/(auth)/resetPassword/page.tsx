@@ -1,23 +1,13 @@
 "use client";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import LoginCard from "@/components/forms/LoginCard";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { getLocalStorageItem } from "@/utils/localStorage";
+import Resetpassword from "@/components/forms/Resetpassword";
 
 const page = () => {
-  const router = useRouter();
-  const authToken = getLocalStorageItem("authToken");
-  useEffect(() => {
-    if (authToken) {
-      router.push("/");
-    }
-  }, [authToken]);
-
   return (
     <>
-      <Flex h="100vh">
+      <Flex w="100%" h="100vh">
         <Flex
           padding="20px"
           justifyContent="center"
@@ -26,7 +16,7 @@ const page = () => {
           w="50%"
           direction="column"
         >
-          <LoginCard />
+          <Resetpassword />
         </Flex>
         <Box w="50%">
           <Box position="relative" w="100%" h="100%" bg="black">

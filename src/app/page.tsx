@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Header from "@/components/common/Header";
-import ChatBoxList from "@/components/chat/ChatBoxList";
+import ChatBoxList from "@/components/admin/ListingAllChatbot";
 import axiosInstance from "@/utils/axiosInstance";
 import {
   Box,
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const router = useRouter();
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(`/user/chatbot`);
@@ -36,18 +36,23 @@ const Home: React.FC = () => {
     } catch (error) {
       setLoading(false);
     }
-  };
+  }, []);
+
   useEffect(() => {
     fetchData();
   }, []);
 
+  const handleCreateChatbot = () => {
+    removeParticularItemFromLocalStorage("documentId");
+    router.push("/admin/chat");
+  };
   return (
     <>
       <Header />
       <Box width="70%" margin="auto">
         <Flex
           display={"flex"}
-          justifyContent="start"
+          justifyContent="space-between"
           alignItems="center"
           width={"100%"}
           py="5"
@@ -57,13 +62,7 @@ const Home: React.FC = () => {
           </Text>
           <Spacer />
 
-          <Button
-            colorScheme="blue"
-            onClick={() => {
-              removeParticularItemFromLocalStorage("documentId");
-              router.push("/admin/chat");
-            }}
-          >
+          <Button colorScheme="blue" onClick={handleCreateChatbot}>
             Create Chatbot
           </Button>
         </Flex>

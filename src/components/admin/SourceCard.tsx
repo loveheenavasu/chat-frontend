@@ -13,16 +13,12 @@ import { CopyIcon } from "@chakra-ui/icons";
 import { IconButton } from "@chakra-ui/react";
 import { Flex } from "@chakra-ui/react";
 import { toast } from "react-toastify";
-
 import React, { useState, useEffect } from "react";
 import { getLocalStorageItem, getOriginUrl } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
+import CardContainer from "@/components/cardContainer/CardContainer";
 
-const SourceCard: React.FC = ({
-  inputData,
-  activeButton,
-  increaseCounter,
-}: any) => {
+const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [generatedLink, setGeneratedLink] = useState<string>("");
   const router = useRouter();
@@ -40,8 +36,12 @@ const SourceCard: React.FC = ({
   }, [increaseCounter]);
 
   return (
-    <Box>
-      <Card>
+    <Box w="100%">
+      <CardContainer
+        boxShadow="sm"
+        border="1px solid #e2e8f0"
+        borderRadius="10px"
+      >
         <CardHeader>
           <Heading size="md">Sources</Heading>
         </CardHeader>
@@ -58,7 +58,7 @@ const SourceCard: React.FC = ({
             </Button>
           )}
 
-          {activeButton === "Files" && (
+          {!inputData && activeButton === "Files" && documentID && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">{generatedLink}</Text>
@@ -79,7 +79,7 @@ const SourceCard: React.FC = ({
             </Flex>
           )}
 
-          {activeButton === "Text" && (
+          {activeButton === "Text" && documentID && (
             <Flex>
               <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
                 <Text fontWeight="bold">{generatedLink}</Text>
@@ -121,7 +121,7 @@ const SourceCard: React.FC = ({
             </Flex>
           )}
         </CardBody>
-      </Card>
+      </CardContainer>
     </Box>
   );
 };

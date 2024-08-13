@@ -1,16 +1,16 @@
-import Activity from "@/components/Activity";
-import Layout from "@/components/layout/Layout";
+import Activity from "@/components/admin/Activity";
+import Main from "@/components/admin/Main";
 import { Box, Flex } from "@chakra-ui/react";
 
 const page = () => {
   return (
-    <Layout>
+    <Main>
       <Flex justifyContent="center">
         <Box height="100vh" w="100%">
           <Activity initialChatMessages={[]} loading={false} />
         </Box>
       </Flex>
-    </Layout>
+    </Main>
   );
 };
 

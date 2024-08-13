@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
-import MessageBoxAdmin, { Role } from "./MessageBoxAdmin";
+import MessageBoxAdmin, { Role } from "./MessageBox";
 
 interface chatMessage {
   chatID?: number | null;
@@ -32,7 +32,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
       direction="column"
       bg="#e9e9ff"
       overflowY="auto"
-      h={loading ? "70vh" : "82vh"}
+      h={loading ? "73vh" : "82vh"}
     >
       {chatMessage?.map((ele, id) => {
         return (

@@ -17,7 +17,7 @@ interface MessageBoxAdminProps {
   loading: boolean;
 }
 
-const MessageBoxAdmin: React.FC<MessageBoxAdminProps> = ({ data }) => {
+const MessageBox: React.FC<MessageBoxAdminProps> = ({ data }) => {
   return (
     <>
       <Flex alignItems="start" p="20px" gap="5px" maxW="50%">
@@ -35,4 +35,4 @@ const MessageBoxAdmin: React.FC<MessageBoxAdminProps> = ({ data }) => {
   );
 };
 
-export default MessageBoxAdmin;
+export default MessageBox;
