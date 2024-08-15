@@ -1,26 +1,44 @@
 "use client";
-import AdminTextSpace from "@/components/admin/InputContext";
+import InputContext from "@/components/admin/InputContext";
 import { Box, Flex } from "@chakra-ui/react";
-import React, { useState } from "react";
-import Main from "@/components/admin/Main";
+import Link from "next/link";
+import { IoMdArrowBack } from "react-icons/io";
+import Header from "@/components/common/Header";
+import SideBar from "@/components/admin/SideBar";
 
 const page = () => {
-  const [inputData, setInputData] = useState("");
-  const [increaseCounter, setIncreaseCounter] = useState<number>(0);
-
   return (
     <>
-      <Main inputData={inputData} increaseCounter={increaseCounter}>
-        <Flex justifyContent="center">
-          <Box height="100vh" w="100%">
-            <AdminTextSpace
-              inputData={inputData}
-              setInputData={setInputData}
-              setIncreaseCounter={setIncreaseCounter}
-            />
-          </Box>
-        </Flex>
-      </Main>
+      <Header />
+      <Box p="5px" border="1px solid #fff" w="fit-content">
+        <Link href="/">
+          <Flex
+            m="5"
+            p="10px"
+            alignItems="center"
+            cursor="pointer"
+            gap="1"
+            _hover={{ bg: "blue.50" }}
+          >
+            <IoMdArrowBack size="24px" /> Back
+          </Flex>
+        </Link>
+      </Box>
+
+      <Flex
+        width="100%"
+        height="100vh"
+        gap="3"
+        justifyContent="space-between"
+        px="14"
+      >
+        <Box w="20% ">
+          <SideBar />
+        </Box>
+        <Box w="100%">
+          <InputContext />
+        </Box>
+      </Flex>
     </>
   );
 };

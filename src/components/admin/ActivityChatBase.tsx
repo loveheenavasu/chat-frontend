@@ -7,7 +7,7 @@ interface ChatBaseProps {
   loading: boolean;
 }
 
-const ChatBase = ({ userMessages, loading }: ChatBaseProps) => {
+const ActivityChatBase = ({ userMessages, loading }: ChatBaseProps) => {
   const RenderChatbaseChat = () => {
     if (loading) {
       return (
@@ -70,4 +70,4 @@ const ChatBase = ({ userMessages, loading }: ChatBaseProps) => {
     </Box>
   );
 };
-export default ChatBase;
+export default ActivityChatBase;

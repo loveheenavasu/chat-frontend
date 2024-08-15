@@ -30,9 +30,9 @@ axiosInstance.interceptors.response.use(
   (error) => {
     const { response } = error;
     if (response && response.status === 401) {
-      localStorage.removeItem('authToken')
-      Cookies.remove('authToken')
-      window.location.href = "/login"
+      localStorage.removeItem("authToken");
+      Cookies.remove("authToken");
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }

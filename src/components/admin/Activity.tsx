@@ -1,6 +1,6 @@
 "use client";
 import { Box, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
-import ChatBase from "./ActivityChatBase";
+import ActivityChatBase from "./ActivityChatBase";
 import { useCallback, useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import CardContainer from "@/components/cardContainer/CardContainer";
@@ -136,8 +136,8 @@ const Activity: React.FC<ChatContainerProps> = ({
             <>
               {chatMessages.length < 1 ? (
                 <Flex justifyContent="center" alignItems="center" my="4">
-                  No chats to display. Start a conversation to see messages
-                  here.
+                  No chats to display. You will receive chats when a user starts
+                  the conversation.
                 </Flex>
               ) : (
                 <Flex gap="20px">
@@ -146,7 +146,10 @@ const Activity: React.FC<ChatContainerProps> = ({
                       {RenderChatMessages()}
                     </Flex>
                   </Box>
-                  <ChatBase userMessages={userMessages} loading={isLoading} />
+                  <ActivityChatBase
+                    userMessages={userMessages}
+                    loading={isLoading}
+                  />
                 </Flex>
               )}
             </>

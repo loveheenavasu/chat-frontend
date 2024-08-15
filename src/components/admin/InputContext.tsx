@@ -13,18 +13,16 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 import CardContainer from "@/components/cardContainer/CardContainer";
+import { ChatbotLinkContext } from "../../context/Context";
 
-const AdminTextSpace = ({
-  inputData,
-  setInputData,
-  logoutLoading,
-  setIncreaseCounter,
-}: any) => {
+const InputContext = ({ logoutLoading }: any) => {
+  const { inputData, setInputData } = useContext(ChatbotLinkContext);
+  console.log(inputData);
   const [isEditId, setIsEditId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [screenLoading, setscreenLoading] = useState<boolean>(false);
@@ -71,7 +69,6 @@ const AdminTextSpace = ({
         toast.success(data?.messgage);
         fetchData(data?.data?.documentId);
       }
-      setIncreaseCounter((prev: number) => prev + 1);
     } catch (error) {
       console.error("Error adding data:", error);
     } finally {
@@ -79,7 +76,7 @@ const AdminTextSpace = ({
     }
   };
 
-  const handleUpdate = useCallback(async () => {
+  const handleUpdate = async () => {
     if (!inputData) {
       toast.error("Please Enter the Text");
       return;
@@ -92,14 +89,13 @@ const AdminTextSpace = ({
       });
       if (data) {
         toast.success(data?.message);
-        setIncreaseCounter((prev: any) => prev + 1);
       }
     } catch (error: any) {
       toast.error(error?.data?.message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   return (
     <Box>
@@ -176,4 +172,4 @@ const AdminTextSpace = ({
   );
 };
 
-export default AdminTextSpace;
+export default InputContext;

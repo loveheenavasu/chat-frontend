@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
 import axiosInstance from "@/utils/axiosInstance";

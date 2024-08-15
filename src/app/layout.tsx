@@ -5,6 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
+import { ChatbotLinkProvider } from "@/context/ChatbotLinkProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,8 +28,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <ChakraProvider>
           <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID || ""}>
-            {children}
-            <ToastContainer />
+            <ChatbotLinkProvider>
+              {children}
+              <ToastContainer />
+            </ChatbotLinkProvider>
           </GoogleOAuthProvider>
         </ChakraProvider>
       </body>
