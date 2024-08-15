@@ -40,11 +40,7 @@ interface DataProps {
   docNo: number;
 }
 
-interface UploadFileProps {
-  setIncreaseCounter: (value: any) => void;
-}
-
-const UploadFile = ({ setIncreaseCounter }: UploadFileProps) => {
+const UploadFile = () => {
   const [file, setFile] = useState<FileProps | null>(null);
   const [data, setData] = useState<DataProps[]>([]);
   const [loading, setIsLoading] = useState<boolean>(false);
@@ -98,7 +94,6 @@ const UploadFile = ({ setIncreaseCounter }: UploadFileProps) => {
         setData([]);
         fetchData(documentId);
       }
-      setIncreaseCounter((prev: number) => prev + 1);
     } catch (error) {
       console.log(error);
     } finally {
@@ -131,7 +126,6 @@ const UploadFile = ({ setIncreaseCounter }: UploadFileProps) => {
         setDocumentId(newDocumentId);
         fetchData(newDocumentId);
       }
-      setIncreaseCounter((prev: number) => prev + 1);
     } catch (err) {
       console.error("Upload failed", err);
     } finally {

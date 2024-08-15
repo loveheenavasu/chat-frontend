@@ -1,11 +1,14 @@
 "use client";
+import { ChatbotLinkContext } from "@/context/Context";
+import { LinkIcon } from "@chakra-ui/icons";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useContext } from "react";
 import { CiFileOn, CiTextAlignLeft } from "react-icons/ci";
 import { LuMessagesSquare } from "react-icons/lu";
 
-const AdminSideBar = ({ setActiveButton, activeButton }: any) => {
+const SideBar = () => {
+  const { activeButton, setActiveButton } = useContext(ChatbotLinkContext);
   const router = useRouter();
   const sourceType = [
     {
@@ -17,6 +20,11 @@ const AdminSideBar = ({ setActiveButton, activeButton }: any) => {
       label: "Text",
       icon: <CiTextAlignLeft fontSize={25} />,
       path: "/admin/chat",
+    },
+    {
+      label: "Chatbot",
+      icon: <LinkIcon fontSize={25} />,
+      path: "/admin/chat/chatbotLink",
     },
     {
       label: "Activity",
@@ -33,7 +41,7 @@ const AdminSideBar = ({ setActiveButton, activeButton }: any) => {
   };
 
   return (
-    <Box w="120px" borderRadius={"5px"}>
+    <Box w="100%" borderRadius={"5px"}>
       <Flex flexDirection={"column"} gap={"4px"}>
         {sourceType.map(({ label, icon, path }, index) => {
           return (
@@ -66,4 +74,4 @@ const AdminSideBar = ({ setActiveButton, activeButton }: any) => {
   );
 };
 
-export default AdminSideBar;
+export default SideBar;

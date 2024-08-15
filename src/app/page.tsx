@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "@/components/common/Header";
-import ChatBoxList from "@/components/admin/ListingAllChatbot";
+import ListingAllChabot from "@/components/admin/ListingAllChatbot";
 import axiosInstance from "@/utils/axiosInstance";
 import {
   Box,
@@ -82,7 +82,7 @@ const Home: React.FC = () => {
             {data?.length > 0 ? (
               <Grid templateColumns="repeat(4, 1fr)" gap={6} py="4">
                 {data.map((item) => (
-                  <ChatBoxList item={item} refetch={fetchData} />
+                  <ListingAllChabot item={item} refetch={fetchData} />
                 ))}
               </Grid>
             ) : (

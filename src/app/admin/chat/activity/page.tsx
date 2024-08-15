@@ -1,16 +1,37 @@
 import Activity from "@/components/admin/Activity";
-import Main from "@/components/admin/Main";
+import SideBar from "@/components/admin/SideBar";
+import Header from "@/components/common/Header";
 import { Box, Flex } from "@chakra-ui/react";
+import Link from "next/link";
+import { IoMdArrowBack } from "react-icons/io";
 
 const page = () => {
   return (
-    <Main>
-      <Flex justifyContent="center">
+    <>
+      <Header />
+      <Box p="5px" border="1px solid #fff" w="fit-content">
+        <Link href="/">
+          <Flex
+            m="5"
+            p="10px"
+            alignItems="center"
+            cursor="pointer"
+            gap="1"
+            _hover={{ bg: "blue.50" }}
+          >
+            <IoMdArrowBack size="24px" /> Back
+          </Flex>
+        </Link>
+      </Box>
+      <Flex justifyContent="space-between" px="14" gap="3">
+        <Box w="20%">
+          <SideBar />
+        </Box>
         <Box height="100vh" w="100%">
           <Activity initialChatMessages={[]} loading={false} />
         </Box>
       </Flex>
-    </Main>
+    </>
   );
 };
 

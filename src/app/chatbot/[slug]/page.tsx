@@ -65,7 +65,7 @@ const page = ({ params }: any) => {
       ...(chatSessionId && { chatSessionId }),
     });
   };
-  console.log(chatMessage);
+
   return (
     <Box>
       <Header />
