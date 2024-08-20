@@ -17,13 +17,11 @@ export const ChatbotLinkProvider: FC<{ children: ReactNode }> = ({
     } else if (currentPath.includes("/activity")) {
       setActiveButton("Activity");
     } else if (currentPath.includes("/chatbotLink")) {
-      setActiveButton("Chatbot");
+      setActiveButton("chatbotLink");
     } else {
       setActiveButton("Text");
     }
   }, [pathname]);
-
-  console.log(pathname);
 
   return (
     <ChatbotLinkContext.Provider
