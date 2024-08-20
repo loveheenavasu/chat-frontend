@@ -39,7 +39,7 @@ const ChatbotLink = () => {
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   return (
-    <Box w="100%" p="20">
+    <Box w="100%">
       <CardContainer
         boxShadow="sm"
         border="1px solid #e2e8f0"
