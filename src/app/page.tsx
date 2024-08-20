@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { removeParticularItemFromLocalStorage } from "@/utils/localStorage";
+import { toast } from "react-toastify";
 
 const Home: React.FC = () => {
   const [data, setData] = useState([]);
@@ -33,14 +34,17 @@ const Home: React.FC = () => {
         setData(response.data.data);
       }
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.response?.data.message)
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
+
     fetchData();
   }, []);
+  console.log(data, 'owddeow')
 
   const handleCreateChatbot = () => {
     removeParticularItemFromLocalStorage("documentId");

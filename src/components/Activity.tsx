@@ -4,6 +4,7 @@ import ChatBase from "./ChatBase";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import CardContainer from "@/components/cardContainer/CardContainer";
+import { getLocalStorageItem } from "@/utils/localStorage";
 
 interface Message {
   _id: string;
@@ -40,7 +41,7 @@ const Activity: React.FC<ChatContainerProps> = ({
 
   useEffect(() => {
     const fetchChatRecords = async () => {
-      const documentId = localStorage.getItem("documentId");
+      const documentId = getLocalStorageItem("documentId");
       try {
         setscreenLoading(true);
         const response = await axiosInstance.get(
@@ -103,7 +104,9 @@ const Activity: React.FC<ChatContainerProps> = ({
             </Box>
           ) : (
             <Flex gap="20px">
-              <Box w={"70%"}>
+              <Box w={"70%"}
+                height={'450px'}
+                overflow={'scroll'}>
                 <Flex flexDirection={"column"} gap={"10px"}>
                   {chatMessages?.map((ele, id) => (
                     <CardContainer

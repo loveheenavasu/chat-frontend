@@ -6,6 +6,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import "react-toastify/dist/ReactToastify.css";
 import { checkAuthTokenExists } from "@/services/utils";
 import dynamic from "next/dynamic";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,6 +16,8 @@ export const metadata: Metadata = {
 
 const ToastContainer = dynamic(() => import("react-toastify")
   .then(mod => mod.ToastContainer), { ssr: false });
+
+
 
 export default function RootLayout({
   children,

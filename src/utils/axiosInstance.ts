@@ -1,7 +1,9 @@
 "use client";
 import axios from "axios";
-import { getLocalStorageItem } from "./localStorage";
+import { getLocalStorageItem, removeParticularItemFromLocalStorage } from "./localStorage";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -29,10 +31,13 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     const { response } = error;
+    console.log(error, 'bxsx')
     if (response && response.status === 401) {
-      localStorage.removeItem('authToken')
-      Cookies.remove('authToken')
-      window.location.href = "/login"
+      // removeParticularItemFromLocalStorage('authToken')
+      // Cookies.remove('authToken')
+      // window.location.href = "/login"
+      console.log(response, "RESPONSECOMING")
+      toast.error(response.data.message)
     }
     return Promise.reject(error);
   }

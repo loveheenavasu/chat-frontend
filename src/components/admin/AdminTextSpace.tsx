@@ -28,6 +28,7 @@ const AdminTextSpace = ({
   const [isEditId, setIsEditId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [screenLoading, setscreenLoading] = useState<boolean>(false);
+  console.log(isEditId, 'ececcr')
 
   const fetchData = async (documentId: any) => {
     try {
@@ -35,6 +36,7 @@ const AdminTextSpace = ({
       const response = await axiosInstance.get(
         `/user/text${documentId ? `?documentId=${documentId}` : ""}`
       );
+      console.log(response, 'xecec')
 
       if (response.data) {
         setInputData(response?.data?.text);
@@ -48,7 +50,6 @@ const AdminTextSpace = ({
 
   useEffect(() => {
     const documentId = getLocalStorageItem("documentId");
-
     fetchData(documentId);
   }, []);
   const handleAdd = async () => {

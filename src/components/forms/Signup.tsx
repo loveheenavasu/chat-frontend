@@ -11,67 +11,57 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { setLocalStorageItem } from "@/utils/localStorage";
 import CardContainer from "@/components/cardContainer/CardContainer";
+import { FormInputs, useAuth } from "../../hooks/useAuth"
 
-type SignupFormInputs = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+
 const Signup: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<SignupFormInputs>();
 
-  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-
-  const onSubmit: SubmitHandler<SignupFormInputs> = async (formData) => {
+  const onSubmit = async (value: FormInputs) => {
     try {
-      if (formData.password !== formData.confirmPassword) {
-        setError("confirmPassword", {
-          message: "Please enter the same password",
-        });
-        return;
-      }
       setLoading(true);
       const data = {
-        firstname: formData.firstName,
-        ...(formData.lastName && { lastname: formData.lastName }),
-        email: formData.email,
-        password: formData.password,
+        firstname: value.firstName,
+        ...(value.lastName && { lastname: value.lastName }),
+        email: value.email,
+        password: value.password,
       };
+      console.log('data', data)
       const response = await axiosInstance.post("user/signup", data);
       toast.success(response?.data?.message);
-      console.log(response);
       if (response.status === 200) {
+        console.log('helo')
         setLocalStorageItem(
           "verifyOtpToken",
           response?.data?.data?.accessToken
         );
-        router.push(`/otp?email=${formData.email}`);
+        router.push(`/otp?email=${value.email}`);
       }
     } catch (error: any) {
-      console.log(error);
-      if (error) {
-        toast.error(
-          "Email is already registered. Please use a different email or log in."
-        );
-      }
-      toast.error(error.response?.data?.errorMessage);
+      console.log(error, 'dneideid')
+      setErrors(errors)
+      toast.error(error.response?.data?.message);
       setLoading(false);
     }
-  };
+  }
+
+  const {
+    value,
+    errors,
+    loading,
+    handleChange,
+    handleSubmit,
+    setErrors,
+    setLoading, } = useAuth({
+      onSubmit,
+      formType: 'signup',
+    })
 
   return (
     <>
@@ -87,28 +77,32 @@ const Signup: React.FC = () => {
         as={false}
       >
         <>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit} action='javascript:void(0)'>
             <FormControl id="firstName" mb={4}>
               <FormLabel display={"flex"} gap={"3px"}>
                 First Name <Text textColor="red">*</Text>
               </FormLabel>
               <Input
                 type="text"
-                {...register("firstName", {
-                  required: "First name is required",
-                })}
+                // {...register("firstName", {
+                //   required: "First name is required",
+                // })}
+                value={value.firstName || ""}
+                onChange={handleChange}
                 placeholder="enter your first name"
                 textColor="black"
               />
               {errors.firstName && (
-                <Text color="red.500">{errors.firstName.message}</Text>
+                <Text color="red.500">{errors.firstName}</Text>
               )}
             </FormControl>
             <FormControl id="lastName" mb={4}>
               <FormLabel>Last Name</FormLabel>
               <Input
                 type="text"
-                {...register("lastName")}
+                // {...register("lastName")}
+                value={value.lastName || ""}
+                onChange={handleChange}
                 placeholder="enter your last name"
               />
             </FormControl>
@@ -118,11 +112,13 @@ const Signup: React.FC = () => {
               </FormLabel>
               <Input
                 type="email"
-                {...register("email", { required: "Email is required" })}
+                // {...register("email", { required: "Email is required" })}
                 placeholder="enter your email"
+                value={value.email || ""}
+                onChange={handleChange}
               />
               {errors.email && (
-                <Text color="red.500">{errors.email.message}</Text>
+                <Text color="red.500">{errors.email}</Text>
               )}
             </FormControl>
             <FormControl id="password" mb={6}>
@@ -131,17 +127,19 @@ const Signup: React.FC = () => {
               </FormLabel>
               <Input
                 type="password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters",
-                  },
-                })}
+                // {...register("password", {
+                //   required: "Password is required",
+                //   minLength: {
+                //     value: 8,
+                //     message: "Password must be at least 8 characters",
+                //   },
+                // })}
+                value={value.password || ""}
+                onChange={handleChange}
                 placeholder="enter your password"
               />
               {errors.password && (
-                <Text color="red.500">{errors.password.message}</Text>
+                <Text color="red.500">{errors.password}</Text>
               )}
             </FormControl>
             <FormControl id="confirmPassword" mb={6}>
@@ -150,13 +148,15 @@ const Signup: React.FC = () => {
               </FormLabel>
               <Input
                 type="password"
-                {...register("confirmPassword", {
-                  required: "Please confirm your password",
-                })}
+                // {...register("confirmPassword", {
+                //   required: "Please confirm your password",
+                // })}
                 placeholder="confirm your password"
+                value={value.confirmPassword || ""}
+                onChange={handleChange}
               />
               {errors.confirmPassword && (
-                <Text color="red.500">{errors.confirmPassword.message}</Text>
+                <Text color="red.500">{errors.confirmPassword}</Text>
               )}
             </FormControl>
 

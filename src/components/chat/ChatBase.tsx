@@ -34,8 +34,10 @@ const ChatBase: React.FC<ChatBaseProps> = ({
               loading......
             </Box>
           ) : userMessages.length > 0 ? (
-            userMessages.map((ele) => (
-              <Box key={ele._id} width="100%" p="10px">
+            userMessages.map((ele, index) => (
+              <Box key={index}
+                width="100%" p="10px"
+              >
                 <Flex
                   justifyContent={
                     ele.messageType === "AI" ? "flex-start" : "flex-end"

@@ -22,8 +22,11 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [generatedLink, setGeneratedLink] = useState<string>("");
   const router = useRouter();
-  const documentID = getLocalStorageItem("documentId");
+  let documentID = getLocalStorageItem("documentId");
+  console.log(documentID, 'documentID')
+
   const authToken = getLocalStorageItem("authToken");
+  const theme = getLocalStorageItem("selectedTheme")
 
   useEffect(() => {
     if (!authToken) {
@@ -35,6 +38,59 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
     if (documentID) setGeneratedLink(`${getOriginUrl()}/chatbot/${documentID}`);
   }, [increaseCounter]);
 
+  const handleCopy = () => {
+    if (documentID && theme) {
+      navigator.clipboard.writeText(
+        `${getOriginUrl()}/chatbot/${documentID}`
+      );
+      toast.success("Text copied");
+    }
+  }
+  const renderContent = () => {
+    switch (activeButton) {
+      case 'Text':
+        return (
+          <>
+            <Heading size={"sm"}>Total detected characters</Heading>
+            <Text marginBottom={6}>{inputData?.length || 0}</Text>
+            <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
+              <Text fontWeight="bold">{generatedLink}</Text>
+            </Link>
+
+            {documentID && (
+              <IconButton
+                aria-label="Copy"
+                icon={<CopyIcon />}
+                onClick={handleCopy}
+              />
+            )}
+
+
+          </>
+        )
+      case 'Files':
+      case 'Activity':
+        return (
+          <>
+            <Flex>
+              <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
+                <Text fontWeight="bold">{generatedLink}</Text>
+              </Link>
+
+              {documentID && (
+                <IconButton
+                  aria-label="Copy"
+                  icon={<CopyIcon />}
+                  onClick={handleCopy}
+                />
+              )}
+            </Flex>
+          </>
+        )
+      default:
+        break;
+    }
+  }
   return (
     <Box>
       <CardContainer
@@ -46,80 +102,12 @@ const SourceCard = ({ inputData, activeButton, increaseCounter }: any) => {
           <Heading size="md">Sources</Heading>
         </CardHeader>
         <CardBody>
-          {activeButton === "Text" && (
-            <>
-              <Heading size={"sm"}>Total detected characters</Heading>
-              <Text marginBottom={6}>{inputData?.length || 0}</Text>
-            </>
-          )}
           {!inputData && !isOpen && (
             <Button marginBottom={4} onClick={() => setIsOpen(true)}>
               Generate Link
             </Button>
           )}
-
-          {activeButton === "Files" && (
-            <Flex>
-              <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
-                <Text fontWeight="bold">{generatedLink}</Text>
-              </Link>
-
-              {documentID && (
-                <IconButton
-                  aria-label="Copy"
-                  icon={<CopyIcon />}
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      `${getOriginUrl()}/chatbot/${documentID}`
-                    );
-                    toast.success("Text copied");
-                  }}
-                />
-              )}
-            </Flex>
-          )}
-
-          {activeButton === "Text" && (
-            <Flex>
-              <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
-                <Text fontWeight="bold">{generatedLink}</Text>
-              </Link>
-
-              {documentID && (
-                <IconButton
-                  aria-label="Copy"
-                  icon={<CopyIcon />}
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      `${getOriginUrl()}/chatbot/${documentID}`
-                    );
-                    toast.success("Text copied");
-                  }}
-                />
-              )}
-            </Flex>
-          )}
-
-          {activeButton === "Activity" && (
-            <Flex>
-              <Link href={`${getOriginUrl()}/chatbot/${documentID}`} isExternal>
-                <Text fontWeight="bold">{generatedLink}</Text>
-              </Link>
-
-              {documentID && (
-                <IconButton
-                  aria-label="Copy"
-                  icon={<CopyIcon />}
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      `${getOriginUrl()}/chatbot/${documentID}`
-                    );
-                    toast.success("Text copied");
-                  }}
-                />
-              )}
-            </Flex>
-          )}
+          {renderContent()}
         </CardBody>
       </CardContainer>
     </Box>
