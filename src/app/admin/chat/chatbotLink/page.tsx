@@ -1,7 +1,7 @@
 "use client";
 import ChatbotLink from "@/components/admin/ChatbotLink";
 import SideBar from "@/components/admin/SideBar";
-import UserData from "@/components/admin/UserData";
+// import UserData from "@/components/admin/UserData";
 import Header from "@/components/common/Header";
 import { getLocalStorageItem } from "@/utils/localStorage";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
