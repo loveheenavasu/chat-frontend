@@ -141,7 +141,7 @@ const Login = () => {
       </Text>
 
       <CardContainer
-        width="80%"
+        width="90%"
         padding={"20px"}
         boxShadow={"sm"}
         border={"none"}
@@ -196,9 +196,11 @@ const Login = () => {
           <Text
             cursor="pointer"
             as="b"
-            p={4}
-            display="flex"
-            justifyContent="center"
+            marginLeft={1}
+            onClick={() => router.push("/forgetPassword")}
+            display={"flex"}
+            p={2}
+            justifyContent={"center"}
           >
             Don't have an Account?
             <Text

@@ -1,17 +1,19 @@
 import { setLocalStorageItem } from "@/utils/localStorage";
 import { ViewIcon } from "@chakra-ui/icons";
-
 import { Button, Card, CardFooter, Flex, Image, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { DeleteChatbotPopUp } from "../admin/DeleteChatbotPopUp";
+import { DeleteChatbotPopUp } from "./DeleteChatbotPopUp";
 import React from "react";
 
-interface ChatBoxListProps {
+interface ListingAllChabotProps {
   item: any;
   refetch: () => void;
 }
 
-const ChatBoxList: React.FC<ChatBoxListProps> = ({ item, refetch }) => {
+const ListingAllChabot: React.FC<ListingAllChabotProps> = ({
+  item,
+  refetch,
+}) => {
   const router = useRouter();
   const { textId } = item || {};
 
@@ -57,4 +59,4 @@ const ChatBoxList: React.FC<ChatBoxListProps> = ({ item, refetch }) => {
   );
 };
 
-export default ChatBoxList;
+export default ListingAllChabot;

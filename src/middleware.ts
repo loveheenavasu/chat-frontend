@@ -5,7 +5,13 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // If the user is authenticated and trying to access authentication-related pages, redirect them to the homepage
-  const authPages = ["/login", "/signUp", "/otp", "/forgetpassword", "/resetPassword"];
+  const authPages = [
+    "/login",
+    "/signUp",
+    "/otp",
+    "/forgetPassword",
+    "/resetPassword",
+  ];
   if (token && authPages.includes(path)) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -21,5 +27,12 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/signUp", "/", "/otp", "/forgetpassword", "/resetPassword"] // Add other protected paths here if necessary
+  matcher: [
+    "/login",
+    "/signUp",
+    "/",
+    "/otp",
+    "/forgetPassword",
+    "/resetPassword",
+  ], // Add other protected paths here if necessary
 };

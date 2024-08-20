@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ChatContainer from "@/components/chat/ChatContainer";
-import ChatFooter from "@/components/chat/ChatFooter";
+import ChatContainer from "@/components/chat/Container";
+import ChatFooter from "@/components/chat/Footer";
 import Header from "@/components/common/Header";
 import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";

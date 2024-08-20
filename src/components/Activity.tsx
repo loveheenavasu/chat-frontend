@@ -1,10 +1,10 @@
 "use client";
 import { Box, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
-import ChatBase from "./ChatBase";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import CardContainer from "@/components/cardContainer/CardContainer";
 import { getLocalStorageItem } from "@/utils/localStorage";
+import ActivityChatBase from "@/components/admin/ActivityChatBase";
 
 interface Message {
   _id: string;
@@ -157,7 +157,7 @@ const Activity: React.FC<ChatContainerProps> = ({
                   ))}
                 </Flex>
               </Box>
-              <ChatBase userMessages={userMessages} loading={isLoading} />
+              <ActivityChatBase userMessages={userMessages} loading={isLoading} />
             </Flex>
           )}
         </Box>

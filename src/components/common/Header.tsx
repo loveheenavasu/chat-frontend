@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import {
   Box, Button, Card, CardBody, CardFooter, CardHeader, Checkbox, Drawer, DrawerBody, DrawerCloseButton,

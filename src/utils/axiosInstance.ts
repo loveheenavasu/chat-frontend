@@ -33,11 +33,10 @@ axiosInstance.interceptors.response.use(
     const { response } = error;
     console.log(error, 'bxsx')
     if (response && response.status === 401) {
-      // removeParticularItemFromLocalStorage('authToken')
-      // Cookies.remove('authToken')
-      // window.location.href = "/login"
-      console.log(response, "RESPONSECOMING")
+      localStorage.removeItem("authToken");
+      Cookies.remove("authToken");
       toast.error(response.data.message)
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }

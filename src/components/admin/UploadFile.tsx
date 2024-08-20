@@ -17,63 +17,94 @@ import {
 import axiosInstance from "@/utils/axiosInstance";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { FileUploader } from "react-drag-drop-files";
-import { getLocalStorageItem, setLocalStorageItem, removeParticularItemFromLocalStorage } from "@/utils/localStorage";
+import {
+  getLocalStorageItem,
+  removeParticularItemFromLocalStorage,
+  setLocalStorageItem,
+} from "@/utils/localStorage";
 import { BiImageAdd } from "react-icons/bi";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import CardContainer from "@/components/cardContainer/CardContainer";
 
-const FIlesCard = ({ setIncreaseCounter }: any) => {
-  const [file, setFile] = useState<any>({});
-  const [data, setData] = useState<any>([]);
-  const [loading, setIsLoading] = useState(false);
-  const [deleteFileLoading, setDeleteFileLoading] = useState("");
-  const [isFileUpload, setIsFileUpload] = useState(false);
+interface FileProps {
+  name: string;
+  type: string;
+  size: number;
+}
+
+interface DataProps {
+  _id: string;
+  fileName: string;
+  documentId: string;
+  docNo: number;
+}
+
+const UploadFile = () => {
+  const [file, setFile] = useState<FileProps | null>(null);
+  const [data, setData] = useState<DataProps[]>([]);
+  const [loading, setIsLoading] = useState<boolean>(false);
+  const [deleteFileLoading, setDeleteFileLoading] = useState<string>("");
+  const [isFileUpload, setIsFileUpload] = useState<boolean>(false);
   const [documentId, setDocumentId] = useState(
     getLocalStorageItem("documentId")
   );
 
-  const handleUpload = (file: any) => {
+  const handleUpload = useCallback((file: any) => {
     setFile(file);
-  };
+  }, []);
 
-  const fetchData = async (documentId: string | null | undefined) => {
-    try {
-      setIsLoading(true);
-      const response = await axiosInstance.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/files${documentId ? `?documentId=${documentId}` : ""
-        }`
-      );
-      setData(response.data?.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
+  const fetchData = useCallback(
+    async (documentId: string | null | undefined) => {
+      try {
+        setIsLoading(true);
+        const { data } = await axiosInstance.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/user/files`,
+          {
+            params: { documentId: documentId || undefined },
+          }
+        );
+        setData(data?.data);
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     fetchData(documentId);
   }, [documentId]);
 
-  const handleDeleteFile = async (id: string, docNo: number) => {
+  const handleDeleteFile = useCallback(async (id: string, docNo: number) => {
     try {
-      const response = await axiosInstance.delete(
+      const { data } = await axiosInstance.delete(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/files/?documentId=${documentId}&docNo=${docNo}`
       );
-      if (response?.data) {
-        toast.success(response?.data?.message);
+      // if (data.length > 1) {
+      //   toast.success(data?.message);
+      //   fetchData(documentId);
+      // }
+      if (data) {
+        toast.success(data?.message);
+        // removeParticularItemFromLocalStorage(id);
+        // setDocumentId(" ");
+        setData([]);
+        fetchData(documentId);
       }
-
-      fetchData(documentId);
     } catch (error) {
+      console.log(error);
+    } finally {
       setDeleteFileLoading("");
     }
-  };
+  }, []);
 
   const handleUploadFile = async () => {
     try {
       if (!file) {
-        toast.error("No file selected");
+        toast.error("Please Select any file");
         return;
       }
       setIsFileUpload(true);
@@ -82,27 +113,27 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
       formData.append("file", file as any);
       formData.append("documentId", documentId as any);
 
-      const response = await axiosInstance.post(
+      const { data } = await axiosInstance.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/upload`,
         formData
       );
-      if (response.data) {
-        const newDocumentId = response.data?.data.documentId;
+
+      if (data) {
+        const newDocumentId = data?.data.documentId;
         setLocalStorageItem("documentId", newDocumentId);
-        toast.success(response?.data?.message);
+        toast.success(data?.message);
         setFile(null);
         setDocumentId(newDocumentId);
         fetchData(newDocumentId);
       }
-      setIsFileUpload(false);
-      setIncreaseCounter((prev: number) => prev + 1);
     } catch (err) {
-      setIsFileUpload(false);
       console.error("Upload failed", err);
+    } finally {
+      setIsFileUpload(false);
     }
   };
 
-  const fileTypes = ["DOC", "PDF", "DOCX", "TXT", "CSV"];
+  const fileTypes = useMemo(() => ["DOC", "PDF", "DOCX", "TXT", "CSV"], []);
 
   return (
     <Box>
@@ -127,6 +158,7 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
                   name="file"
                   children={
                     <Box
+                      cursor="pointer"
                       border={"2px dotted blue"}
                       borderRadius={"7px"}
                       width="100%"
@@ -140,9 +172,10 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
                         Upload or drag a file right here supported extensions
                         next line
                         <br />
-                        {fileTypes.join(", ")}
+                        {fileTypes?.join(", ")}
                       </Box>
                     </Box>
+
                   }
                   types={fileTypes}
                   onDrop={handleUpload}
@@ -254,4 +287,4 @@ const FIlesCard = ({ setIncreaseCounter }: any) => {
   );
 };
 
-export default FIlesCard;
+export default UploadFile;

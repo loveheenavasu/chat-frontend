@@ -1,7 +1,7 @@
 import { Flex, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
-import MessageBoxAdmin, { Role } from "./MessageBoxAdmin";
 import { useRouter } from "next/router";
+import MessageBoxAdmin, { Role } from "./MessageBox";
 
 interface chatMessage {
   chatID?: number | null;

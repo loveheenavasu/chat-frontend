@@ -11,7 +11,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 
 interface DeleteChatbotPopUpProps {
@@ -26,22 +26,23 @@ const DeleteChatbotPopUp: React.FC<DeleteChatbotPopUpProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     try {
       setDeleteLoading(true);
-      const response = await axiosInstance.delete(
+      const { data } = await axiosInstance.delete(
         `/user/chatbot?documentId=${item?.documentId}`
       );
-      if (response.data) {
-        toast.success(response.data.message);
+      if (data) {
+        toast.success(data.message);
         refetch();
       }
-
-      setDeleteLoading(false);
     } catch (error) {
+      console.log("error", error);
+    } finally {
       setDeleteLoading(false);
     }
-  };
+  }, []);
+
   return (
     <>
       <Button
