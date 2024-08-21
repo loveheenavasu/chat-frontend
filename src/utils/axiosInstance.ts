@@ -8,10 +8,11 @@ import { toast } from "react-toastify";
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
-const authToken = getLocalStorageItem("authToken");
 
 axiosInstance.interceptors.request.use(
   async (config) => {
+    const authToken = getLocalStorageItem("authToken");
+    console.log(authToken, "TOKEN")
     const token = authToken;
     if (token) {
       config.headers["token"] = `Bearer ${token}`;
@@ -33,7 +34,7 @@ axiosInstance.interceptors.response.use(
     const { response } = error;
     console.log(error, 'bxsx')
     if (response && response.status === 401) {
-      localStorage.removeItem("authToken");
+      removeParticularItemFromLocalStorage("authToken");
       Cookies.remove("authToken");
       toast.error(response.data.message)
       window.location.href = "/login";

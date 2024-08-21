@@ -1,6 +1,4 @@
 import { extendTheme } from "@chakra-ui/react";
-import { color } from "framer-motion";
-import { title } from "process";
 
 const theme = extendTheme({
     components: {

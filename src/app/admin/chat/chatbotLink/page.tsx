@@ -1,10 +1,14 @@
 "use client";
 import ChatbotLink from "@/components/admin/ChatbotLink";
+import SideBar from "@/components/admin/SideBar";
+import CardContainer from "@/components/cardContainer/CardContainer";
+import Header from "@/components/common/Header";
 import DynamicForm from "@/components/dynamicForm/DynamicForm";
 import { getLocalStorageItem } from "@/utils/localStorage";
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { IoMdArrowBack } from "react-icons/io";
 
 const page = () => {
   const [documentID, setDocumentID] = useState<string | null | undefined>(null);
@@ -20,7 +24,41 @@ const page = () => {
     <>
       {documentID ? (
         <>
-          <ChatbotLink />
+          <Header />
+          <Box p="5px" border="1px solid #fff" w="fit-content">
+            <Link href="/">
+              <Flex
+                m="5"
+                p="10px"
+                alignItems="center"
+                cursor="pointer"
+                gap="1"
+                _hover={{ bg: "blue.50" }}
+              >
+                <IoMdArrowBack size="24px" /> Back
+              </Flex>
+            </Link>
+          </Box>
+
+          <Flex px="14" gap="20px">
+            <Box w="20%">
+              <SideBar />
+            </Box>
+
+            <CardContainer
+              border={"1px solid #e2e8f0"}
+              boxShadow={"sm"}
+              borderRadius={"10px"}
+              width="100%"
+              padding="20px"
+            >
+              <DynamicForm />
+            </CardContainer>
+
+            <Box height="100vh" w="30%">
+              <ChatbotLink />
+            </Box>
+          </Flex>
         </>
       ) : (
         <>
@@ -41,7 +79,8 @@ const page = () => {
             </Link>
           </Flex>
         </>
-      )}
+      )
+      }
     </>
   );
 };
