@@ -7,8 +7,9 @@ interface ChatFooterProps {
   setMessage?: string;
   message?: string;
   handleSend?: (e: React.FormEvent | React.MouseEvent, message: string) => void;
+  bg: string
 }
-const ChatFooter: React.FC<ChatFooterProps> = ({ handleSend }) => {
+const ChatFooter: React.FC<ChatFooterProps> = ({ handleSend, bg }) => {
   const [message, setMessage] = useState<string>("");
 
   const sendMessage = (e: FormEvent) => {
@@ -23,7 +24,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({ handleSend }) => {
         bottom="0"
         color="white"
         w="100%"
-        bg="#575782"
+        bg={bg}
         h="80px"
         padding="10px"
         alignItems="center"

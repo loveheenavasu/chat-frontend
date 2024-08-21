@@ -21,10 +21,10 @@ import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
 import CardContainer from "@/components/cardContainer/CardContainer";
+import { FormInputs, useAuth } from "@/hooks/useAuth";
 
 type LoginData = {
   email: string;
-  name: string;
   firstname: string;
   lastname: string;
   image: string;
@@ -52,15 +52,6 @@ interface LoginCredentials {
 
 const Login = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [loginData, setLoginData] = useState<LoginCredentials>({
-    email: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState<LoginCredentials>({
-    email: "",
-    password: "",
-  });
   const isLoggedIn = getLocalStorageItem("authToken");
 
   useEffect(() => {
@@ -69,11 +60,11 @@ const Login = () => {
     }
   }, [isLoggedIn]);
 
+
   const authen = async (data: LoginData) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/social-login
-`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/social-login`,
         data
       );
       const { accessToken, _id } = response.data;
@@ -114,48 +105,34 @@ const Login = () => {
     console.log(error, "error");
   };
 
-  const validate = () => {
-    let formIsValid = true;
-    let errors: any = {};
-    if (!loginData.email) {
-      formIsValid = false;
-      errors.email = "Please enter your email.";
-    } else if (!/\S+@\S+\.\S+/.test(loginData.email)) {
-      formIsValid = false;
-      errors.email = "Email is not valid.";
-    }
-    if (!loginData.password) {
-      formIsValid = false;
-      errors.password = "Please enter your password.";
-    } else if (loginData.password.length < 8) {
-      formIsValid = false;
-      errors.password = "Password must be at least 8 characters long.";
-    }
-    setErrors(errors);
-    return formIsValid;
-  };
-  const handleSubmit = async (e: FormEvent) => {
-    if (validate()) {
-      try {
-        e.preventDefault();
-        setLoading(true);
-        const response = await axiosInstance.post("/user/login", loginData);
-        if (response.status === 200) {
-          Cookies.set("authToken", response?.data?.data?.accessToken);
-          console.log(response, "dbuucxwr");
-          setLocalStorageItem("authToken", response?.data?.data?.accessToken);
-          toast.success(response.data?.message);
-          setLoading(false);
-          router.push("/");
-          location.reload();
-        }
-      } catch (error: any) {
-        toast.error(error.response?.data.message);
-        // setErrors({ ...errors, form: error.response.data.errorMessage });
-        setLoading(false);
+  const onSubmit = async (value: FormInputs) => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post("/user/login", value);
+      if (response.status === 200) {
+        const accessToken = response.data.data.accessToken;
+        Cookies.set("authToken", accessToken);
+        setLocalStorageItem("authToken", accessToken);
+        toast.success(response.data.message);
+        router.push("/");
+        console.log('Setting token:', accessToken);
+        console.log('Current token in LocalStorage:', getLocalStorageItem('authToken'));
+      } else {
+        toast.error("Unexpected response status: " + response.status);
       }
+    } catch (error: any) {
+      const errorMessage = error.response?.data.message || "Login failed";
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
+
+
+  const { value, errors, loading, handleChange, setLoading, handleSubmit, setValue } = useAuth({
+    onSubmit,
+    formType: 'login',
+  });
 
   return (
     <>
@@ -170,87 +147,92 @@ const Login = () => {
         border={"none"}
         background={""}
         borderRadius={"8px"}
-        as={true}
+        as={false}
       >
-        <FormControl id="username" mb={4} onSubmit={handleSubmit}>
-          <FormLabel display="flex" gap="3px">
-            Email <Text textColor="red">*</Text>
-          </FormLabel>
-          <Input
-            type="text"
-            value={loginData?.email}
-            onChange={(e) =>
-              setLoginData({ ...loginData, email: e.target.value })
-            }
-            placeholder="enter your email"
-            required
-          />
-          {errors.email && <Text color="red.500">{errors.email}</Text>}
-        </FormControl>
-        <FormControl id="password" mb={6}>
-          <FormLabel display="flex" gap="3px">
-            Password <Text textColor="red">*</Text>
-          </FormLabel>
-          <Input
-            type="password"
-            value={loginData?.password}
-            onChange={(e) =>
-              setLoginData({ ...loginData, password: e.target.value })
-            }
-            required
-            placeholder="enter your password"
-          />
-          {errors.password && <Text color="red.500">{errors.password}</Text>}
-        </FormControl>
-        <Button
-          colorScheme="cyan"
-          color="white"
-          width="full"
-          isLoading={loading}
-          onClick={handleSubmit}
-        >
-          Login
-        </Button>
-        <Flex w="100%" justifyContent="center" marginTop="20px">
-          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-        </Flex>
-        <Text
-          cursor="pointer"
-          as="b"
-          p="2"
-          display="flex"
-          justifyContent="center"
-        >
-          Don't have an Account?
-          <Text
-            color="#0bc5ea"
-            as="b"
-            marginLeft={1}
-            onClick={() => router.push("/signUp")}
+        <form onSubmit={handleSubmit}>
+          <FormControl id="username" mb={4}>
+            <FormLabel display="flex" gap="3px">
+              Email <Text textColor="red">*</Text>
+            </FormLabel>
+            <Input
+              type="text"
+              value={value?.email}
+              onChange={(e) =>
+                setValue
+                  ({ ...value, email: e.target.value })
+              }
+              // onChange={handleChange}
+              placeholder="enter your email"
+            />
+            {errors.email && <Text color="red.500">{errors.email}</Text>}
+          </FormControl>
+          <FormControl id="password" mb={6}>
+            <FormLabel display="flex" gap="3px">
+              Password <Text textColor="red">*</Text>
+            </FormLabel>
+            <Input
+              type="password"
+              value={value?.password}
+              onChange={(e) =>
+                setValue({ ...value, password: e.target.value })
+              }
+              // onChange={handleChange}
+              placeholder="enter your password"
+            />
+            {errors.password && <Text color="red.500">{errors.password}</Text>}
+          </FormControl>
+          <Button
+            colorScheme="cyan"
+            color="white"
+            width="full"
+            isLoading={loading}
+            type="submit"
           >
-            Sign up
-          </Text>
-        </Text>
-        <Text
-          cursor={"pointer"}
-          as="b"
-          p={1}
-          display={"flex"}
-          justifyContent={"center"}
-        >
-          Forgotten Your Password ?{" "}
+            Login
+          </Button>
+          <Flex w="100%" justifyContent="center" marginTop="20px">
+            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+          </Flex>
           <Text
-            color="#0bc5ea"
+            cursor="pointer"
             as="b"
             marginLeft={1}
             onClick={() => router.push("/forgetPassword")}
+            display={"flex"}
+            p={2}
+            justifyContent={"center"}
           >
-            Forgot Password
+            Don't have an Account?
+            <Text
+              color="#0bc5ea"
+              as="b"
+              marginLeft={1}
+              onClick={() => router.push("/signUp")}
+            >
+              Sign up
+            </Text>
           </Text>
-        </Text>
+          <Text
+            cursor={"pointer"}
+            as="b"
+            p={1}
+            display={"flex"}
+            justifyContent={"center"}
+          >
+            Forgotten Your Password ?{" "}
+            <Text
+              color="#0bc5ea"
+              as="b"
+              marginLeft={1}
+              onClick={() => router.push("/forgetpassword")}
+            >
+              Forgot Password
+            </Text>
+          </Text>
+        </form>
+
       </CardContainer>
     </>
   );
-};
-
+}
 export default Login;

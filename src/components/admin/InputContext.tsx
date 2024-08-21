@@ -26,6 +26,7 @@ const InputContext = ({ logoutLoading }: any) => {
   const [isEditId, setIsEditId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [screenLoading, setscreenLoading] = useState<boolean>(false);
+  console.log(isEditId, 'ececcr')
 
   const fetchData = useCallback(async (documentId: any) => {
     try {
@@ -33,6 +34,7 @@ const InputContext = ({ logoutLoading }: any) => {
       const response = await axiosInstance.get(
         `/user/text${documentId ? `?documentId=${documentId}` : ""}`
       );
+      console.log(response, 'xecec')
 
       if (response.data) {
         setInputData(response?.data?.text);

@@ -2,9 +2,11 @@
 import ChatbotLink from "@/components/admin/ChatbotLink";
 import SideBar from "@/components/admin/SideBar";
 // import UserData from "@/components/admin/UserData";
+import CardContainer from "@/components/cardContainer/CardContainer";
 import Header from "@/components/common/Header";
+import DynamicForm from "@/components/dynamicForm/DynamicForm";
 import { getLocalStorageItem } from "@/utils/localStorage";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
@@ -42,24 +44,38 @@ const page = () => {
           <SideBar />
         </Box>
 
-        {/* <Box w="100%" mx="10">
-              <UserData />
-            </Box> */}
+        <CardContainer
+          border={"1px solid #e2e8f0"}
+          boxShadow={"sm"}
+          borderRadius={"10px"}
+          width="100%"
+          padding="20px"
+        >
+          <DynamicForm />
+        </CardContainer>
 
         {documentID ? (
           <Box height="100vh" w="60%">
             <ChatbotLink />
           </Box>
         ) : (
-          <Flex justifyContent="center" w="100%">
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            direction="column"
+            w="100%"
+            h="100vh"
+          >
             <Text as="b" fontSize="24" my="6">
               Please select any file or add text to generate a link.
             </Text>
           </Flex>
-        )}
+
+        )
+        };
       </Flex>
     </>
-  );
-};
+  )
+}
 
 export default page;

@@ -137,153 +137,152 @@ const UploadFile = () => {
 
   return (
     <Box>
-      <Card>
-        <CardContainer
-          border={"none"}
-          boxShadow={"sm"}
-          borderRadius={"10px"}
-          padding={"20px"}
-        >
-          <Flex alignItems={"center"} flexDirection={"column"}>
-            <CardHeader>
-              <Heading size="md" textAlign={"start"} pt={"0px!important"}>
-                Files
-              </Heading>
-            </CardHeader>
+      <CardContainer
+        border={"none"}
+        boxShadow={"sm"}
+        borderRadius={"10px"}
+        padding={"20px"}
+      >
+        <Flex alignItems={"center"} flexDirection={"column"}>
+          <CardHeader>
+            <Heading size="md" textAlign={"start"} pt={"0px!important"}>
+              Files
+            </Heading>
+          </CardHeader>
 
-            <CardBody pt={"0px !important"} width={"100%"}>
-              <Flex alignItems={"center"} justifyContent={"center"}>
-                <Box className="file-uploader-class">
-                  <FileUploader
-                    handleChange={handleUpload}
-                    name="file"
-                    children={
-                      <Box
-                        cursor="pointer"
-                        border={"2px dotted blue"}
-                        borderRadius={"7px"}
-                        width="100%"
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        p={"2"}
-                      >
-                        <BiImageAdd size={"40px"} color="blue" />
-                        <Box fontSize={"13px"}>
-                          Upload or drag a file right here supported extensions
-                          next line
-                          <br />
-                          {fileTypes?.join(", ")}
-                        </Box>
+          <CardBody pt={"0px !important"} width={"100%"}>
+            <Flex alignItems={"center"} justifyContent={"center"}>
+              <Box className="file-uploader-class">
+                <FileUploader
+                  handleChange={handleUpload}
+                  name="file"
+                  children={
+                    <Box
+                      cursor="pointer"
+                      border={"2px dotted blue"}
+                      borderRadius={"7px"}
+                      width="100%"
+                      display={"flex"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      p={"2"}
+                    >
+                      <BiImageAdd size={"40px"} color="blue" />
+                      <Box fontSize={"13px"}>
+                        Upload or drag a file right here supported extensions
+                        next line
+                        <br />
+                        {fileTypes?.join(", ")}
                       </Box>
-                    }
-                    types={fileTypes}
-                    onDrop={handleUpload}
-                  />
-                </Box>
-              </Flex>
-            </CardBody>
+                    </Box>
 
-            <Box justifyContent={"center"} alignItems={"center"}>
-              <Flex
-                justifyContent={"center"}
-                alignItems={"center"}
-                flexDirection={"column"}
-                gap={"10px"}
+                  }
+                  types={fileTypes}
+                  onDrop={handleUpload}
+                />
+              </Box>
+            </Flex>
+          </CardBody>
+
+          <Box justifyContent={"center"} alignItems={"center"}>
+            <Flex
+              justifyContent={"center"}
+              alignItems={"center"}
+              flexDirection={"column"}
+              gap={"10px"}
+            >
+              <Button
+                sx={{ color: "white", backgroundColor: "#5188b9" }}
+                colorScheme="blue"
+                onClick={handleUploadFile}
+                isLoading={isFileUpload}
               >
-                <Button
-                  sx={{ color: "white", backgroundColor: "#5188b9" }}
-                  colorScheme="blue"
-                  onClick={handleUploadFile}
-                  isLoading={isFileUpload}
-                >
-                  Upload file
-                </Button>
-              </Flex>
+                Upload file
+              </Button>
+            </Flex>
+          </Box>
+
+          <CardFooter flexDirection={"column"} width={"100%"}>
+            <Box>
+              {file?.name && (
+                <>
+                  <Text fontWeight={"bold"} textAlign={"center"}>
+                    Attached Files
+                  </Text>
+                  <Text textAlign={"center"} fontWeight={"bold"}>
+                    {file?.name}
+                  </Text>
+                </>
+              )}
             </Box>
 
-            <CardFooter flexDirection={"column"} width={"100%"}>
-              <Box>
-                {file?.name && (
-                  <>
-                    <Text fontWeight={"bold"} textAlign={"center"}>
-                      Attached Files
-                    </Text>
-                    <Text textAlign={"center"} fontWeight={"bold"}>
-                      {file?.name}
-                    </Text>
-                  </>
-                )}
-              </Box>
-
-              <Box>
-                {loading ? (
-                  <Box>
-                    <Flex justifyContent={"center"}>
-                      <Spinner
-                        thickness="4px"
-                        speed="0.65s"
-                        emptyColor="gray.200"
-                        color="blue.500"
-                        size="md"
-                      />
-                    </Flex>
-                  </Box>
-                ) : (
-                  <>
-                    {data.length > 0 ? (
-                      <>
-                        <Text
-                          fontWeight={"bold"}
-                          textAlign={"center"}
-                          padding={4}
-                        >
-                          Already Selected File
-                        </Text>
-                        <Divider padding={2} />
-                        {data?.map((item: any) => (
-                          <Flex
-                            key={item._id}
-                            width={"80%"}
-                            margin={"auto"}
-                            alignItems="center"
-                            gap="2"
-                            padding={2}
-                          >
-                            <Box p="2">
-                              <Heading size="md">{item.fileName}</Heading>
-                            </Box>
-                            <Spacer />
-                            <ButtonGroup gap="2">
-                              <Button
-                                colorScheme="blue"
-                                isLoading={deleteFileLoading === item?._id}
-                                onClick={() => {
-                                  setDeleteFileLoading(item?._id);
-                                  handleDeleteFile(
-                                    item?.documentId,
-                                    item?.docNo
-                                  );
-                                }}
-                              >
-                                <DeleteIcon />
-                              </Button>
-                            </ButtonGroup>
-                          </Flex>
-                        ))}
-                      </>
-                    ) : (
-                      <Text textAlign="center" textColor={"gray.400"}>
-                        {!file?.name ? "no data found!" : ""}
+            <Box>
+              {loading ? (
+                <Box>
+                  <Flex justifyContent={"center"}>
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="blue.500"
+                      size="md"
+                    />
+                  </Flex>
+                </Box>
+              ) : (
+                <>
+                  {data.length > 0 ? (
+                    <>
+                      <Text
+                        fontWeight={"bold"}
+                        textAlign={"center"}
+                        padding={4}
+                      >
+                        Already Selected File
                       </Text>
-                    )}
-                  </>
-                )}
-              </Box>
-            </CardFooter>
-          </Flex>
-        </CardContainer>
-      </Card>
+                      <Divider padding={2} />
+                      {data?.map((item: any) => (
+                        <Flex
+                          key={item._id}
+                          width={"80%"}
+                          margin={"auto"}
+                          alignItems="center"
+                          gap="2"
+                          padding={2}
+                        >
+                          <Box p="2">
+                            <Heading size="md">{item.fileName}</Heading>
+                          </Box>
+                          <Spacer />
+                          <ButtonGroup gap="2">
+                            <Button
+                              colorScheme="blue"
+                              isLoading={deleteFileLoading === item?._id}
+                              onClick={() => {
+                                setDeleteFileLoading(item?._id);
+                                handleDeleteFile(
+                                  item.documentId,
+                                  item?.docNo
+                                );
+                              }}
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          </ButtonGroup>
+                        </Flex>
+                      ))}
+                    </>
+                  ) : (
+                    <Text textAlign="center" textColor={"gray.400"}>
+                      {!file?.name ? "no data found!" : null}
+                    </Text>
+                  )}
+                </>
+              )}
+            </Box>
+          </CardFooter>
+        </Flex>
+      </CardContainer>
     </Box>
   );
 };
