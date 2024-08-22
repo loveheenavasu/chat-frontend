@@ -60,7 +60,6 @@ const Login = () => {
     }
   }, [isLoggedIn]);
 
-
   const authen = async (data: LoginData) => {
     try {
       const response = await axios.post(
@@ -115,8 +114,11 @@ const Login = () => {
         setLocalStorageItem("authToken", accessToken);
         toast.success(response.data.message);
         router.push("/");
-        console.log('Setting token:', accessToken);
-        console.log('Current token in LocalStorage:', getLocalStorageItem('authToken'));
+        console.log("Setting token:", accessToken);
+        console.log(
+          "Current token in LocalStorage:",
+          getLocalStorageItem("authToken")
+        );
       } else {
         toast.error("Unexpected response status: " + response.status);
       }
@@ -128,10 +130,17 @@ const Login = () => {
     }
   };
 
-
-  const { value, errors, loading, handleChange, setLoading, handleSubmit, setValue } = useAuth({
+  const {
+    value,
+    errors,
+    loading,
+    handleChange,
+    setLoading,
+    handleSubmit,
+    setValue,
+  } = useAuth({
     onSubmit,
-    formType: 'login',
+    formType: "login",
   });
 
   return (
@@ -157,10 +166,7 @@ const Login = () => {
             <Input
               type="text"
               value={value?.email}
-              onChange={(e) =>
-                setValue
-                  ({ ...value, email: e.target.value })
-              }
+              onChange={(e) => setValue({ ...value, email: e.target.value })}
               // onChange={handleChange}
               placeholder="enter your email"
             />
@@ -173,9 +179,7 @@ const Login = () => {
             <Input
               type="password"
               value={value?.password}
-              onChange={(e) =>
-                setValue({ ...value, password: e.target.value })
-              }
+              onChange={(e) => setValue({ ...value, password: e.target.value })}
               // onChange={handleChange}
               placeholder="enter your password"
             />
@@ -197,7 +201,7 @@ const Login = () => {
             cursor="pointer"
             as="b"
             marginLeft={1}
-            onClick={() => router.push("/forgetPassword")}
+            // onClick={() => router.push("/forgetPassword")}
             display={"flex"}
             p={2}
             justifyContent={"center"}
@@ -230,9 +234,8 @@ const Login = () => {
             </Text>
           </Text>
         </form>
-
       </CardContainer>
     </>
   );
-}
+};
 export default Login;
