@@ -4,10 +4,9 @@ import SideBar from "@/components/admin/SideBar";
 // import UserData from "@/components/admin/UserData";
 import Header from "@/components/common/Header";
 import { getLocalStorageItem } from "@/utils/localStorage";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { IoMdArrowBack } from "react-icons/io";
 
 const page = () => {
   const [documentID, setDocumentID] = useState<string | null | undefined>(null);
