@@ -54,45 +54,26 @@ const page = () => {
           <DynamicForm />
         </CardContainer>
 
-        {documentID ? (
-          <Box height="100vh" w="60%">
-            <ChatbotLink />
+        <Flex justifyContent="space-between" px="14" gap="3">
+          <Box w="20%">
+            <SideBar />
           </Box>
-        ) : (
-          <Flex
-            m="5"
-            p="10px"
-            alignItems="center"
-            cursor="pointer"
-            gap="1"
-            _hover={{ bg: "blue.50" }}
-          >
-            <IoMdArrowBack size="24px" /> Back
-          </Flex>
-        </Link>
-      </Box>
-
-      <Flex justifyContent="space-between" px="14" gap="3">
-        <Box w="20%">
-          <SideBar />
-        </Box>
-
-        {documentID ? (
-          <Box height="100vh" w="60%">
-            <ChatbotLink />
-          </Box>
-        ) : (
-          <Flex justifyContent="center" w="100%">
-            <Text as="b" fontSize="24" my="6">
-              Please select any file or add text to generate a link.
-            </Text>
-          </Flex>
-
-        )
-        };
+          {documentID ? (
+            <Box height="100vh" w="60%">
+              <ChatbotLink />
+            </Box>
+          ) : (
+            <Flex justifyContent="center" w="100%">
+              <Text as="b" fontSize="24" my="6">
+                Please select any file or add text to generate a link.
+              </Text>
+            </Flex>
+          )}
+          ;
+        </Flex>
       </Flex>
     </>
-  )
-}
+  );
+};
 
 export default page;
