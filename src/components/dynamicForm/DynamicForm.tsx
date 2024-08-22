@@ -10,6 +10,9 @@ import {
   Input,
   Select,
   Table,
+  TableContainer,
+  Tbody,
+  Td,
   Text,
   Th,
   Thead,
@@ -23,7 +26,7 @@ import CardContainer from "@/components/cardContainer/CardContainer";
 import { toast } from "react-toastify";
 
 interface FormFields {
-  type: string;
+  type: string | number;
   name: string;
   label: string;
   isRequired: boolean;
@@ -172,63 +175,71 @@ const DynamicForm = () => {
                 </Checkbox>
               ))}
             </Box>
-            <Box mt={5}>
-              {selectedIndexes.length >= 1 ? (
-                <Table mb={5}>
+
+            <TableContainer>
+              <Table my="5" size="sm" border="1px solid black">
+                {selectedIndexes.length >= 1 ? (
                   <Thead>
                     <Tr>
-                      <Th textAlign={"center"}>Type</Th>
-                      <Th textAlign={"center"}>Name</Th>
-                      <Th textAlign={"center"}>Label</Th>
+                      <Th border="1px solid black" textAlign={"center"}>
+                        Type
+                      </Th>
+                      <Th border="1px solid black" textAlign={"center"}>
+                        Name
+                      </Th>
+                      <Th border="1px solid black" textAlign={"center"}>
+                        Label
+                      </Th>
                     </Tr>
                   </Thead>
-                </Table>
-              ) : null}
+                ) : null}
 
-              {selectedIndexes.map((selectedValue) => {
-                const selectedItem = staticInputFields.find(
-                  (item) => item.value === selectedValue
-                );
-                return (
-                  <Box
-                    display={"flex"}
-                    gap={4}
-                    mb={4}
-                    key={selectedItem?.value}
-                    justifyContent={"space-evenly"}
-                  >
-                    <Box textColor={"gray"} fontWeight={500}>
-                      <Card
-                        p={"10px 70px"}
-                        textColor={"gray.500"}
-                        bg={"#e2e8f0"}
-                      >
-                        <Text fontSize={"13px"}>{selectedItem?.type}</Text>
-                      </Card>
-                    </Box>
-                    <Box textColor={"gray"} fontWeight={500}>
-                      <Card
-                        p={"10px 70px"}
-                        textColor={"gray.500"}
-                        bg={"#e2e8f0"}
-                      >
-                        <Text fontSize={"13px"}>{selectedItem?.value}</Text>
-                      </Card>
-                    </Box>
-
-                    <Box textColor={"gray"} fontWeight={500}>
-                      <Card
-                        p={"10px 70px"}
-                        textColor={"gray.500"}
-                        bg={"#e2e8f0"}
-                      >
-                        <Text fontSize={"13px"}>{selectedItem?.label}</Text>
-                      </Card>
-                    </Box>
-                  </Box>
-                );
-              })}
-            </Box>
+                <Tbody>
+                  {selectedIndexes.map((selectedValue) => {
+                    const selectedItem = staticInputFields.find(
+                      (item) => item.value === selectedValue
+                    );
+                    return (
+                      <Tr key={selectedItem?.value}>
+                        <Td
+                          textAlign="center"
+                          p="10px"
+                          border="1px solid black"
+                          bg="#e2e8f0"
+                          color="gray.500"
+                          fontSize="13px"
+                          fontWeight={500}
+                        >
+                          {selectedItem?.type}
+                        </Td>
+                        <Td
+                          textAlign="center"
+                          p="10px"
+                          border="1px solid black"
+                          bg="#e2e8f0"
+                          color="gray.500"
+                          fontSize="13px"
+                          fontWeight={500}
+                        >
+                          {selectedItem?.value}
+                        </Td>
+                        <Td
+                          textAlign="center"
+                          p="10px"
+                          border="1px solid black"
+                          bg="#e2e8f0"
+                          color="gray.500"
+                          fontSize="13px"
+                          fontWeight={500}
+                        >
+                          {selectedItem?.label}
+                        </Td>
+                      </Tr>
+                    );
+                  })}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </Box>
 
           <Box mt={10}>
@@ -253,7 +264,7 @@ const DynamicForm = () => {
                       Select Field Type
                     </label>
                     <Select
-                      value={field.type && field.label}
+                      value={field?.type}
                       onChange={(event) => handleTypeChange(index, event)}
                       mb={2}
                     >
@@ -292,7 +303,7 @@ const DynamicForm = () => {
                         fontWeight: "500",
                       }}
                     >
-                      Label
+                      Field Label
                     </label>
                     <Input
                       type="text"

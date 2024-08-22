@@ -81,7 +81,7 @@ export const UserDataPopUp = ({ onClose }: any) => {
 
   const renderInputField = (item: Fields) => {
     switch (item.type) {
-      case "textArea":
+      case "textarea":
         return (
           <Textarea
             w="100%"
