@@ -53,24 +53,17 @@ const page = () => {
         >
           <DynamicForm />
         </CardContainer>
-
-        <Flex justifyContent="space-between" px="14" gap="3">
-          <Box w="20%">
-            <SideBar />
+        {documentID ? (
+          <Box height="100vh" w="60%">
+            <ChatbotLink />
           </Box>
-          {documentID ? (
-            <Box height="100vh" w="60%">
-              <ChatbotLink />
-            </Box>
-          ) : (
-            <Flex justifyContent="center" w="100%">
-              <Text as="b" fontSize="24" my="6">
-                Please select any file or add text to generate a link.
-              </Text>
-            </Flex>
-          )}
-          ;
-        </Flex>
+        ) : (
+          <Flex justifyContent="center" w="100%">
+            <Text as="b" fontSize="24" my="6">
+              Please select any file or add text to generate a link.
+            </Text>
+          </Flex>
+        )}
       </Flex>
     </>
   );

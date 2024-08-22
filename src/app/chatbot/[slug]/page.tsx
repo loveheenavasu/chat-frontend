@@ -16,6 +16,7 @@ import {
 import { UserDataPopUp } from "@/components/admin/UserDataPopUp";
 import axiosInstance from "@/utils/axiosInstance";
 import { primaryTheme, secondaryTheme } from "@/theme";
+import { getLocalStorageItem } from "@/utils/localStorage";
 
 interface Message {
   chatId: number | null;
@@ -36,12 +37,11 @@ const page = ({ params }: any) => {
   //deafult primary theme
   const [theme, setTheme] = useState(primaryTheme);
   const [defaultTheme, setDefaultTheme] = useState();
-
   const [chatId, setChatId] = useState<string>("");
   const [chatSessionId, setChatSessionId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showModal, setShowModal] = useState(false);
+  console.log("isOpen", isOpen);
 
   const id = params.slug;
 
@@ -49,7 +49,6 @@ const page = ({ params }: any) => {
     SOCKET.connect();
     SOCKET.on("connect", () => {
       console.log(SOCKET.id, "socketId");
-      setShowModal(true);
       onOpen();
     });
     SOCKET.on("searches", (data) => {
@@ -86,6 +85,33 @@ const page = ({ params }: any) => {
   };
   console.log(chatMessage);
 
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const documentId = getLocalStorageItem("documentId");
+      const res = await axiosInstance.get(
+        `/user/form-ip?documentId=${documentId}`
+      );
+      console.log("fetchData", res.data);
+
+      if (res?.data?.data) {
+        console.log("data is present and i want to otpne the modal ");
+        onOpen();
+      } else {
+        console.log("data is not present and i want to close the modal ");
+        onClose();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   useEffect(() => {
     const fetchTheme = async () => {
       try {
@@ -110,51 +136,25 @@ const page = ({ params }: any) => {
 
   console.log(defaultTheme, "defaultTheme");
   console.log(theme.background, "edejd");
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const documentId = "5bb125d4-c1b5-4935-8a62-f889549c43df";
-      const response = await axiosInstance.get(
-        `/user/form-ip?documentId=${documentId}`
-      );
-      if (!response.data?.data) {
-        setShowModal(false);
-        onClose();
-      } else {
-        setShowModal(true);
-        onOpen();
-      }
-      console.log("fetch", response);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [onOpen, onClose]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   return (
     <Box>
-      {showModal === true && (
-        <Modal
-          onClose={onClose}
-          closeOnOverlayClick={false}
-          isOpen={isOpen}
-          size="xl"
-          isCentered={true}
-        >
-          <ModalOverlay />
-          <ModalContent w="100%" textAlign="center" h="70vh" p="5">
-            <ModalHeader> User Information </ModalHeader>
-            <ModalBody overflow="scroll">
-              <UserDataPopUp onClose={onClose} />
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      )}
+      <Modal
+        onClose={onClose}
+        closeOnOverlayClick={false}
+        isOpen={isOpen}
+        size="xl"
+        isCentered={true}
+      >
+        <ModalOverlay />
+        <ModalContent w="100%" textAlign="center" h="70vh" p="5">
+          <ModalHeader> User Information </ModalHeader>
+          <ModalBody overflow="scroll">
+            <UserDataPopUp onClose={onClose} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
       <Header bg={theme.background} title={theme.title} />
       <ChatContainer
         chatMessage={chatMessage}

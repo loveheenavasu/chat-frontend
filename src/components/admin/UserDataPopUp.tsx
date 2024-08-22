@@ -120,7 +120,7 @@ export const UserDataPopUp = ({ onClose }: any) => {
           key={item.name}
           mb="4"
         >
-          <Flex w="20%">
+          <Flex w="25%">
             <Text as="b">{item.label} </Text>
             {item.isRequired && <Text color="red">*</Text>} :
           </Flex>
