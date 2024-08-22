@@ -116,9 +116,7 @@ const DynamicForm = () => {
         setSelectedIndexes(selectedIndexes);
       }
     } catch (error: any) {
-      toast.error(
-        error.response.data.messgage || "Please enter the value for custom form"
-      );
+      toast.error("Please enter the value for custom form");
       console.error("Error submitting form:", error);
     }
   };
