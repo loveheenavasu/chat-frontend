@@ -1,14 +1,22 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ChatContainer from "@/components/chat/Container";
 import ChatFooter from "@/components/chat/Footer";
 import Header from "@/components/common/Header";
 import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
-import { primaryTheme, secondaryTheme } from '@/theme';
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { UserDataPopUp } from "@/components/admin/UserDataPopUp";
 import axiosInstance from "@/utils/axiosInstance";
-
-
+import { primaryTheme, secondaryTheme } from "@/theme";
+import { getLocalStorageItem } from "@/utils/localStorage";
 
 interface Message {
   chatId: number | null;
@@ -18,7 +26,6 @@ interface Message {
 }
 
 const page = ({ params }: any) => {
-
   const [chatMessage, setChatMessage] = useState<Message[]>([
     {
       chatId: null,
@@ -29,17 +36,20 @@ const page = ({ params }: any) => {
   ]);
   //deafult primary theme
   const [theme, setTheme] = useState(primaryTheme);
-  const [defaultTheme, setDefaultTheme] = useState()
-
+  const [defaultTheme, setDefaultTheme] = useState();
   const [chatId, setChatId] = useState<string>("");
   const [chatSessionId, setChatSessionId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  console.log("isOpen", isOpen);
+
   const id = params.slug;
 
   useEffect(() => {
     SOCKET.connect();
     SOCKET.on("connect", () => {
       console.log(SOCKET.id, "socketId");
+      onOpen();
     });
     SOCKET.on("searches", (data) => {
       if (data.type === "USER") {
@@ -75,13 +85,40 @@ const page = ({ params }: any) => {
   };
   console.log(chatMessage);
 
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const documentId = getLocalStorageItem("documentId");
+      const res = await axiosInstance.get(
+        `/user/form-ip?documentId=${documentId}`
+      );
+      console.log("fetchData", res.data);
+
+      if (res?.data?.data) {
+        console.log("data is present and i want to otpne the modal ");
+        onOpen();
+      } else {
+        console.log("data is not present and i want to close the modal ");
+        onClose();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   useEffect(() => {
     const fetchTheme = async () => {
       try {
         const response = await axiosInstance.get(`/user/theme`);
-        console.log(response, 'db4bu44')
+        console.log(response, "db4bu44");
         setDefaultTheme(response.data.data[0].theme);
-        console.log(response.data.data[10].theme, 'cici4c');
+        console.log(response.data.data[10].theme, "cici4c");
       } catch (error) {
         console.error("Failed to fetch the theme:", error);
       }
@@ -90,21 +127,40 @@ const page = ({ params }: any) => {
   }, []);
 
   useEffect(() => {
-    if (defaultTheme === 'Primary') {
+    if (defaultTheme === "Primary") {
       setTheme(primaryTheme);
-    } else if (defaultTheme === 'Secondary') {
+    } else if (defaultTheme === "Secondary") {
       setTheme(secondaryTheme);
     }
   }, [defaultTheme]);
 
+  console.log(defaultTheme, "defaultTheme");
+  console.log(theme.background, "edejd");
 
-  console.log(defaultTheme, 'defaultTheme')
-  console.log(theme.background, 'edejd')
   return (
     <Box>
+      <Modal
+        onClose={onClose}
+        closeOnOverlayClick={false}
+        isOpen={isOpen}
+        size="xl"
+        isCentered={true}
+      >
+        <ModalOverlay />
+        <ModalContent w="100%" textAlign="center" h="70vh" p="5">
+          <ModalHeader> User Information </ModalHeader>
+          <ModalBody overflow="scroll">
+            <UserDataPopUp onClose={onClose} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
       <Header bg={theme.background} title={theme.title} />
-      <ChatContainer chatMessage={chatMessage} loading={loading}
-        bg={theme.innerContainer} color={theme.color}
+      <ChatContainer
+        chatMessage={chatMessage}
+        loading={loading}
+        bg={theme.innerContainer}
+        color={theme.color}
       />
       {loading && (
         <Box bg="#e9e9ff">

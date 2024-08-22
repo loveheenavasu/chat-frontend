@@ -33,18 +33,17 @@ const Home: React.FC = () => {
       if (response.data) {
         setData(response.data.data);
       }
-      setLoading(false);
-    } catch (error: any) {
-      toast.error(error.response?.data.message)
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-
     fetchData();
   }, []);
-  console.log(data, 'owddeow')
+  console.log(data, "owddeow");
 
   const handleCreateChatbot = () => {
     removeParticularItemFromLocalStorage("documentId");

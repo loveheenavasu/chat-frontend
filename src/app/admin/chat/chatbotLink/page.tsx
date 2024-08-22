@@ -53,29 +53,20 @@ const page = () => {
         >
           <DynamicForm />
         </CardContainer>
-
         {documentID ? (
           <Box height="100vh" w="60%">
             <ChatbotLink />
           </Box>
         ) : (
-          <Flex
-            justifyContent="center"
-            alignItems="center"
-            direction="column"
-            w="100%"
-            h="100vh"
-          >
+          <Flex justifyContent="center" w="100%">
             <Text as="b" fontSize="24" my="6">
               Please select any file or add text to generate a link.
             </Text>
           </Flex>
-
-        )
-        };
+        )}
       </Flex>
     </>
-  )
-}
+  );
+};
 
 export default page;
