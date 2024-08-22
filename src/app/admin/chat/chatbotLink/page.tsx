@@ -1,12 +1,12 @@
 "use client";
 import ChatbotLink from "@/components/admin/ChatbotLink";
 import SideBar from "@/components/admin/SideBar";
-// import UserData from "@/components/admin/UserData";
 import Header from "@/components/common/Header";
 import { getLocalStorageItem } from "@/utils/localStorage";
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { IoMdArrowBack } from "react-icons/io";
 
 const page = () => {
   const [documentID, setDocumentID] = useState<string | null | undefined>(null);
@@ -40,10 +40,6 @@ const page = () => {
         <Box w="20%">
           <SideBar />
         </Box>
-
-        {/* <Box w="100%" mx="10">
-              <UserData />
-            </Box> */}
 
         {documentID ? (
           <Box height="100vh" w="60%">
