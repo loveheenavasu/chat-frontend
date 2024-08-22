@@ -1,5 +1,6 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import MessageBoxAdmin, { Role } from "./MessageBox";
 
 interface chatMessage {
@@ -11,11 +12,18 @@ interface chatMessage {
 interface ChatContainerProps {
   chatMessage: chatMessage[];
   loading: boolean;
+  bg: string;
+  color?: {
+    textBg: string;
+    textColor: string;
+  };
 }
 
 const ChatContainer: React.FC<ChatContainerProps> = ({
   chatMessage,
   loading,
+  bg,
+  color,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -25,12 +33,15 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
     }
   }, [chatMessage]);
 
+  // const bg = router?.query.bg || useColorModeValue('gray.500', '#fff');
+  // const color = router?.query.color || useColorModeValue('#fff', 'gray.500');
+
   return (
     <Flex
       ref={containerRef}
       w="100%"
       direction="column"
-      bg="#e9e9ff"
+      bg={bg}
       overflowY="auto"
       h={loading ? "73vh" : "82vh"}
     >
@@ -41,7 +52,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
             w="100%"
             justifyContent={ele?.type === Role.AI ? "flex-start" : "flex-end"}
           >
-            <MessageBoxAdmin data={ele} loading={loading} />
+            <MessageBoxAdmin data={ele} loading={loading} bg={bg} color={color} />
           </Flex>
         );
       })}

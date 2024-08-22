@@ -19,80 +19,44 @@ import {
   removeLocalStorageItem,
 } from "@/utils/localStorage";
 import CardContainer from "@/components/cardContainer/CardContainer";
+import { FormInputs, useAuth } from "@/hooks/useAuth";
 
-interface ResetCredentials {
-  password: string;
-  confirmPassword: string;
-}
 const Resetpassword: React.FC = () => {
-  const [formData, setFormData] = useState({
-    password: "",
-    confirmPassword: "",
-  });
-  const [errors, setErrors] = useState<ResetCredentials>({
-    password: "",
-    confirmPassword: "",
-  });
-  const [loading, setLoading] = useState<boolean>(false);
+
   const router = useRouter();
   const uniqueCode = getLocalStorageItem("uniqueCode");
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
-  const validate = () => {
-    let formIsValid = true;
-    let errors: any = {};
 
-    if (!formData.password) {
-      formIsValid = false;
-      errors.password = "Please enter your password.";
-    }
-    if (!formData.confirmPassword) {
-      formIsValid = false;
-      errors.confirmPassword = "Please confirm your password.";
-    } else if (formData.password.length < 8) {
-      formIsValid = false;
-      errors.password = "Password must be at least 8 characters long.";
-    }
-    if (formData.password !== formData.confirmPassword) {
-      formIsValid = false;
-      errors.confirmPassword = "Passwords do not match.";
-    }
-
-    setErrors(errors);
-    console.log(formIsValid, "VALIDDD");
-    return formIsValid;
-  };
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    if (validate()) {
-      try {
-        setLoading(true);
-        const response = await axiosInstance.post("user/reset", {
-          uniqueCode,
-          password: formData.password,
-        });
-        toast.success(response?.data?.message);
-        if (response.status === 200) {
-          removeLocalStorageItem();
-          toast.success(response.data?.message);
-          router.push(`/login`);
-          setLoading(false);
-        }
-      } catch (error: any) {
-        toast.error(error.response.data.message);
+  const onSubmit = async (value: FormInputs) => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post("user/reset", {
+        uniqueCode,
+        password: value.password,
+      });
+      toast.success(response?.data?.message);
+      if (response.status === 200) {
+        removeLocalStorageItem();
+        toast.success(response.data?.message);
+        router.push(`/login`);
         setLoading(false);
       }
-    } else {
-      console.log("ERROR paras");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      setLoading(false);
     }
-  };
+  }
 
+  const {
+    value,
+    errors,
+    loading,
+    handleChange,
+    handleSubmit,
+    setErrors,
+    setLoading, } = useAuth({
+      onSubmit,
+      formType: 'resetpassword'
+    })
   return (
     <>
       <Text textColor={"white"} p={"20px"} as="b" fontSize={36}>
@@ -121,7 +85,7 @@ const Resetpassword: React.FC = () => {
               <FormLabel>New Password</FormLabel>
               <Input
                 type="password"
-                value={formData.password}
+                value={value.password}
                 onChange={handleChange}
                 placeholder="enter your new password"
               />
@@ -133,7 +97,7 @@ const Resetpassword: React.FC = () => {
               <FormLabel>Confirm New Password</FormLabel>
               <Input
                 type="password"
-                value={formData.confirmPassword}
+                value={value.confirmPassword}
                 onChange={handleChange}
                 placeholder="confirm your password"
               />

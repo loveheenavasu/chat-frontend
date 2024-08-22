@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { removeParticularItemFromLocalStorage } from "@/utils/localStorage";
+import { toast } from "react-toastify";
 
 const Home: React.FC = () => {
   const [data, setData] = useState([]);
@@ -42,6 +43,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  console.log(data, "owddeow");
 
   const handleCreateChatbot = () => {
     removeParticularItemFromLocalStorage("documentId");

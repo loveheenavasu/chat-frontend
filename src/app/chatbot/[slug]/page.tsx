@@ -15,6 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { UserDataPopUp } from "@/components/admin/UserDataPopUp";
 import axiosInstance from "@/utils/axiosInstance";
+import { primaryTheme, secondaryTheme } from "@/theme";
+
 interface Message {
   chatId: number | null;
   type: "AI" | "user" | string;
@@ -31,6 +33,9 @@ const page = ({ params }: any) => {
       chatSessionId: null,
     },
   ]);
+  //deafult primary theme
+  const [theme, setTheme] = useState(primaryTheme);
+  const [defaultTheme, setDefaultTheme] = useState();
 
   const [chatId, setChatId] = useState<string>("");
   const [chatSessionId, setChatSessionId] = useState<string>("");
@@ -79,7 +84,32 @@ const page = ({ params }: any) => {
       ...(chatSessionId && { chatSessionId }),
     });
   };
+  console.log(chatMessage);
 
+  useEffect(() => {
+    const fetchTheme = async () => {
+      try {
+        const response = await axiosInstance.get(`/user/theme`);
+        console.log(response, "db4bu44");
+        setDefaultTheme(response.data.data[0].theme);
+        console.log(response.data.data[10].theme, "cici4c");
+      } catch (error) {
+        console.error("Failed to fetch the theme:", error);
+      }
+    };
+    fetchTheme();
+  }, []);
+
+  useEffect(() => {
+    if (defaultTheme === "Primary") {
+      setTheme(primaryTheme);
+    } else if (defaultTheme === "Secondary") {
+      setTheme(secondaryTheme);
+    }
+  }, [defaultTheme]);
+
+  console.log(defaultTheme, "defaultTheme");
+  console.log(theme.background, "edejd");
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -125,8 +155,13 @@ const page = ({ params }: any) => {
           </ModalContent>
         </Modal>
       )}
-      <Header />
-      <ChatContainer chatMessage={chatMessage} loading={loading} />
+      <Header bg={theme.background} title={theme.title} />
+      <ChatContainer
+        chatMessage={chatMessage}
+        loading={loading}
+        bg={theme.innerContainer}
+        color={theme.color}
+      />
       {loading && (
         <Box bg="#e9e9ff">
           <svg
@@ -167,9 +202,8 @@ const page = ({ params }: any) => {
           </svg>
         </Box>
       )}
-      <ChatFooter handleSend={handleSend} />
+      <ChatFooter handleSend={handleSend} bg={theme.background} />
     </Box>
   );
 };
-
 export default page;

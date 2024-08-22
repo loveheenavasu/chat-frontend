@@ -7,68 +7,42 @@ import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { setLocalStorageItem } from "@/utils/localStorage";
 import CardContainer from "@/components/cardContainer/CardContainer";
-interface FormData {
-  email: string;
-}
+import { FormInputs, useAuth } from "@/hooks/useAuth";
 
-const ForgetPasswordCard: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    email: "",
-  });
+const ForgetPassword: React.FC = () => {
 
-  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const [errors, setErrors] = useState({
-    email: "",
-  });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
-  const validate = () => {
-    let formIsValid = true;
-    let errors: any = {};
-    if (!formData.email) {
-      formIsValid = false;
-      errors.email = "Please enter your email.";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      formIsValid = false;
-      errors.email = "Email is not valid.";
-    }
-    setErrors(errors);
-    return formIsValid;
-  };
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (validate()) {
-      try {
-        if (!formData.email) {
-          toast.error("please enter the email");
-          return;
-        }
-        setLoading(true);
-        const response = await axiosInstance.post("user/forgot", {
-          email: formData.email,
-        });
+  const onSubmit = async (value: FormInputs) => {
+    console.log("Submitting form with:", value); // Add this for debugging
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post("user/forgot", {
+        email: value.email,
+      });
+      if (response.status === 200) {
         toast.success(response?.data?.message);
-        if (response.status === 200) {
-          setLocalStorageItem(
-            "verifyOtpToken",
-            response?.data?.data?.accessToken
-          );
-          router.push(`/otp?email=${formData.email}&isForget=true`);
-        }
-      } catch (error: any) {
-        console.log(error, "ecvcvu4c");
-        toast.error(error.response?.data.message);
-        setLoading(false);
+        setLocalStorageItem("verifyOtpToken", response?.data?.data?.accessToken);
+        router.push(`/otp?email=${value.email}&isForget=true`);
       }
+    } catch (error: any) {
+      console.log("Error:", error);
+      toast.error(error.response?.data?.message || "An error occurred");
+    } finally {
+      setLoading(false);
     }
   };
+  const {
+    value,
+    errors,
+    loading,
+    handleChange,
+    handleSubmit,
+    setErrors,
+    setLoading, } = useAuth({
+      onSubmit,
+      formType: 'forgotpassword'
+    })
 
   return (
     <>
@@ -89,7 +63,7 @@ const ForgetPasswordCard: React.FC = () => {
               <FormLabel>Email</FormLabel>
               <Input
                 type="text"
-                value={formData.email}
+                value={value.email}
                 onChange={handleChange}
                 placeholder="enter your email"
               />
@@ -104,28 +78,29 @@ const ForgetPasswordCard: React.FC = () => {
             >
               Forget password
             </Button>
-            <Text
-              cursor={"pointer"}
-              as="b"
-              p={4}
-              display={"flex"}
-              justifyContent={"center"}
-            >
-              Don't have an Account?{" "}
-              <Text
-                color="#0bc5ea"
-                as="b"
-                marginLeft={1}
-                onClick={() => router.push("/login")}
-              >
-                Login{" "}
-              </Text>
-            </Text>
           </form>
+
+          <Text
+            cursor={"pointer"}
+            as="b"
+            p={4}
+            display={"flex"}
+            justifyContent={"center"}
+          >
+            Don't have an Account?{" "}
+            <Text
+              color="#0bc5ea"
+              as="b"
+              marginLeft={1}
+              onClick={() => router.push("/login")}
+            >
+              Login{" "}
+            </Text>
+          </Text>
         </>
       </CardContainer>
     </>
   );
 };
 
-export default ForgetPasswordCard;
+export default ForgetPassword;
