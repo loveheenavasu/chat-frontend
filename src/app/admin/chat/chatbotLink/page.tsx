@@ -40,7 +40,7 @@ const page = () => {
       </Box>
 
       <Flex justifyContent="space-between" px="14" gap="3">
-        <Box w="20%">
+        <Box w="34%">
           <SideBar />
         </Box>
 
@@ -58,11 +58,17 @@ const page = () => {
             <ChatbotLink />
           </Box>
         ) : (
-          <Flex justifyContent="center" w="100%">
+          <CardContainer
+            border={"1px solid #e2e8f0"}
+            boxShadow={"sm"}
+            borderRadius={"10px"}
+            width="60%"
+            padding="20px"
+          >
             <Text as="b" fontSize="24" my="6">
               Please select any file or add text to generate a link.
             </Text>
-          </Flex>
+          </CardContainer>
         )}
       </Flex>
     </>

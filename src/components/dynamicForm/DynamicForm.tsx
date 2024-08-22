@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   Checkbox,
+  Flex,
   FormControl,
   Input,
   Select,
@@ -136,9 +137,6 @@ const DynamicForm = () => {
           <Button onClick={addField}>
             <BiPlus />
           </Button>
-          <Button onClick={handleSubmit} colorScheme="blue">
-            Submit
-          </Button>
         </Box>
       </Box>
 
@@ -151,8 +149,15 @@ const DynamicForm = () => {
       >
         <FormControl as="form" onSubmit={handleSubmit} mb={4}>
           <Box>
-            <Text textAlign={"center"} fontSize={22} fontWeight={600} mb={4}>
-              Select Default Fields
+            <Text
+              textAlign={"center"}
+              my="3"
+              fontSize={16}
+              fontWeight={400}
+              mb={4}
+            >
+              Select any Field from here or add any custom field by clicking on
+              + button
             </Text>
             <Box display={"flex"} justifyContent={"space-evenly"} gap={4}>
               {staticInputFields.map((item) => (
@@ -336,6 +341,12 @@ const DynamicForm = () => {
               </Box>
             ))}
           </Box>
+
+          <Flex justifyContent="center" alignItems="center">
+            <Button onClick={handleSubmit} colorScheme="blue">
+              Submit
+            </Button>
+          </Flex>
         </FormControl>
       </CardContainer>
     </Box>

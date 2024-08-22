@@ -52,7 +52,12 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
             w="100%"
             justifyContent={ele?.type === Role.AI ? "flex-start" : "flex-end"}
           >
-            <MessageBoxAdmin data={ele} loading={loading} bg={bg} color={color} />
+            <MessageBoxAdmin
+              data={ele}
+              loading={loading}
+              bg={bg}
+              color={color}
+            />
           </Flex>
         );
       })}
