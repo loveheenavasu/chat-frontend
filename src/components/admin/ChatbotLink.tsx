@@ -8,6 +8,7 @@ import {
   IconButton,
   Flex,
 } from "@chakra-ui/react";
+
 import { CopyIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
@@ -51,11 +52,11 @@ const ChatbotLink = () => {
         <CardBody>
           <Flex gap="3">
             <Link href={`${origin}/chatbot/${docId}`} target="_blank">
-              <Text
-                _hover={{ as: "u" }}
-                fontWeight="bold"
-              >{`${origin}/chatbot/${docId}`}</Text>
+              <Text _hover={{ as: "u" }} cursor="pointer" fontWeight="bold">
+                {`${origin}/chatbot/${docId}`}
+              </Text>
             </Link>
+
             <IconButton
               aria-label="Copy"
               icon={<CopyIcon />}

@@ -1,11 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ChatContainer from "@/components/chat/Container";
 import ChatFooter from "@/components/chat/Footer";
 import Header from "@/components/common/Header";
 import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
-
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { UserDataPopUp } from "@/components/admin/UserDataPopUp";
+import axiosInstance from "@/utils/axiosInstance";
 interface Message {
   chatId: number | null;
   type: "AI" | "user" | string;
@@ -26,12 +35,17 @@ const page = ({ params }: any) => {
   const [chatId, setChatId] = useState<string>("");
   const [chatSessionId, setChatSessionId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [showModal, setShowModal] = useState(false);
+
   const id = params.slug;
 
   useEffect(() => {
     SOCKET.connect();
     SOCKET.on("connect", () => {
       console.log(SOCKET.id, "socketId");
+      setShowModal(true);
+      onOpen();
     });
     SOCKET.on("searches", (data) => {
       if (data.type === "USER") {
@@ -66,8 +80,51 @@ const page = ({ params }: any) => {
     });
   };
 
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const documentId = "5bb125d4-c1b5-4935-8a62-f889549c43df";
+      const response = await axiosInstance.get(
+        `/user/form-ip?documentId=${documentId}`
+      );
+      if (!response.data?.data) {
+        setShowModal(false);
+        onClose();
+      } else {
+        setShowModal(true);
+        onOpen();
+      }
+      console.log("fetch", response);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [onOpen, onClose]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   return (
     <Box>
+      {showModal === true && (
+        <Modal
+          onClose={onClose}
+          closeOnOverlayClick={false}
+          isOpen={isOpen}
+          size="xl"
+          isCentered={true}
+        >
+          <ModalOverlay />
+          <ModalContent w="100%" textAlign="center" h="70vh" p="5">
+            <ModalHeader> User Information </ModalHeader>
+            <ModalBody overflow="scroll">
+              <UserDataPopUp onClose={onClose} />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
       <Header />
       <ChatContainer chatMessage={chatMessage} loading={loading} />
       {loading && (
