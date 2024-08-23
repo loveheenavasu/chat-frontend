@@ -137,8 +137,8 @@ const DynamicForm = () => {
           Lead Generation Form
         </Text>
         <Box display={"flex"} justifyContent={"flex-end"} gap={"20px"}>
-          <Button onClick={addField}>
-            <BiPlus />
+          <Button onClick={handleSubmit} colorScheme="blue">
+            Submit
           </Button>
         </Box>
       </Box>
@@ -174,72 +174,84 @@ const DynamicForm = () => {
                   {item.label}
                 </Checkbox>
               ))}
+              <Button onClick={addField}>
+                <BiPlus />
+              </Button>
             </Box>
 
-            <TableContainer>
-              <Table my="5" size="sm" border="1px solid black">
-                {selectedIndexes.length >= 1 ? (
-                  <Thead>
-                    <Tr>
-                      <Th border="1px solid black" textAlign={"center"}>
-                        Type
-                      </Th>
-                      <Th border="1px solid black" textAlign={"center"}>
-                        Name
-                      </Th>
-                      <Th border="1px solid black" textAlign={"center"}>
-                        Label
-                      </Th>
-                    </Tr>
-                  </Thead>
-                ) : null}
+            <Box ml="3" mt="4">
+              {selectedIndexes.length >= 1 ? (
+                <Flex w="100%" mt="2">
+                  <Box w={"220px"}>
+                    <label
+                      style={{
+                        marginBottom: "20px",
+                        fontSize: "small",
+                        fontWeight: "500",
+                      }}
+                    >
+                      Field Type
+                    </label>
+                  </Box>
+                  <Box w={"220px"}>
+                    <label
+                      style={{
+                        marginBottom: "20px",
+                        fontSize: "small",
+                        fontWeight: "500",
+                      }}
+                    >
+                      Field Name
+                    </label>
+                  </Box>
+                  <Box w={"180px"}>
+                    <label
+                      style={{
+                        marginBottom: "20px",
+                        fontSize: "small",
+                        fontWeight: "500",
+                      }}
+                    >
+                      Field Label
+                    </label>
+                  </Box>
+                </Flex>
+              ) : null}
 
-                <Tbody>
-                  {selectedIndexes.map((selectedValue) => {
-                    const selectedItem = staticInputFields.find(
-                      (item) => item.value === selectedValue
-                    );
-                    return (
-                      <Tr key={selectedItem?.value}>
-                        <Td
-                          textAlign="center"
-                          p="10px"
-                          border="1px solid black"
-                          bg="#e2e8f0"
-                          color="gray.500"
-                          fontSize="13px"
-                          fontWeight={500}
-                        >
-                          {selectedItem?.type}
-                        </Td>
-                        <Td
-                          textAlign="center"
-                          p="10px"
-                          border="1px solid black"
-                          bg="#e2e8f0"
-                          color="gray.500"
-                          fontSize="13px"
-                          fontWeight={500}
-                        >
-                          {selectedItem?.value}
-                        </Td>
-                        <Td
-                          textAlign="center"
-                          p="10px"
-                          border="1px solid black"
-                          bg="#e2e8f0"
-                          color="gray.500"
-                          fontSize="13px"
-                          fontWeight={500}
-                        >
-                          {selectedItem?.label}
-                        </Td>
-                      </Tr>
-                    );
-                  })}
-                </Tbody>
-              </Table>
-            </TableContainer>
+              {selectedIndexes.map((selectedValue) => {
+                const selectedItem = staticInputFields.find(
+                  (item) => item.value === selectedValue
+                );
+                return (
+                  <Flex key={selectedItem?.value} gap="3" mt="2">
+                    <Input
+                      type="text"
+                      value={selectedItem?.type}
+                      name="name"
+                      placeholder="Enter field name"
+                      mb={2}
+                      disabled
+                    />
+                    <Input
+                      type="text"
+                      value={selectedItem?.value}
+                      name="name"
+                      placeholder="Enter field name"
+                      mb={2}
+                      disabled
+                    />{" "}
+                    <Input
+                      type="text"
+                      value={selectedItem?.label}
+                      name="name"
+                      placeholder="Enter field name"
+                      mb={2}
+                      disabled
+                    />
+                  </Flex>
+                );
+              })}
+            </Box>
           </Box>
 
           <Box mt={10}>
@@ -266,7 +278,7 @@ const DynamicForm = () => {
                     <Select
                       value={field?.type}
                       onChange={(event) => handleTypeChange(index, event)}
-                      mb={2}
+                      mt="2"
                     >
                       <option value="text">Text</option>
                       <option value="number">Number</option>
@@ -292,7 +304,7 @@ const DynamicForm = () => {
                       name="name"
                       placeholder="Enter field name"
                       onChange={(event) => handleInputChange(index, event)}
-                      mb={2}
+                      mt={2}
                     />
                   </Box>
                   <Box w={"180px"}>
@@ -311,7 +323,7 @@ const DynamicForm = () => {
                       name="label"
                       onChange={(event) => handleInputChange(index, event)}
                       placeholder="enter field label"
-                      mb={2}
+                      mt={2}
                     />
                   </Box>
 
@@ -331,6 +343,7 @@ const DynamicForm = () => {
                       Required
                     </label>
                     <Checkbox
+                      mt="2"
                       isChecked={field.isRequired}
                       onChange={(event) => requiredCheckBox(index, event)}
                     ></Checkbox>
@@ -338,11 +351,11 @@ const DynamicForm = () => {
 
                   <Box mt={4}>
                     <RxCross2
-                      color="white"
+                      color="red"
                       style={{
-                        background: "red",
                         borderRadius: "4px",
                         cursor: "pointer",
+                        marginTop: "4px",
                       }}
                       onClick={() => removeField(index)}
                       size={"20px"}
@@ -352,12 +365,6 @@ const DynamicForm = () => {
               </Box>
             ))}
           </Box>
-
-          <Flex justifyContent="center" alignItems="center">
-            <Button onClick={handleSubmit} colorScheme="blue">
-              Submit
-            </Button>
-          </Flex>
         </FormControl>
       </CardContainer>
     </Box>

@@ -40,32 +40,35 @@ const page = () => {
       </Box>
 
       <Flex justifyContent="space-between" px="14" gap="3">
-        <Box w="34%">
+        <Box w="20%">
           <SideBar />
         </Box>
 
-        <CardContainer
-          border={"1px solid #e2e8f0"}
-          boxShadow={"sm"}
-          borderRadius={"10px"}
-          width="100%"
-          padding="20px"
-        >
-          <DynamicForm />
-        </CardContainer>
         {documentID ? (
-          <Box height="100vh" w="60%">
-            <ChatbotLink />
-          </Box>
+          <>
+            <CardContainer
+              border={"1px solid #e2e8f0"}
+              boxShadow={"sm"}
+              borderRadius={"10px"}
+              width="100%"
+              padding="20px"
+            >
+              <DynamicForm />
+            </CardContainer>
+
+            <Box height="100vh" w="60%">
+              <ChatbotLink />
+            </Box>
+          </>
         ) : (
           <CardContainer
             border={"1px solid #e2e8f0"}
             boxShadow={"sm"}
             borderRadius={"10px"}
-            width="60%"
+            width="100%"
             padding="20px"
           >
-            <Text as="b" fontSize="24" my="6">
+            <Text as="b" fontSize="24" my="6" textAlign="center">
               Please select any file or add text to generate a link.
             </Text>
           </CardContainer>
