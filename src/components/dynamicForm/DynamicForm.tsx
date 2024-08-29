@@ -16,6 +16,7 @@ import CardContainer from "@/components/cardContainer/CardContainer";
 import { toast } from "react-toastify";
 import { EditIcon } from "@chakra-ui/icons";
 import { TiTick } from "react-icons/ti";
+import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 
 
 interface FormFields {
@@ -35,7 +36,7 @@ const DynamicForm = () => {
     const [isDataSubmitted, setIsDataSubmitted] = useState(false);
     const [error, setError] = useState<{ label?: string }>({});
     const [checkboxField, setCheckboxField] = useState<string[]>([])
-    const documentId = localStorage.getItem('documentId');
+    const documentId = getLocalStorageItem('documentId');
     console.log(items, "itemsitems")
 
     const staticInputFields = [
@@ -138,7 +139,7 @@ const DynamicForm = () => {
             const response = await axiosInstance.post("/user/form", payload);
             if (response.status === 200) {
                 toast.success(response.data.message);
-                localStorage.setItem('_id', JSON.stringify(response.data.data._id));
+                setLocalStorageItem('_id', JSON.stringify(response.data.data._id));
                 setIsDataSubmitted(false);
             }
             setFields([]);
@@ -164,7 +165,7 @@ const DynamicForm = () => {
         try {
             if (isDataSubmitted) {
                 console.log('heyy')
-                let id: any = localStorage.getItem('_id');
+                let id: any = getLocalStorageItem('_id');
                 id = JSON.parse(id)
                 const payload = { _id: id, fields: combinedFields };
                 const response = await axiosInstance.put(`/user/form`, payload);
@@ -203,7 +204,7 @@ const DynamicForm = () => {
         } else {
             return (
                 <Button onClick={handleSubmit} colorScheme="blue">
-                    Submit
+                    Save
                 </Button>
             );
         }
