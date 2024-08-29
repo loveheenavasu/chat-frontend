@@ -22,7 +22,7 @@ const SideBar = () => {
       path: "/admin/chat",
     },
     {
-      label: "Chatbot",
+      label: "Lead",
       icon: <LinkIcon fontSize={25} />,
       path: "/admin/chat/chatbotLink",
     },
@@ -54,9 +54,9 @@ const SideBar = () => {
                 style={
                   label === activeButton
                     ? {
-                        background: "#f9f9f9",
-                        color: "blue",
-                      }
+                      background: "#f9f9f9",
+                      color: "blue",
+                    }
                     : {}
                 }
                 onClick={() => handleClick(label, path)}

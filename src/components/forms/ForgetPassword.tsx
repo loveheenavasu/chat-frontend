@@ -14,7 +14,7 @@ const ForgetPassword: React.FC = () => {
   const router = useRouter();
 
   const onSubmit = async (value: FormInputs) => {
-    console.log("Submitting form with:", value); // Add this for debugging
+    console.log("Submitting form with:", value);
     try {
       setLoading(true);
       const response = await axiosInstance.post("user/forgot", {

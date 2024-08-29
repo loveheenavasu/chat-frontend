@@ -33,23 +33,23 @@ export const useAuth = ({ onSubmit, formType }: useFormProps) => {
   const validate = (): boolean => {
     const errors: FormErrors = {};
     let formIsValid = true;
-    // if (formType === 'login') {
-    //     if (!value.email) {
-    //         formIsValid = false;
-    //         errors.email = "Please enter your email.";
-    //     } else if (!/\S+@\S+\.\S+/.test(value.email!)) {
-    //         formIsValid = false;
-    //         errors.email = "Email is not valid.";
-    //     }
+    if (formType === 'login') {
+      if (!value.email) {
+        formIsValid = false;
+        errors.email = "Please enter your email.";
+      } else if (!/\S+@\S+\.\S+/.test(value.email!)) {
+        formIsValid = false;
+        errors.email = "Email is not valid.";
+      }
 
-    //     if (!value.password) {
-    //         formIsValid = false;
-    //         errors.password = "Password is required.";
-    //     } else if (value.password.length < 8) {
-    //         formIsValid = false;
-    //         errors.password = "Password must be at least 8 characters long.";
-    //     }
-    // }
+      if (!value.password) {
+        formIsValid = false;
+        errors.password = "Password is required.";
+      } else if (value.password.length < 8) {
+        formIsValid = false;
+        errors.password = "Password must be at least 8 characters long.";
+      }
+    }
 
     if (formType === "signup") {
       if (!value.firstName) {
