@@ -1,69 +1,99 @@
 "use client";
+
 import React, { useCallback, useEffect, useState } from "react";
 import ChatContainer from "@/components/chat/Container";
 import ChatFooter from "@/components/chat/Footer";
 import Header from "@/components/common/Header";
 import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { UserDataPopUp } from "@/components/admin/UserDataPopUp";
 import axiosInstance from "@/utils/axiosInstance";
 import { primaryTheme, secondaryTheme } from "@/theme";
 import { getLocalStorageItem } from "@/utils/localStorage";
 
 interface Message {
-  chatId: number | null;
-  type: "AI" | "user" | string;
+  type: "AI" | "USER";
   message: string;
-  chatSessionId: number | null;
+  chatSessionId: number | string | null;
+  questionType?: string;
+  nextType?: string;
+  isCustom?: boolean;
+  documentId: string;
+  label?: string;
 }
 
-const page = ({ params }: any) => {
-  const [chatMessage, setChatMessage] = useState<Message[]>([
-    {
-      chatId: null,
-      type: "AI",
-      message: "Welcome to our Chatbot",
-      chatSessionId: null,
-    },
-  ]);
-  //deafult primary theme
+interface Fields {
+  isCustom: any;
+  isRequired: boolean;
+  label: string;
+  name: string;
+  type: string;
+  value?: string;
+}
+
+const Page = ({ params }: any) => {
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [theme, setTheme] = useState(primaryTheme);
-  const [defaultTheme, setDefaultTheme] = useState();
-  const [chatId, setChatId] = useState<string>("");
+  const [defaultTheme, setDefaultTheme] = useState<string>("Primary");
   const [chatSessionId, setChatSessionId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log("isOpen", isOpen);
+  const [inputFields, setInputFields] = useState<Fields[]>([]);
+  const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
+  const [hasSentInitialMessage, setHasSentInitialMessage] =
+    useState<boolean>(false);
 
-  const id = params.slug;
+  console.log(inputFields, "inputFieldsinputFields");
+  const documentId = params.slug;
+
+  const fetchInputFields = useCallback(async () => {
+    try {
+      setLoading(true);
+      const storedDocumentId = getLocalStorageItem("documentId") || documentId;
+      const response = await axiosInstance.get(
+        `/user/form/?documentId=${storedDocumentId}`
+      );
+      console.log(response, "gettttt");
+      const fields = response?.data?.fields || [];
+      console.log(fields, "fieldsss");
+      setInputFields(fields);
+    } catch (error) {
+      console.error("Error fetching input fields:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [documentId]);
+
+  const fetchTheme = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/user/theme`);
+      const themeData = response.data?.data?.[0]?.theme || "Primary";
+      setDefaultTheme(themeData);
+    } catch (error) {
+      console.error("Failed to fetch the theme:", error);
+    }
+  }, []);
 
   useEffect(() => {
     SOCKET.connect();
-    SOCKET.on("connect", () => {
-      console.log(SOCKET.id, "socketId");
-      onOpen();
+
+    SOCKET.once("connect", () => {
+      console.log(documentId, "Connected to socket with ID:", SOCKET.id);
+
+      SOCKET.emit("search", {
+        type: "AI",
+        text: "Welcome to our Chatbot",
+        documentId,
+      });
     });
+
     SOCKET.on("searches", (data) => {
-      if (data.type === "USER") {
-        setLoading(true);
-      } else {
-        setLoading(false);
-      }
-      setChatId(data?.chatId);
+      console.log(data, "searchData");
+      setLoading(data.type === "USER");
       setChatSessionId(data?.sessionId);
-      setChatMessage((prev) => [...prev, data]);
+      setChatMessages((prevMessages) => [...prevMessages, data]);
     });
-    SOCKET.on("hi", (e) => console.log(e, "EVENT", SOCKET.id));
+
     SOCKET.on("error", () => {
-      console.log(SOCKET, "Socket");
+      console.error("Socket error:", SOCKET);
     });
 
     return () => {
@@ -71,60 +101,66 @@ const page = ({ params }: any) => {
     };
   }, []);
 
-  const handleSend = (e: React.FormEvent, message: string) => {
-    if (message === "" || message.trim() === "") {
-      return null;
-    }
-
+  const handleSend = (e: React.FormEvent, messageText: string) => {
     e.preventDefault();
-    SOCKET.emit("search", {
-      text: message,
-      documentId: id,
-      ...(chatSessionId && { chatSessionId }),
-    });
-  };
-  console.log(chatMessage);
+    if (!messageText.trim()) return;
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const documentId = getLocalStorageItem("documentId");
-      const res = await axiosInstance.get(
-        `/user/form-ip?documentId=${documentId}`
-      );
-      console.log("fetchData", res.data);
+    let questionType = "";
+    let nextType = "";
+    let label = "";
 
-      if (res?.data?.data) {
-        console.log("data is present and i want to otpne the modal ");
-        onOpen();
+    if (inputFields.length === 0) {
+      questionType = "";
+      nextType = "";
+    } else if (currentFieldIndex === inputFields.length) {
+      questionType = "END";
+      nextType = "END";
+    } else if (!hasSentInitialMessage) {
+      questionType = "HI";
+      nextType = inputFields[currentFieldIndex]?.isCustom
+        ? "CUSTOM"
+        : inputFields[currentFieldIndex]?.label.toLocaleUpperCase() || "";
+      if (inputFields[currentFieldIndex]?.isCustom) {
+        label = inputFields[currentFieldIndex]?.label || "";
+      }
+      setHasSentInitialMessage(true);
+    } else {
+      if (inputFields[currentFieldIndex]?.isCustom) {
+        questionType = "CUSTOM";
+        nextType = "CUSTOM";
+        label = inputFields[currentFieldIndex]?.label || "";
       } else {
-        console.log("data is not present and i want to close the modal ");
-        onClose();
+        const previousIndex = Math.max(0, currentFieldIndex - 1);
+        questionType =
+          inputFields[previousIndex]?.label.toLocaleUpperCase() || "";
+        nextType =
+          inputFields[currentFieldIndex]?.name.toLocaleUpperCase() || "";
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
     }
-  }, [isOpen]);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  useEffect(() => {
-    const fetchTheme = async () => {
-      try {
-        const response = await axiosInstance.get(`/user/theme`);
-        console.log(response, "db4bu44");
-        setDefaultTheme(response.data.data[0].theme);
-        console.log(response.data.data[10].theme, "cici4c");
-      } catch (error) {
-        console.error("Failed to fetch the theme:", error);
-      }
+    const payload: any = {
+      type: "USER",
+      text: messageText,
+      documentId,
+      chatSessionId,
     };
-    fetchTheme();
-  }, []);
+
+    if (inputFields.length > 0) {
+      if (questionType) payload.questionType = questionType;
+      if (nextType) payload.nextType = nextType;
+    }
+
+    if (inputFields[currentFieldIndex]?.isCustom && label) {
+      payload.label = label;
+    }
+
+    SOCKET.emit("search", payload);
+    setCurrentFieldIndex((prevIndex) => prevIndex + 1);
+
+    setLoading(true);
+  };
+
+  console.log(currentFieldIndex, "curreernt");
 
   useEffect(() => {
     if (defaultTheme === "Primary") {
@@ -134,30 +170,16 @@ const page = ({ params }: any) => {
     }
   }, [defaultTheme]);
 
-  console.log(defaultTheme, "defaultTheme");
-  console.log(theme.background, "edejd");
+  useEffect(() => {
+    fetchInputFields();
+    fetchTheme();
+  }, [fetchInputFields, fetchTheme]);
 
   return (
     <Box>
-      <Modal
-        onClose={onClose}
-        closeOnOverlayClick={false}
-        isOpen={isOpen}
-        size="xl"
-        isCentered={true}
-      >
-        <ModalOverlay />
-        <ModalContent w="100%" textAlign="center" h="70vh" p="5">
-          <ModalHeader> User Information </ModalHeader>
-          <ModalBody overflow="scroll">
-            <UserDataPopUp onClose={onClose} />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-
       <Header bg={theme.background} title={theme.title} />
       <ChatContainer
-        chatMessage={chatMessage}
+        chatMessages={chatMessages}
         loading={loading}
         bg={theme.innerContainer}
         color={theme.color}
@@ -202,8 +224,10 @@ const page = ({ params }: any) => {
           </svg>
         </Box>
       )}
+
       <ChatFooter handleSend={handleSend} bg={theme.background} />
     </Box>
   );
 };
-export default page;
+
+export default Page;

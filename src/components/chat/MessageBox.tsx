@@ -7,7 +7,7 @@ export enum Role {
 }
 
 interface Message {
-  chatId?: number | null;
+  // chatId?: number | null;
   type: string;
   message: string;
 }

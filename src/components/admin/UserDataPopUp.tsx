@@ -14,6 +14,7 @@ interface Fields {
 
 export const UserDataPopUp = ({ onClose }: any) => {
   const [inputFields, setInputFields] = useState<Fields[]>([]);
+  console.log(inputFields, "inputFieldsinputFields");
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchData = useCallback(async () => {

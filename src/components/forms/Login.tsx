@@ -228,7 +228,7 @@ const Login = () => {
               color="#0bc5ea"
               as="b"
               marginLeft={1}
-              onClick={() => router.push("/forgetpassword")}
+              onClick={() => router.push("/forgetPassword")}
             >
               Forgot Password
             </Text>

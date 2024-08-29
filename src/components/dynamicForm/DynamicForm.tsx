@@ -30,6 +30,7 @@ interface FormFields {
   name: string;
   label: string;
   isRequired: boolean;
+  isCustom: boolean;
 }
 
 const DynamicForm = () => {
@@ -39,7 +40,13 @@ const DynamicForm = () => {
   const addField = () => {
     setFields([
       ...fields,
-      { type: "text", name: "", label: "", isRequired: false },
+      {
+        type: "text",
+        name: "",
+        label: "",
+        isRequired: false,
+        isCustom: true,
+      },
     ]);
   };
 
@@ -99,6 +106,7 @@ const DynamicForm = () => {
     e.preventDefault();
     const selectedFields = selectedIndexes.map((index) => {
       const field = staticInputFields.find((item) => item.value === index);
+      console.log(field, "field");
       return {
         type: field?.type || "",
         name: field?.value || "",
@@ -106,7 +114,7 @@ const DynamicForm = () => {
       };
     });
 
-    const combinedFields = [...fields, ...selectedFields];
+    const combinedFields = [...selectedFields, ...fields];
 
     localStorage.setItem("formData", JSON.stringify(combinedFields.concat()));
     const documentId = getLocalStorageItem("documentId");
