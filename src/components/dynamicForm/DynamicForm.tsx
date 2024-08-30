@@ -177,7 +177,7 @@ const DynamicForm = () => {
                 isRequired: true,
             };
         });
-        const combinedFields = [...fields, ...selectedFields, ...items];
+        const combinedFields = [...selectedFields, ...fields, ...items];
         try {
             if (isDataSubmitted) {
                 let id: any = getLocalStorageItem('_id');
