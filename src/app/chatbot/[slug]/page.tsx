@@ -87,19 +87,27 @@ const Page = ({ params }: { params: { slug: string } }) => {
           documentId,
           isFormCompleted,
         };
+
         console.log("isFormCompleted---", isFormCompleted);
 
         if (!isFormCompleted) {
           console.log("!----isFormCompleted----", isFormCompleted);
-          const currentField = inputFields[currentFieldIndex];
-          payload.questionType = "HI";
-          payload.nextType = currentField?.isCustom
-            ? "CUSTOM"
-            : currentField?.label.toUpperCase();
+          if (inputFields.length === 0) {
+            payload.questionType = "";
+            payload.nextType = "";
+            setIsFormCompleted(true);
+          } else {
+            const currentField = inputFields[currentFieldIndex];
+            payload.questionType = "HI";
+            payload.nextType = currentField?.isCustom
+              ? "CUSTOM"
+              : currentField?.label.toUpperCase();
 
-          if (currentField?.isCustom) {
-            payload.label = currentField?.label;
+            if (currentField?.isCustom) {
+              payload.label = currentField?.label;
+            }
           }
+
           console.log("Payload before emitting:", payload);
         }
 
@@ -139,6 +147,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
     if (inputFields.length === 0 && currentFieldIndex === 0) {
       questionType = "";
       nextType = "";
+      // setIsFormCompleted(true);
     } else if (
       currentFieldIndex > inputFields.length &&
       currentFieldIndex != 0
