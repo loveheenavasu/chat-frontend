@@ -95,7 +95,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
           if (inputFields.length === 0) {
             payload.questionType = "";
             payload.nextType = "";
-            setIsFormCompleted(true);
+            // setIsFormCompleted(false);
           } else {
             const currentField = inputFields[currentFieldIndex];
             payload.questionType = "HI";
