@@ -1,130 +1,207 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import ChatContainer from "@/components/chat/Container";
 import ChatFooter from "@/components/chat/Footer";
 import Header from "@/components/common/Header";
 import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { UserDataPopUp } from "@/components/admin/UserDataPopUp";
 import axiosInstance from "@/utils/axiosInstance";
 import { primaryTheme, secondaryTheme } from "@/theme";
-import { getLocalStorageItem } from "@/utils/localStorage";
+import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 
 interface Message {
-  chatId: number | null;
-  type: "AI" | "user" | string;
+  type: "AI" | "USER";
   message: string;
-  chatSessionId: number | null;
+  chatSessionId: number | string | null;
+  questionType?: string;
+  nextType?: string;
+  isCustom?: boolean;
+  documentId: string;
+  label?: string;
+  isFormCompleted?: boolean;
 }
 
-const page = ({ params }: any) => {
-  const [chatMessage, setChatMessage] = useState<Message[]>([
-    {
-      chatId: null,
-      type: "AI",
-      message: "Welcome to our Chatbot",
-      chatSessionId: null,
-    },
-  ]);
-  //deafult primary theme
+interface Fields {
+  isCustom: any;
+  isRequired: boolean;
+  label: string;
+  name: string;
+  type: string;
+  value?: string;
+}
+
+const Page = ({ params }: { params: { slug: string } }) => {
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [theme, setTheme] = useState(primaryTheme);
-  const [defaultTheme, setDefaultTheme] = useState();
-  const [chatId, setChatId] = useState<string>("");
+  const [defaultTheme, setDefaultTheme] = useState<string>("Primary");
   const [chatSessionId, setChatSessionId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log("isOpen", isOpen);
+  const [inputFields, setInputFields] = useState<Fields[]>([]);
+  const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
+  const [isFormCompleted, setIsFormCompleted] = useState<boolean>();
 
-  const id = params.slug;
+  console.log(isFormCompleted, "response.data.isFormCompleted");
 
-  useEffect(() => {
-    SOCKET.connect();
-    SOCKET.on("connect", () => {
-      console.log(SOCKET.id, "socketId");
-      onOpen();
-    });
-    SOCKET.on("searches", (data) => {
-      if (data.type === "USER") {
-        setLoading(true);
-      } else {
-        setLoading(false);
-      }
-      setChatId(data?.chatId);
-      setChatSessionId(data?.sessionId);
-      setChatMessage((prev) => [...prev, data]);
-    });
-    SOCKET.on("hi", (e) => console.log(e, "EVENT", SOCKET.id));
-    SOCKET.on("error", () => {
-      console.log(SOCKET, "Socket");
-    });
+  console.log(inputFields, "inputFieldsinputFields");
+  const documentId = params.slug;
 
-    return () => {
-      SOCKET.disconnect();
-    };
-  }, []);
-
-  const handleSend = (e: React.FormEvent, message: string) => {
-    if (message === "" || message.trim() === "") {
-      return null;
-    }
-
-    e.preventDefault();
-    SOCKET.emit("search", {
-      text: message,
-      documentId: id,
-      ...(chatSessionId && { chatSessionId }),
-    });
-  };
-  console.log(chatMessage);
-
-  const fetchData = useCallback(async () => {
-    setLoading(true);
+  const fetchInputFields = useCallback(async () => {
     try {
-      const documentId = getLocalStorageItem("documentId");
-      const res = await axiosInstance.get(
-        `/user/form-ip?documentId=${documentId}`
+      setLoading(true);
+      const storedDocumentId = getLocalStorageItem("documentId") || documentId;
+      const response = await axiosInstance.get(
+        `/user/form-chatbot/?documentId=${storedDocumentId}`
       );
-      console.log("fetchData", res.data);
-
-      if (res?.data?.data) {
-        console.log("data is present and i want to otpne the modal ");
-        onOpen();
-      } else {
-        console.log("data is not present and i want to close the modal ");
-        onClose();
-      }
+      console.log(response, "gettttt");
+      const fields = response?.data?.data?.fields || [];
+      console.log(fields, "fieldsss");
+      setInputFields(fields);
+      setIsFormCompleted(response.data?.isFormCompleted);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching input fields:", error);
     } finally {
       setLoading(false);
     }
-  }, [isOpen]);
+  }, [documentId]);
+
+  const fetchTheme = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(`/user/theme`);
+      const themeData = response.data?.data?.[0]?.theme || "Primary";
+      setDefaultTheme(themeData);
+    } catch (error) {
+      console.error("Failed to fetch the theme:", error);
+    }
+  }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    SOCKET.connect();
 
-  useEffect(() => {
-    const fetchTheme = async () => {
-      try {
-        const response = await axiosInstance.get(`/user/theme`);
-        console.log(response, "db4bu44");
-        setDefaultTheme(response.data.data[0].theme);
-        console.log(response.data.data[10].theme, "cici4c");
-      } catch (error) {
-        console.error("Failed to fetch the theme:", error);
+    const handleConnect = () => {
+      console.log(documentId, "Connected to socket with ID:", SOCKET.id);
+
+      if (isFormCompleted !== undefined) {
+        const payload: any = {
+          type: "AI",
+          documentId,
+          isFormCompleted,
+        };
+        console.log("isFormCompleted---", isFormCompleted);
+
+        if (!isFormCompleted) {
+          console.log("!----isFormCompleted----", isFormCompleted);
+          const currentField = inputFields[currentFieldIndex];
+          payload.questionType = "HI";
+          payload.nextType = currentField?.isCustom
+            ? "CUSTOM"
+            : currentField?.label.toUpperCase();
+
+          if (currentField?.isCustom) {
+            payload.label = currentField?.label;
+          }
+          console.log("Payload before emitting:", payload);
+        }
+
+        SOCKET.emit("search", payload);
       }
     };
+
+    SOCKET.on("connect", handleConnect);
+
+    const handleSearches = (data: any) => {
+      setLoading(data.type === "USER");
+      console.log("searchData", data, chatMessages);
+      setChatSessionId(data?.sessionId);
+      setChatMessages((prevMessages) => [...prevMessages, data]);
+    };
+
+    SOCKET.on("searches", handleSearches);
+
+    SOCKET.on("error", () => {
+      console.error("Socket error:", SOCKET);
+    });
+
+    return () => {
+      SOCKET.off("connect", handleConnect);
+      SOCKET.off("searches", handleSearches);
+      SOCKET.disconnect();
+    };
+  }, [isFormCompleted]);
+
+  const handleSend = (e: React.FormEvent, messageText: string) => {
+    e.preventDefault();
+    if (!messageText.trim()) return;
+
+    let questionType = "";
+    let nextType = "";
+    let label = "";
+    if (inputFields.length === 0 && currentFieldIndex === 0) {
+      questionType = "";
+      nextType = "";
+    } else if (
+      currentFieldIndex > inputFields.length &&
+      currentFieldIndex != 0
+    ) {
+      questionType = "";
+      nextType = "";
+      // setIsFormCompleted(true);
+      console.log("isform", isFormCompleted);
+    } else if (currentFieldIndex + 1 === inputFields.length) {
+      questionType = "END";
+      nextType = "END";
+      // setIsFormCompleted(true);
+    } else {
+      if (inputFields[currentFieldIndex + 1]?.isCustom) {
+        questionType = "CUSTOM";
+        nextType = "CUSTOM";
+        label = inputFields[currentFieldIndex + 1]?.label || "";
+      } else {
+        const previousIndex = Math.max(0, currentFieldIndex);
+        console.log(previousIndex, "prevvvv");
+        questionType = inputFields[previousIndex]?.label.toUpperCase() || "";
+        console.log(questionType, "ques");
+        nextType = inputFields[currentFieldIndex + 1]?.name.toUpperCase() || "";
+        console.log(nextType, "nextt");
+      }
+    }
+
+    // Define the payload
+    const payload: any = {
+      type: "USER",
+      text: messageText,
+      documentId,
+      chatSessionId,
+      // isFormCompleted,
+    };
+
+    console.log(payload, "payyyyy");
+    if (!isFormCompleted) {
+      if (!(inputFields.length === 0 && currentFieldIndex === 0)) {
+        if (questionType) payload.questionType = questionType;
+        if (nextType) payload.nextType = nextType;
+      }
+      if (inputFields[currentFieldIndex + 1]?.isCustom && label) {
+        payload.label = label;
+      }
+    }
+
+    // Emit the updated payload to the server
+    SOCKET.emit("search", payload);
+
+    // Increment the field index after sending the message
+    setCurrentFieldIndex((prevIndex) => prevIndex + 1);
+
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    fetchInputFields();
     fetchTheme();
-  }, []);
+  }, [fetchInputFields, fetchTheme]);
+
+  console.log(isFormCompleted, "formrmm");
+  console.log(currentFieldIndex, "curreernt");
 
   useEffect(() => {
     if (defaultTheme === "Primary") {
@@ -134,30 +211,16 @@ const page = ({ params }: any) => {
     }
   }, [defaultTheme]);
 
-  console.log(defaultTheme, "defaultTheme");
-  console.log(theme.background, "edejd");
+  useEffect(() => {
+    fetchInputFields();
+    fetchTheme();
+  }, [fetchInputFields, fetchTheme]);
 
   return (
     <Box>
-      <Modal
-        onClose={onClose}
-        closeOnOverlayClick={false}
-        isOpen={isOpen}
-        size="xl"
-        isCentered={true}
-      >
-        <ModalOverlay />
-        <ModalContent w="100%" textAlign="center" h="70vh" p="5">
-          <ModalHeader> User Information </ModalHeader>
-          <ModalBody overflow="scroll">
-            <UserDataPopUp onClose={onClose} />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-
       <Header bg={theme.background} title={theme.title} />
       <ChatContainer
-        chatMessage={chatMessage}
+        chatMessages={chatMessages}
         loading={loading}
         bg={theme.innerContainer}
         color={theme.color}
@@ -202,8 +265,10 @@ const page = ({ params }: any) => {
           </svg>
         </Box>
       )}
+
       <ChatFooter handleSend={handleSend} bg={theme.background} />
     </Box>
   );
 };
-export default page;
+
+export default Page;

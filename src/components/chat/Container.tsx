@@ -1,16 +1,17 @@
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
-import { useRouter } from "next/router";
 import MessageBoxAdmin, { Role } from "./MessageBox";
 
-interface chatMessage {
-  chatID?: number | null;
+interface ChatMessage {
+  chatId?: number | null;
   type: string;
   message: string;
+  questionType?: string;
+  nextType?: string;
 }
 
 interface ChatContainerProps {
-  chatMessage: chatMessage[];
+  chatMessages: ChatMessage[];
   loading: boolean;
   bg: string;
   color?: {
@@ -20,7 +21,7 @@ interface ChatContainerProps {
 }
 
 const ChatContainer: React.FC<ChatContainerProps> = ({
-  chatMessage,
+  chatMessages,
   loading,
   bg,
   color,
@@ -31,10 +32,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
-  }, [chatMessage]);
-
-  // const bg = router?.query.bg || useColorModeValue('gray.500', '#fff');
-  // const color = router?.query.color || useColorModeValue('#fff', 'gray.500');
+  }, [chatMessages]);
 
   return (
     <Flex
@@ -45,22 +43,16 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
       overflowY="auto"
       h={loading ? "73vh" : "82vh"}
     >
-      {chatMessage?.map((ele, id) => {
-        return (
-          <Flex
-            key={id}
-            w="100%"
-            justifyContent={ele?.type === Role.AI ? "flex-start" : "flex-end"}
-          >
-            <MessageBoxAdmin
-              data={ele}
-              loading={loading}
-              bg={bg}
-              color={color}
-            />
-          </Flex>
-        );
-      })}
+      {chatMessages.map((msg, index) => (
+        <Flex
+          key={index}
+          w="100%"
+          justifyContent={msg.type === "AI" ? "flex-start" : "flex-end"}
+          p={2}
+        >
+          <MessageBoxAdmin loading={loading} data={msg} color={color} />
+        </Flex>
+      ))}
     </Flex>
   );
 };

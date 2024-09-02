@@ -6,7 +6,7 @@ const getLocalStorageItem = (key: string) => {
   return value;
 };
 
-const setLocalStorageItem = (key: string, value: string) => {
+const setLocalStorageItem = (key: string, value: any) => {
   if (typeof window !== "undefined") {
     localStorage.setItem(key, value);
   }

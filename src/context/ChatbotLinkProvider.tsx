@@ -17,7 +17,7 @@ export const ChatbotLinkProvider: FC<{ children: ReactNode }> = ({
     } else if (currentPath.includes("/activity")) {
       setActiveButton("Activity");
     } else if (currentPath.includes("/chatbotLink")) {
-      setActiveButton("Chatbot");
+      setActiveButton("Lead");
     } else {
       setActiveButton("Text");
     }
