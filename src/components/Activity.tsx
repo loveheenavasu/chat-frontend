@@ -104,9 +104,7 @@ const Activity: React.FC<ChatContainerProps> = ({
             </Box>
           ) : (
             <Flex gap="20px">
-              <Box w={"70%"}
-                height={'450px'}
-                overflow={'scroll'}>
+              <Box w={"70%"} height={"450px"} overflow={"scroll"}>
                 <Flex flexDirection={"column"} gap={"10px"}>
                   {chatMessages?.map((ele, id) => (
                     <CardContainer
@@ -136,7 +134,7 @@ const Activity: React.FC<ChatContainerProps> = ({
                             }}
                           >
                             {msg.messageType === "USER"
-                              ? `Customer: ${msg.message}`
+                              ? `User: ${msg.message}`
                               : `Bot: ${msg.message}`}
                           </Text>
                         </Box>
@@ -157,7 +155,10 @@ const Activity: React.FC<ChatContainerProps> = ({
                   ))}
                 </Flex>
               </Box>
-              <ActivityChatBase userMessages={userMessages} loading={isLoading} />
+              <ActivityChatBase
+                userMessages={userMessages}
+                loading={isLoading}
+              />
             </Flex>
           )}
         </Box>
