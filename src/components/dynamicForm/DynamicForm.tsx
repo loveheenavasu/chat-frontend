@@ -111,6 +111,19 @@ const DynamicForm = () => {
     return formIsValid;
   };
 
+  const isValidate = () => {
+    let formIsValid = true;
+    let errors: { selectedIndexes?: string } = {};
+    if (selectedIndexes.length <= 0) {
+      formIsValid = false;
+      errors.selectedIndexes = "Please select at least one checkbox";
+    }
+    if (!formIsValid) {
+      toast.error(errors.selectedIndexes || "Validation failed");
+    }
+    return formIsValid;
+  };
+
   const addField = () => {
     if (validate()) {
       setFields((prevFields) => [
@@ -147,69 +160,65 @@ const DynamicForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      const selectedFields = selectedIndexes.map((index) => {
-        const field = staticInputFields.find((item) => item.value === index);
-        return {
-          type: field?.type || "",
-          name: field?.value || "",
-          label: field?.label || "",
-          isRequired: true,
-        };
-      });
+    // if (isValidate()) {
+    const selectedFields = selectedIndexes.map((index) => {
+      const field = staticInputFields.find((item) => item.value === index);
+      return {
+        type: field?.type || "",
+        name: field?.value || "",
+        label: field?.label || "",
+        isRequired: true,
+      };
+    });
 
-      const postdata = [...selectedFields, ...fields];
-      // const combinedFields = [...fields, ...selectedFields,];
-      try {
-        console.log("hello");
-        const payload = { documentId, fields: postdata };
-        console.log(payload, "payload");
-        const response = await axiosInstance.post("/user/form", payload);
-        if (response.status === 200) {
-          toast.success(response.data.message);
-          setLocalStorageItem("_id", JSON.stringify(response.data.data._id));
-          setIsDataSubmitted(false);
-        }
-        setFields([]);
-        fetchData();
-      } catch (error: any) {
-        toast.error(error.response.data.message);
-        console.error(error);
+    const postdata = [...selectedFields, ...fields];
+    // const combinedFields = [...fields, ...selectedFields,];
+    try {
+      const payload = { documentId, fields: postdata };
+      console.log(payload, "payload");
+      const response = await axiosInstance.post("/user/form", payload);
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setLocalStorageItem("_id", JSON.stringify(response.data.data._id));
+        setIsDataSubmitted(false);
       }
+      setFields([]);
+      fetchData();
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.error(error);
     }
+    // }
   };
 
   const handleUpdateField = async (e: any) => {
     e.preventDefault();
-    if (validate()) {
-      const selectedFields = selectedIndexes.map((index) => {
-        const field = staticInputFields.find((item) => item.value === index);
-        return {
-          type: field?.type || "",
-          name: field?.value || "",
-          label: field?.label || "",
-          isRequired: true,
-        };
-      });
-      const combinedFields = [...selectedFields, ...fields, ...items];
-      try {
-        if (isDataSubmitted) {
-          console.log("heyy");
-          let id: any = getLocalStorageItem("_id");
-          id = JSON.parse(id);
-          const payload = { _id: id, fields: combinedFields };
-          const response = await axiosInstance.put(`/user/form`, payload);
-          console.log(response.data.data.fields, "response of put api");
-          if (response.status === 200) {
-            setItems(response.data.data.fields);
-            toast.success(response.data.message);
-            setIsDataSubmitted(true);
-            location.reload();
-          }
+    const selectedFields = selectedIndexes.map((index) => {
+      const field = staticInputFields.find((item) => item.value === index);
+      return {
+        type: field?.type || "",
+        name: field?.value || "",
+        label: field?.label || "",
+        isRequired: true,
+      };
+    });
+    const combinedFields = [...selectedFields, ...fields, ...items];
+    try {
+      if (isDataSubmitted) {
+        let id: any = getLocalStorageItem("_id");
+        id = JSON.parse(id);
+        const payload = { _id: id, fields: combinedFields };
+        const response = await axiosInstance.put(`/user/form`, payload);
+        console.log(response.data.data.fields, "response of put api");
+        if (response.status === 200) {
+          setItems(response.data.data.fields);
+          toast.success(response.data.message);
+          setIsDataSubmitted(true);
+          location.reload();
         }
-      } catch (error: any) {
-        toast.error(error.response.data.message);
       }
+    } catch (error: any) {
+      toast.error(error.response.data.message);
     }
   };
 

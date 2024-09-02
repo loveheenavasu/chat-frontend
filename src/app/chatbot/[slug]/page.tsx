@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import ChatContainer from "@/components/chat/Container";
 import ChatFooter from "@/components/chat/Footer";
 import Header from "@/components/common/Header";
@@ -8,7 +8,7 @@ import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
 import axiosInstance from "@/utils/axiosInstance";
 import { primaryTheme, secondaryTheme } from "@/theme";
-import { getLocalStorageItem } from "@/utils/localStorage";
+import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 
 interface Message {
   type: "AI" | "USER";
@@ -19,6 +19,7 @@ interface Message {
   isCustom?: boolean;
   documentId: string;
   label?: string;
+  isFormCompleted?: boolean;
 }
 
 interface Fields {
@@ -30,7 +31,7 @@ interface Fields {
   value?: string;
 }
 
-const Page = ({ params }: any) => {
+const Page = ({ params }: { params: { slug: string } }) => {
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [theme, setTheme] = useState(primaryTheme);
   const [defaultTheme, setDefaultTheme] = useState<string>("Primary");
@@ -38,8 +39,9 @@ const Page = ({ params }: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [inputFields, setInputFields] = useState<Fields[]>([]);
   const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
-  const [hasSentInitialMessage, setHasSentInitialMessage] =
-    useState<boolean>(false);
+  const [isFormCompleted, setIsFormCompleted] = useState<boolean>();
+
+  console.log(isFormCompleted, "response.data.isFormCompleted");
 
   console.log(inputFields, "inputFieldsinputFields");
   const documentId = params.slug;
@@ -49,12 +51,13 @@ const Page = ({ params }: any) => {
       setLoading(true);
       const storedDocumentId = getLocalStorageItem("documentId") || documentId;
       const response = await axiosInstance.get(
-        `/user/form/?documentId=${storedDocumentId}`
+        `/user/form-chatbot/?documentId=${storedDocumentId}`
       );
       console.log(response, "gettttt");
-      const fields = response?.data?.fields || [];
+      const fields = response?.data?.data?.fields || [];
       console.log(fields, "fieldsss");
       setInputFields(fields);
+      setIsFormCompleted(response.data?.isFormCompleted);
     } catch (error) {
       console.error("Error fetching input fields:", error);
     } finally {
@@ -75,31 +78,56 @@ const Page = ({ params }: any) => {
   useEffect(() => {
     SOCKET.connect();
 
-    SOCKET.once("connect", () => {
+    const handleConnect = () => {
       console.log(documentId, "Connected to socket with ID:", SOCKET.id);
 
-      SOCKET.emit("search", {
-        type: "AI",
-        text: "Welcome to our Chatbot",
-        documentId,
-      });
-    });
+      if (isFormCompleted !== undefined) {
+        const payload: any = {
+          type: "AI",
+          documentId,
+          isFormCompleted,
+        };
+        console.log("isFormCompleted---", isFormCompleted);
 
-    SOCKET.on("searches", (data) => {
-      console.log(data, "searchData");
+        if (!isFormCompleted) {
+          console.log("!----isFormCompleted----", isFormCompleted);
+          const currentField = inputFields[currentFieldIndex];
+          payload.questionType = "HI";
+          payload.nextType = currentField?.isCustom
+            ? "CUSTOM"
+            : currentField?.label.toUpperCase();
+
+          if (currentField?.isCustom) {
+            payload.label = currentField?.label;
+          }
+          console.log("Payload before emitting:", payload);
+        }
+
+        SOCKET.emit("search", payload);
+      }
+    };
+
+    SOCKET.on("connect", handleConnect);
+
+    const handleSearches = (data: any) => {
       setLoading(data.type === "USER");
+      console.log("searchData", data, chatMessages);
       setChatSessionId(data?.sessionId);
       setChatMessages((prevMessages) => [...prevMessages, data]);
-    });
+    };
+
+    SOCKET.on("searches", handleSearches);
 
     SOCKET.on("error", () => {
       console.error("Socket error:", SOCKET);
     });
 
     return () => {
+      SOCKET.off("connect", handleConnect);
+      SOCKET.off("searches", handleSearches);
       SOCKET.disconnect();
     };
-  }, []);
+  }, [isFormCompleted]);
 
   const handleSend = (e: React.FormEvent, messageText: string) => {
     e.preventDefault();
@@ -108,58 +136,71 @@ const Page = ({ params }: any) => {
     let questionType = "";
     let nextType = "";
     let label = "";
-
-    if (inputFields.length === 0) {
+    if (inputFields.length === 0 && currentFieldIndex === 0) {
       questionType = "";
       nextType = "";
-    } else if (currentFieldIndex === inputFields.length) {
+    } else if (
+      currentFieldIndex > inputFields.length &&
+      currentFieldIndex != 0
+    ) {
+      questionType = "";
+      nextType = "";
+      // setIsFormCompleted(true);
+      console.log("isform", isFormCompleted);
+    } else if (currentFieldIndex + 1 === inputFields.length) {
       questionType = "END";
       nextType = "END";
-    } else if (!hasSentInitialMessage) {
-      questionType = "HI";
-      nextType = inputFields[currentFieldIndex]?.isCustom
-        ? "CUSTOM"
-        : inputFields[currentFieldIndex]?.label.toLocaleUpperCase() || "";
-      if (inputFields[currentFieldIndex]?.isCustom) {
-        label = inputFields[currentFieldIndex]?.label || "";
-      }
-      setHasSentInitialMessage(true);
+      // setIsFormCompleted(true);
     } else {
-      if (inputFields[currentFieldIndex]?.isCustom) {
+      if (inputFields[currentFieldIndex + 1]?.isCustom) {
         questionType = "CUSTOM";
         nextType = "CUSTOM";
-        label = inputFields[currentFieldIndex]?.label || "";
+        label = inputFields[currentFieldIndex + 1]?.label || "";
       } else {
-        const previousIndex = Math.max(0, currentFieldIndex - 1);
-        questionType =
-          inputFields[previousIndex]?.label.toLocaleUpperCase() || "";
-        nextType =
-          inputFields[currentFieldIndex]?.name.toLocaleUpperCase() || "";
+        const previousIndex = Math.max(0, currentFieldIndex);
+        console.log(previousIndex, "prevvvv");
+        questionType = inputFields[previousIndex]?.label.toUpperCase() || "";
+        console.log(questionType, "ques");
+        nextType = inputFields[currentFieldIndex + 1]?.name.toUpperCase() || "";
+        console.log(nextType, "nextt");
       }
     }
 
+    // Define the payload
     const payload: any = {
       type: "USER",
       text: messageText,
       documentId,
       chatSessionId,
+      // isFormCompleted,
     };
 
-    if (inputFields.length > 0) {
-      if (questionType) payload.questionType = questionType;
-      if (nextType) payload.nextType = nextType;
+    console.log(payload, "payyyyy");
+    if (!isFormCompleted) {
+      if (!(inputFields.length === 0 && currentFieldIndex === 0)) {
+        if (questionType) payload.questionType = questionType;
+        if (nextType) payload.nextType = nextType;
+      }
+      if (inputFields[currentFieldIndex + 1]?.isCustom && label) {
+        payload.label = label;
+      }
     }
 
-    if (inputFields[currentFieldIndex]?.isCustom && label) {
-      payload.label = label;
-    }
-
+    // Emit the updated payload to the server
     SOCKET.emit("search", payload);
+
+    // Increment the field index after sending the message
     setCurrentFieldIndex((prevIndex) => prevIndex + 1);
 
     setLoading(true);
   };
 
+  useEffect(() => {
+    fetchInputFields();
+    fetchTheme();
+  }, [fetchInputFields, fetchTheme]);
+
+  console.log(isFormCompleted, "formrmm");
   console.log(currentFieldIndex, "curreernt");
 
   useEffect(() => {
