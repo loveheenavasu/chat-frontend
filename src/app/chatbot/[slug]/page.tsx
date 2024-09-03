@@ -22,7 +22,7 @@ interface Message {
   isFormCompleted?: boolean;
 }
 
-interface Fields {
+export interface Fields {
   isCustom: any;
   isRequired: boolean;
   label: string;
@@ -140,6 +140,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   const handleSend = (e: React.FormEvent, messageText: string) => {
     e.preventDefault();
     if (!messageText.trim()) return;
+
     let questionType = "";
     let nextType = "";
     let label = "";
@@ -274,7 +275,12 @@ const Page = ({ params }: { params: { slug: string } }) => {
         </Box>
       )}
 
-      <ChatFooter handleSend={handleSend} bg={theme.background} />
+      <ChatFooter
+        handleSend={handleSend}
+        bg={theme.background}
+        inputFields={inputFields}
+        isFormCompleted={isFormCompleted}
+      />
     </Box>
   );
 };
