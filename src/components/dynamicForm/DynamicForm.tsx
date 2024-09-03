@@ -57,7 +57,7 @@ const DynamicForm = () => {
     const staticInputFields = [
         { label: "Name", value: "name", type: "text" },
         { label: "Email", value: "email", type: "email" },
-        { label: "Phone Number", value: "phone", type: "number" },
+        { label: "Phone Number", value: "phone", type: "tel" },
     ];
 
     useEffect(() => {
