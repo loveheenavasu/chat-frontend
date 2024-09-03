@@ -96,6 +96,7 @@ const DynamicForm = () => {
                 setCheckboxField(apiStaticFields);
                 setSelectedIndexes(apiStaticFields.map((field: any) => field.name));
             }
+
         } catch (error: any) {
             toast.error(error.response?.data.message);
             console.error("Error fetching data:", error);
@@ -200,6 +201,7 @@ const DynamicForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        // setIsLoading(true);
         setLoading(true)
         const selectedFields = selectedIndexes.map((index) => {
             const field = staticInputFields.find((item) => item.value === index);
@@ -228,6 +230,7 @@ const DynamicForm = () => {
             toast.error(error.response.data?.message);
             console.error(error);
         } finally {
+            // setIsLoading(false);
             setLoading(false)
         }
     };
@@ -253,6 +256,7 @@ const DynamicForm = () => {
                 console.log(response.data.data.fields, "response of put api");
                 if (response.status === 200) {
                     toast.success(response.data?.message || 'Fields Updated');
+                    // setDataExists(true)
                     // location.reload();
                 }
 
