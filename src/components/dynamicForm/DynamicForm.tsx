@@ -47,8 +47,8 @@ const DynamicForm = () => {
     const [checkboxField, setCheckboxField] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
-    const [disabled, setDisabled] = useState<boolean[]>([true])
-
+    const [disabled, setDisabled] = useState<boolean[]>([])
+    console.log(disabled, 'disabled')
     const documentId = getLocalStorageItem("documentId");
 
     console.log(items, "itemsitems");
@@ -158,6 +158,7 @@ const DynamicForm = () => {
                 ...prevFields,
                 { ...newField, name: newField.label, isRequired: true, isCustom: true },
             ]);
+            setDisabled((prev) => [...prev, true])
         }
         setNewField({ type: "text", label: "", name: "" });
     };
