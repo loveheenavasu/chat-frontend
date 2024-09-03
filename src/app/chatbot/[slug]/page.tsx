@@ -113,6 +113,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
         SOCKET.emit("search", payload);
       }
+
+      setChatMessages([]);
     };
 
     SOCKET.on("connect", handleConnect);
@@ -136,6 +138,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
       SOCKET.disconnect();
     };
   }, [isFormCompleted]);
+
+  console.log("chat", chatMessages);
 
   const handleSend = (e: React.FormEvent, messageText: string) => {
     e.preventDefault();
@@ -210,7 +214,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   }, [fetchInputFields, fetchTheme]);
 
   console.log(isFormCompleted, "formrmm");
-  console.log(currentFieldIndex, "curreernt");
+  // console.log(currentFieldIndex, "curreernt");
 
   useEffect(() => {
     if (defaultTheme === "Primary") {
