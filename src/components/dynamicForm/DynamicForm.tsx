@@ -45,17 +45,19 @@ const DynamicForm = () => {
     const [isDataSubmitted, setIsDataSubmitted] = useState(false);
     const [error, setError] = useState<{ label?: string }>({});
     const [checkboxField, setCheckboxField] = useState<string[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [disabled, setDisabled] = useState<boolean[]>([true])
+
     const documentId = getLocalStorageItem("documentId");
 
     console.log(items, "itemsitems");
     console.log(fields, 'fields')
 
-
     const staticInputFields = [
         { label: "Name", value: "name", type: "text" },
         { label: "Email", value: "email", type: "email" },
-        { label: "Phone Number", value: "phone", type: "tel" },
+        { label: "Phone Number", value: "phone", type: "number" },
     ];
 
     useEffect(() => {
@@ -68,7 +70,9 @@ const DynamicForm = () => {
         }
     }, [items]);
 
+
     const fetchData = async () => {
+        setIsLoading(true);
         try {
             const response = await axiosInstance.get(
                 `user/form/?documentId=${documentId}`
@@ -84,8 +88,6 @@ const DynamicForm = () => {
                         )
                 );
                 setItems(data);
-                setIsDataSubmitted(true);
-
                 const apiStaticFields = result.filter((field: any) =>
                     staticInputFields.some(
                         (staticField) => staticField.value === field.name
@@ -117,7 +119,6 @@ const DynamicForm = () => {
             </Box>
         );
     }
-
 
     const handleNewFieldChange = (
         event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -168,38 +169,38 @@ const DynamicForm = () => {
         setItems((prevItems) => prevItems.filter((_, i) => i !== index));
     };
 
-    // const handleCheckboxChange = (value: string) => {
-    //     setSelectedIndexes((prev) =>
-    //         prev.includes(value)
-    //             ? prev.filter((item) => item !== value)
-    //             : [...prev, value]
-    //     );
-    //     setItems((prevItems) =>
-    //         prevItems.filter(
-    //             (item) =>
-    //                 !staticInputFields.some(
-    //                     (staticField) => staticField.value === item.name
-    //                 )
-    //         )
-    //     );
-    // };
-
     const handleCheckboxChange = (value: string) => {
-        setSelectedIndexes((prev) => {
-            if (prev.includes(value)) {
-                // If the value is already in the selectedIndexes array, remove it
-                return prev.filter((item) => item !== value);
-            } else {
-                // If the value is not in the selectedIndexes array, add it
-                return [...prev, value];
-            }
-        });
+        setSelectedIndexes((prev) =>
+            prev.includes(value)
+                ? prev.filter((item) => item !== value)
+                : [...prev, value]
+        );
+        setItems((prevItems) =>
+            prevItems.filter(
+                (item) =>
+                    !staticInputFields.some(
+                        (staticField) => staticField.value === item.name
+                    )
+            )
+        );
     };
+
+    // const handleCheckboxChange = (value: string) => {
+    //     setSelectedIndexes((prev) => {
+    //         if (prev.includes(value)) {
+    //             // If the value is already in the selectedIndexes array, remove it
+    //             return prev.filter((item) => item !== value);
+    //         } else {
+    //             // If the value is not in the selectedIndexes array, add it
+    //             return [...prev, value];
+    //         }
+    //     });
+    // };
 
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // if (isValidate()) {
+        setLoading(true)
         const selectedFields = selectedIndexes.map((index) => {
             const field = staticInputFields.find((item) => item.value === index);
             return {
@@ -224,14 +225,15 @@ const DynamicForm = () => {
             setFields([]);
             fetchData();
         } catch (error: any) {
-            toast.error(error.response?.data?.message);
+            toast.error(error.response.data?.message);
             console.error(error);
+        } finally {
+            setLoading(false)
         }
-        // }
     };
 
     const handleUpdateField = async (e: any) => {
-        e.preventDefault();
+        setLoading(true)
         const selectedFields = selectedIndexes.map((index) => {
             const field = staticInputFields.find((item) => item.value === index);
             return {
@@ -243,27 +245,28 @@ const DynamicForm = () => {
         });
         const combinedFields = [...selectedFields, ...fields, ...items];
         try {
-            if (isDataSubmitted) {
+            if (!isDataSubmitted) {
                 let id: any = getLocalStorageItem("_id");
                 id = JSON.parse(id);
                 const payload = { _id: id, fields: combinedFields };
                 const response = await axiosInstance.put(`/user/form`, payload);
                 console.log(response.data.data.fields, "response of put api");
                 if (response.status === 200) {
-                    toast.success(response.data?.message);
-                    setIsDataSubmitted(true);
-                    location.reload();
+                    toast.success(response.data?.message || 'Fields Updated');
+                    // location.reload();
                 }
+
             }
         } catch (error: any) {
-            toast.error(error.response?.data?.message);
-        } finally {
-            setIsLoading(false);
+            toast.error(error.response.data?.message);
         }
+        finally {
+            setLoading(false)
+        }
+
     };
 
     const handleEdit = (index: number) => {
-        console.log("heellooo");
         setDisabledFields((prev) => {
             const updated = [...prev];
             updated[index] = !updated[index];
@@ -271,21 +274,31 @@ const DynamicForm = () => {
         });
     };
 
+    const fieldEditBtn = (index: number) => {
+        setDisabled((prev) => {
+            const updated = [...prev];
+            updated[index] = !updated[index];
+            return updated;
+        });
+    }
     const renderButton = () => {
-        if (items?.length > 0 || checkboxField?.length > 0) {
+        if (items.length > 0 || checkboxField.length > 0) {
             return (
-                <Button onClick={handleUpdateField} colorScheme="blue">
-                    Save
-                </Button>
-            );
-        } else {
-            return (
-                <Button onClick={handleSubmit} colorScheme="blue">
+                <Button isLoading={loading} onClick={handleUpdateField} colorScheme="blue">
                     Save
                 </Button>
             );
         }
+        else {
+            return (
+                <Button isLoading={loading} onClick={handleSubmit} colorScheme="blue">
+                    Submit
+                </Button>
+            );
+        }
     };
+
+
 
     return (
         <>
@@ -409,21 +422,81 @@ const DynamicForm = () => {
                                         boxShadow="md"
                                         borderRadius="12px"
                                     >
-                                        <Text fontWeight={700} mb={5} mt={3}>
-                                            {field.label}
-                                        </Text>
-                                        <Text fontWeight={500} mb={5} mt={3}>
-                                            Type: {field.type}
-                                        </Text>
-                                        <Button
-                                            colorScheme="red"
-                                            position="absolute"
-                                            top="10px"
-                                            right="10px"
-                                            onClick={() => removeField(index)}
-                                        >
-                                            <RiDeleteBin6Line size="20px" />
-                                        </Button>
+                                        <Box position="absolute" top="10px" right="10px">
+                                            <Button
+                                                _hover={
+                                                    disabled[index]
+                                                        ? { bg: "#363535" }
+                                                        : { bg: "#2a7ac4 " }
+                                                }
+                                                bg={disabled[index] ? "black" : "#3182CE"}
+                                                textColor="white"
+                                                onClick={() => fieldEditBtn(index)}
+                                                mr={2}
+                                            >
+                                                {disabled[index] ? (
+                                                    <EditIcon />
+                                                ) : (
+                                                    <TiTick size={"20px"} />
+                                                )}
+                                            </Button>
+
+                                            <Button
+                                                colorScheme="red"
+                                                onClick={() => removeField(index)}
+                                            >
+                                                <RiDeleteBin6Line size="20px" />
+                                            </Button>
+                                        </Box>
+                                        {
+                                            disabled[index] ? (
+                                                <>
+                                                    <Text fontWeight={700} mb={5} mt={3}>
+                                                        {field.label}
+                                                    </Text>
+                                                    <Text fontWeight={500} mb={5} mt={3}>
+                                                        Type: {field.type}
+                                                    </Text>
+                                                </>
+
+                                            ) : (
+                                                <Box>
+                                                    <Input
+                                                        value={field?.label}
+                                                        fontWeight={700}
+                                                        width="70%"
+                                                        name="label"
+                                                        mb={4}
+                                                        onChange={(e) => {
+                                                            const updatedFields = [...fields];
+                                                            updatedFields[index] = {
+                                                                ...updatedFields[index],
+                                                                label: e.target.value,
+                                                                name: e.target.value,
+                                                            };
+                                                            setFields(updatedFields);
+                                                        }}
+                                                    />
+                                                    <Select
+                                                        value={field?.type}
+                                                        width="70%"
+                                                        name="type"
+                                                        onChange={(e) => {
+                                                            const updatedFields = [...fields];
+                                                            updatedFields[index].type = e.target.value;
+                                                            setFields(updatedFields);
+                                                        }}
+                                                    >
+                                                        <option value="text">Text</option>
+                                                        <option value="number">Number</option>
+                                                        <option value="email">Email</option>
+                                                        <option value="date">Date</option>
+                                                        <option value="textarea">Textarea</option>
+                                                    </Select>
+                                                </Box>
+                                            )
+                                        }
+
                                     </CardContainer>
                                 </Box>
                             ))}
@@ -513,6 +586,7 @@ const DynamicForm = () => {
                                 ))}
                             </Box>
                         </Box>
+
                     </FormControl>
                 </CardContainer>
             </Box>
