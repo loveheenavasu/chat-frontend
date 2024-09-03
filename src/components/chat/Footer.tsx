@@ -24,7 +24,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
 
-    if (inputFields[currentIndex]?.type === "number") {
+    if (inputFields[currentIndex]?.type === "tel") {
       const phonePattern = /^\d{10}$/;
       if (!phonePattern.test(message)) {
         toast.error("Please enter the valid phone number");
