@@ -8,7 +8,11 @@ import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
 import axiosInstance from "@/utils/axiosInstance";
 import { primaryTheme, secondaryTheme } from "@/theme";
-import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
+import {
+  getLocalStorageItem,
+  removeLocalStorageItem,
+  setLocalStorageItem,
+} from "@/utils/localStorage";
 
 interface Message {
   type: "AI" | "USER";
@@ -39,12 +43,11 @@ const Page = ({ params }: { params: { slug: string } }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [inputFields, setInputFields] = useState<Fields[]>([]);
   const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
-  const [isFormCompleted, setIsFormCompleted] = useState<boolean>();
+  const [isFormCompleted, setIsFormCompleted] = useState<boolean>(false);
 
-  console.log(isFormCompleted, "response.data.isFormCompleted");
-
-  console.log(inputFields, "inputFieldsinputFields");
   const documentId = params.slug;
+
+  const isFormComplete = getLocalStorageItem("isFormCompleted");
 
   const fetchInputFields = useCallback(async () => {
     try {
@@ -57,7 +60,9 @@ const Page = ({ params }: { params: { slug: string } }) => {
       const fields = response?.data?.data?.fields || [];
       console.log(fields, "fieldsss");
       setInputFields(fields);
-      setIsFormCompleted(response.data?.isFormCompleted);
+      setIsFormCompleted(false);
+
+      // setIsFormCompleted(response.data?.isFormCompleted);
     } catch (error) {
       console.error("Error fetching input fields:", error);
     } finally {
@@ -75,27 +80,40 @@ const Page = ({ params }: { params: { slug: string } }) => {
     }
   }, []);
 
+  // console.log(SOCKET, "Sockett");/
   useEffect(() => {
     SOCKET.connect();
 
     const handleConnect = () => {
-      console.log(documentId, "Connected to socket with ID:", SOCKET.id);
+      // console.log(documentId, "Connected to socket with ID:", SOCKET.id);
 
-      if (isFormCompleted !== undefined) {
+      if (isFormComplete) {
         const payload: any = {
           type: "AI",
           documentId,
-          isFormCompleted,
+          isFormComplete,
         };
 
-        console.log("isFormCompleted---", isFormCompleted);
+        let questionType = "";
+        let nextType = "";
 
-        if (!isFormCompleted) {
-          console.log("!----isFormCompleted----", isFormCompleted);
+        console.log("isFormComplete---", isFormComplete);
+
+        if (isFormComplete === "true") {
+          console.log("treuuuform", isFormComplete);
+          console.log("inputt", inputFields);
+          setInputFields([]);
+        }
+
+        if (isFormComplete === "false") {
+          console.log("!----isFormComplete----", isFormComplete);
           if (inputFields.length === 0) {
+            // payload.questionType = questionType;
+            // payload.nextType = nextType;
             payload.questionType = "";
             payload.nextType = "";
-            // setIsFormCompleted(false);
+
+            // setIsFormCompleted(true);
           } else {
             const currentField = inputFields[currentFieldIndex];
             payload.questionType = "HI";
@@ -113,8 +131,15 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
         SOCKET.emit("search", payload);
       }
-
       setChatMessages([]);
+
+      setTimeout(() => {
+        setIsFormCompleted(false);
+        setLocalStorageItem("isFormCompleted", false);
+        // removeLocalStorageItem();
+        location.reload();
+        console.log("isFormCompleted set to false after 2 minutes.");
+      }, 5 * 60 * 1000);
     };
 
     SOCKET.on("connect", handleConnect);
@@ -141,6 +166,16 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
   console.log("chat", chatMessages);
 
+  useEffect(() => {
+    const storedIsFormCompleted = getLocalStorageItem("isFormCompleted");
+    if (storedIsFormCompleted === null) {
+      setLocalStorageItem("isFormCompleted", true);
+      setIsFormCompleted(true);
+    } else {
+      setIsFormCompleted(storedIsFormCompleted === "false");
+    }
+  }, []);
+
   const handleSend = (e: React.FormEvent, messageText: string) => {
     e.preventDefault();
     if (!messageText.trim()) return;
@@ -152,18 +187,23 @@ const Page = ({ params }: { params: { slug: string } }) => {
       questionType = "";
       nextType = "";
       // setIsFormCompleted(true);
+      setLocalStorageItem("isFormCompleted", true);
     } else if (
-      currentFieldIndex > inputFields.length &&
+      currentFieldIndex >= inputFields.length &&
       currentFieldIndex != 0
     ) {
       questionType = "";
       nextType = "";
       // setIsFormCompleted(true);
+
+      setLocalStorageItem("isFormCompleted", true);
       console.log("isform", isFormCompleted);
     } else if (currentFieldIndex + 1 === inputFields.length) {
       questionType = "END";
       nextType = "END";
       // setIsFormCompleted(true);
+
+      setLocalStorageItem("isFormCompleted", true);
     } else {
       if (inputFields[currentFieldIndex + 1]?.isCustom) {
         questionType = "CUSTOM";
@@ -185,11 +225,11 @@ const Page = ({ params }: { params: { slug: string } }) => {
       text: messageText,
       documentId,
       chatSessionId,
-      // isFormCompleted,
+      // isFormComplete,
     };
 
     console.log(payload, "payyyyy");
-    if (!isFormCompleted) {
+    if (isFormComplete === "false") {
       if (!(inputFields.length === 0 && currentFieldIndex === 0)) {
         if (questionType) payload.questionType = questionType;
         if (nextType) payload.nextType = nextType;
@@ -205,6 +245,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
     // Increment the field index after sending the message
     setCurrentFieldIndex((prevIndex) => prevIndex + 1);
 
+    // setLocalStorageItem("isFormCompleted", true);
+
     setLoading(true);
   };
 
@@ -213,8 +255,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
     fetchTheme();
   }, [fetchInputFields, fetchTheme]);
 
-  console.log(isFormCompleted, "formrmm");
-  // console.log(currentFieldIndex, "curreernt");
+  console.log(isFormComplete, "formrmm");
+  console.log(currentFieldIndex, "curreernt");
 
   useEffect(() => {
     if (defaultTheme === "Primary") {
@@ -283,7 +325,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
         handleSend={handleSend}
         bg={theme.background}
         inputFields={inputFields}
-        isFormCompleted={isFormCompleted}
+        isFormComplete={isFormComplete}
       />
     </Box>
   );
