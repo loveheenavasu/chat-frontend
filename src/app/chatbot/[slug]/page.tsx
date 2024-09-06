@@ -99,11 +99,11 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
         console.log("isFormComplete---", isFormCompleted);
 
-        if (isFormCompleted === "true") {
-          console.log("treuuuform", isFormComplete);
-          console.log("inputt", inputFields);
-          setInputFields([]);
-        }
+        // if (isFormCompleted === "true") {
+        //   console.log("treuuuform", isFormComplete);
+        //   console.log("inputt", inputFields);
+        //   setInputFields([]);
+        // }
 
         if (isFormCompleted === "false") {
           console.log("!----isFormComplete----", isFormCompleted);
