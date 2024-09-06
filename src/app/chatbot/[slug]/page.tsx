@@ -169,7 +169,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   useEffect(() => {
     const storedIsFormCompleted = getLocalStorageItem("isFormCompleted");
     if (storedIsFormCompleted === null) {
-      setLocalStorageItem("isFormCompleted", true);
+      setLocalStorageItem("isFormCompleted", false);
       setIsFormCompleted(true);
     } else {
       setIsFormCompleted(storedIsFormCompleted === "false");
