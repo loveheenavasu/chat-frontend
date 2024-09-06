@@ -43,11 +43,11 @@ const Page = ({ params }: { params: { slug: string } }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [inputFields, setInputFields] = useState<Fields[]>([]);
   const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
-  const [isFormCompleted, setIsFormCompleted] = useState<boolean>(false);
+  const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
 
   const documentId = params.slug;
 
-  const isFormComplete = getLocalStorageItem("isFormCompleted");
+  const isFormCompleted = getLocalStorageItem("isFormCompleted");
 
   const fetchInputFields = useCallback(async () => {
     try {
@@ -60,7 +60,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
       const fields = response?.data?.data?.fields || [];
       console.log(fields, "fieldsss");
       setInputFields(fields);
-      setIsFormCompleted(false);
+      setIsFormComplete(false);
 
       // setIsFormCompleted(response.data?.isFormCompleted);
     } catch (error) {
@@ -87,31 +87,31 @@ const Page = ({ params }: { params: { slug: string } }) => {
     const handleConnect = () => {
       // console.log(documentId, "Connected to socket with ID:", SOCKET.id);
 
-      if (isFormComplete) {
+      if (isFormCompleted) {
         const payload: any = {
           type: "AI",
           documentId,
-          isFormComplete,
+          isFormCompleted,
         };
 
         let questionType = "";
         let nextType = "";
 
-        console.log("isFormComplete---", isFormComplete);
+        console.log("isFormComplete---", isFormCompleted);
 
-        if (isFormComplete === "true") {
+        if (isFormCompleted === "true") {
           console.log("treuuuform", isFormComplete);
           console.log("inputt", inputFields);
           setInputFields([]);
         }
 
-        if (isFormComplete === "false") {
-          console.log("!----isFormComplete----", isFormComplete);
+        if (isFormCompleted === "false") {
+          console.log("!----isFormComplete----", isFormCompleted);
           if (inputFields.length === 0) {
-            // payload.questionType = questionType;
-            // payload.nextType = nextType;
-            payload.questionType = "";
-            payload.nextType = "";
+            payload.questionType = questionType;
+            payload.nextType = nextType;
+            // payload.questionType = "";
+            // payload.nextType = "";
 
             // setIsFormCompleted(true);
           } else {
@@ -134,7 +134,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
       setChatMessages([]);
 
       setTimeout(() => {
-        setIsFormCompleted(false);
+        setIsFormComplete(false);
         setLocalStorageItem("isFormCompleted", false);
         // removeLocalStorageItem();
         location.reload();
@@ -162,7 +162,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
       SOCKET.off("searches", handleSearches);
       SOCKET.disconnect();
     };
-  }, [isFormCompleted]);
+  }, [isFormComplete]);
 
   console.log("chat", chatMessages);
 
@@ -170,9 +170,9 @@ const Page = ({ params }: { params: { slug: string } }) => {
     const storedIsFormCompleted = getLocalStorageItem("isFormCompleted");
     if (storedIsFormCompleted === null) {
       setLocalStorageItem("isFormCompleted", false);
-      setIsFormCompleted(false);
+      setIsFormComplete(false);
     } else {
-      setIsFormCompleted(storedIsFormCompleted === "false");
+      setIsFormComplete(storedIsFormCompleted === "false");
     }
   }, []);
 
@@ -229,7 +229,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
     };
 
     console.log(payload, "payyyyy");
-    if (isFormComplete === "false") {
+    if (isFormCompleted === "false") {
       if (!(inputFields.length === 0 && currentFieldIndex === 0)) {
         if (questionType) payload.questionType = questionType;
         if (nextType) payload.nextType = nextType;
@@ -325,7 +325,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
         handleSend={handleSend}
         bg={theme.background}
         inputFields={inputFields}
-        isFormComplete={isFormComplete}
+        isFormCompleted={isFormCompleted}
       />
     </Box>
   );
