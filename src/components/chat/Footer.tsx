@@ -11,21 +11,21 @@ interface ChatFooterProps {
   handleSend?: (e: React.FormEvent | React.MouseEvent, message: string) => void;
   bg: string;
   inputFields?: any;
-  isFormComplete: string | null | undefined;
+  isFormCompleted: string | null | undefined;
 }
 const ChatFooter: React.FC<ChatFooterProps> = ({
   handleSend,
   bg,
   inputFields,
-  isFormComplete,
+  isFormCompleted,
 }) => {
   const [message, setMessage] = useState<string>("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log("isfromfooter", isFormComplete);
+  console.log("isfromfooter", isFormCompleted);
 
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
-    if (isFormComplete === "false") {
+    if (isFormCompleted === "false") {
       if (inputFields[currentIndex]?.type === "tel") {
         const phonePattern = /^\d{10}$/;
         if (!phonePattern.test(message)) {
@@ -61,7 +61,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           style={{ backgroundColor: "white" }}
-          type={isFormComplete === "false" && inputFields[currentIndex]?.type}
+          type={isFormCompleted === "false" && inputFields[currentIndex]?.type}
         />
 
         <VscSend
