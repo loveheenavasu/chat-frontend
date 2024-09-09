@@ -11,6 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { removeLocalStorageItem } from "@/utils/localStorage";
 import { MdDarkMode } from "react-icons/md";
+import Profile from "../profile/Profile";
 interface themeProps {
   bg?: string;
   title?: string;
@@ -82,11 +83,6 @@ const Header: React.FC<themeProps> = ({ bg, title }) => {
                     </Text>
                   </Box>
                   <Box>
-                    <Text fontSize="xl" fontWeight="bold" cursor="pointer" onClick={handleLogout}>
-                      Logout
-                    </Text>
-                  </Box>
-                  <Box>
                     <Button colorScheme="#575782" onClick={onOpen}>
                       <MdDarkMode size={"20px"} />
                     </Button>
@@ -141,6 +137,13 @@ const Header: React.FC<themeProps> = ({ bg, title }) => {
                         </DrawerBody>
                       </DrawerContent>
                     </Drawer>
+                  </Box>
+                  <Box>
+                    {/* profile */}
+                    <Profile />
+                    {/* <Text fontSize="xl" fontWeight="bold" cursor="pointer" onClick={handleLogout}>
+                      Logout
+                    </Text> */}
                   </Box>
                 </>
               )}
