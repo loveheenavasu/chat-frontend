@@ -4,6 +4,7 @@ import { LinkIcon } from "@chakra-ui/icons";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
+import { TbWorld } from "react-icons/tb";
 import { CiFileOn, CiTextAlignLeft } from "react-icons/ci";
 import { LuMessagesSquare } from "react-icons/lu";
 
@@ -21,6 +22,17 @@ const SideBar = () => {
       icon: <CiTextAlignLeft fontSize={25} />,
       path: "/admin/chat",
     },
+    {
+      label: "Connect",
+      icon: <TbWorld fontSize={25} />,
+      path: "/admin/chat/connect",
+    },
+
+    // {
+    //   label: "Website",
+    //   icon: <TbWorld fontSize={25} />,
+    //   path: "/admin/chat/website",
+    // },
     {
       label: "Lead",
       icon: <LinkIcon fontSize={25} />,
@@ -54,9 +66,9 @@ const SideBar = () => {
                 style={
                   label === activeButton
                     ? {
-                      background: "#f9f9f9",
-                      color: "blue",
-                    }
+                        background: "#f9f9f9",
+                        color: "blue",
+                      }
                     : {}
                 }
                 onClick={() => handleClick(label, path)}
