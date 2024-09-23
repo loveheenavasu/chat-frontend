@@ -1,8 +1,7 @@
 (function () {
   // Configuration
   var config = window.embeddedChatbotConfig || {};
-  var chatbotUrl =
-    "https://chat-frontend-three-xi.vercel.app/chatbot/b834035e-fc28-4a84-bd49-e48565a21847";
+  var chatbotUrl = "https://" + config.domain + "/chatbot/" + config.chatbotId;
 
   // Create chat bubble
   var bubble = document.createElement("div");
