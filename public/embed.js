@@ -1,7 +1,16 @@
 (function () {
   // Configuration
   var config = window.embeddedChatbotConfig || {};
-  var chatbotUrl = "https://" + config.domain + "/chatbot/" + config.chatbotId;
+  // var chatbotUrl = "https://" + config.domain + "/chatbot/" + config.chatbotId;
+
+  if (config.domain && config.chatbotId) {
+    var chatbotUrl =
+      "https://" + config.domain + "/chatbot/" + config.chatbotId;
+    console.log("Chatbot URL:", chatbotUrl);
+    // You can proceed to use chatbotUrl as needed
+  } else {
+    console.error("Chatbot configuration is missing.");
+  }
 
   // Create chat bubble
   var bubble = document.createElement("div");
@@ -11,8 +20,10 @@
   img.setAttribute("width", "60px");
   img.style.borderRadius = "50%";
   img.style.boxShadow = "0 25px 50px -12px skyblue";
+
   bubble.appendChild(img);
   document.body.appendChild(bubble);
+  res.innerHTML = "Image Element Added.";
 
   // Create chat container (hidden initially)
   var chatContainer = document.createElement("div");
