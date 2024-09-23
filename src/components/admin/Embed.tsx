@@ -55,12 +55,24 @@ frameBorder="0"
             </Text>
             {documentId && (
               <Code p="4" w="100%" colorScheme="blackAlpha">
-                <pre>{`<script
-src ="https://chat-frontend-three-xi.vercel.app/chatbot-widget.min.js";
-chatbotId= ${documentId},
+                <pre>
+                  {`
+<script>
+window.embeddedChatbotConfig = {
+  chatbotId: "${documentId}"
+  domain: "https://chat-frontend-three-xi.vercel.app"
+}
+</script>`}
+                </pre>
+                <br />
+                <pre>
+                  {`<script
+src ="https://chat-frontend-three-xi.vercel.app/embed.js"
+chatbotId= "${documentId}"
 domain= "https://chat-frontend-three-xi.vercel.app"
 defer>
-</script>`}</pre>
+</script>`}
+                </pre>
               </Code>
             )}
           </Box>
