@@ -59,7 +59,7 @@ frameBorder="0"
                   {`
 <script>
 window.embeddedChatbotConfig = {
-  chatbotId: "${documentId}"
+  chatbotId: "${documentId}",
   domain: "chat-frontend-three-xi.vercel.app"
 }
 </script>`}

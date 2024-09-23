@@ -23,7 +23,7 @@
 
   bubble.appendChild(img);
   document.body.appendChild(bubble);
-  res.innerHTML = "Image Element Added.";
+  // res.innerHTML = "Image Element Added.";
 
   // Create chat container (hidden initially)
   var chatContainer = document.createElement("div");
