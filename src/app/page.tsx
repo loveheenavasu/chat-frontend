@@ -18,8 +18,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { removeParticularItemFromLocalStorage } from "@/utils/localStorage";
+import {
+  getLocalStorageItem,
+  removeParticularItemFromLocalStorage,
+} from "@/utils/localStorage";
 import { toast } from "react-toastify";
+import Script from "next/script";
+
+const documentId = getLocalStorageItem("documentId");
 
 const Home: React.FC = () => {
   const [data, setData] = useState([]);
@@ -116,6 +122,18 @@ const Home: React.FC = () => {
           </React.Fragment>
         )}
       </Box>
+
+      <Script>
+        {`window.embeddedChatbotConfig = {
+  chatbotId: "${documentId}",
+  domain: "chat-frontend-three-xi.vercel.app"
+}
+            `}
+      </Script>
+      <Script
+        src="https://chat-frontend-three-xi.vercel.app/embed.js"
+        defer
+      ></Script>
     </>
   );
 };
