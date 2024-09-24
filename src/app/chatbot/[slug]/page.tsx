@@ -331,7 +331,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
         />
       </Box>
 
-      <Script>
+      {/* <Script>
         {`window.embeddedChatbotConfig = {
 chatbotId: "${documentId}",
 domain: "chat-frontend-three-xi.vercel.app"
@@ -341,7 +341,7 @@ domain: "chat-frontend-three-xi.vercel.app"
       <Script
         src="https://chat-frontend-three-xi.vercel.app/embed.js"
         defer
-      ></Script>
+      ></Script> */}
     </>
   );
 };
