@@ -61,7 +61,7 @@ const Home: React.FC = () => {
           justifyContent="space-between"
           alignItems="center"
           width={"100%"}
-          py="5"
+          pt="20"
         >
           <Text fontWeight="bold" fontSize={32}>
             Chatbots

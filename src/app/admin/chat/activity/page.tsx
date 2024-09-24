@@ -9,7 +9,7 @@ const page = () => {
   return (
     <>
       <Header />
-      <Box p="5px" border="1px solid #fff" w="fit-content">
+      <Box pt="40px" border="1px solid #fff" w="fit-content">
         <Link href="/">
           <Flex
             m="5"
