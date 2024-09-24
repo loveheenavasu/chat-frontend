@@ -1,13 +1,11 @@
 (function () {
   // Configuration
   var config = window.embeddedChatbotConfig || {};
-  // var chatbotUrl = "https://" + config.domain + "/chatbot/" + config.chatbotId;
 
   if (config.domain && config.chatbotId) {
     var chatbotUrl =
       "https://" + config.domain + "/chatbot/" + config.chatbotId;
     console.log("Chatbot URL:", chatbotUrl);
-    // You can proceed to use chatbotUrl as needed
   } else {
     console.error("Chatbot configuration is missing.");
   }
@@ -19,12 +17,10 @@
   img.src = "/images/bot.jpg";
   img.setAttribute("width", "60px");
   img.style.borderRadius = "50%";
-  img.style.marginRight = "20px";
   img.style.boxShadow = "0 25px 50px -12px skyblue";
 
   bubble.appendChild(img);
   document.body.appendChild(bubble);
-  // res.innerHTML = "Image Element Added.";
 
   // Create chat container (hidden initially)
   var chatContainer = document.createElement("div");
@@ -39,14 +35,15 @@
       chatContainer.style.width = "40vw";
       chatContainer.style.maxHeight = "70vh";
       chatContainer.style.marginBottom = "60px";
-
+      chatContainer.style.overflow = "hidden";
       if (!chatContainer.querySelector("iframe")) {
         var iframe = document.createElement("iframe");
         iframe.src = chatbotUrl;
-        iframe.style.width = "40vw";
-        iframe.style.maxHeight = "70vh";
-        iframe.style.overflow = "hidden";
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
         iframe.style.borderRadius = "10px";
+        iframe.style.overflow = "hidden";
+        iframe.style.border = "none";
         chatContainer.appendChild(iframe);
       }
     } else {
@@ -57,9 +54,9 @@
   // Add click event to bubble
   bubble.addEventListener("click", toggleChat);
 
-  // Style elements (this would typically be more extensive)
+  // Style elements
   bubble.style.cssText =
-    "position:fixed;bottom:80px;right:20px;cursor:pointer;";
+    "position:fixed;bottom:20px;right:20px;cursor:pointer;";
   chatContainer.style.cssText =
-    "position:fixed;bottom:80px;right:20px;width:300px;height:400px;";
+    "position:fixed;bottom:60px;right:20px;width:300px;height:400px;overflow:hidden;border-radius:10px;";
 })();
