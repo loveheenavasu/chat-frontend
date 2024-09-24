@@ -275,7 +275,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
   return (
     <>
-      <Box paddingY={{ base: 5, md: 0 }}>
+      <Box>
         <Header bg={theme.background} title={theme.title} />
         <ChatContainer
           chatMessages={chatMessages}
