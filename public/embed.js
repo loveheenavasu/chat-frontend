@@ -37,14 +37,14 @@
     if (chatContainer.style.display === "none") {
       chatContainer.style.display = "block";
       chatContainer.style.width = "40vw";
-      chatContainer.style.height = "70vh";
+      chatContainer.style.maxHeight = "70vh";
       chatContainer.style.marginBottom = "60px";
 
       if (!chatContainer.querySelector("iframe")) {
         var iframe = document.createElement("iframe");
         iframe.src = chatbotUrl;
         iframe.style.width = "40vw";
-        iframe.style.height = "70vh";
+        iframe.style.maxHeight = "70vh";
         iframe.style.overflow = "hidden";
         iframe.style.borderRadius = "10px";
         chatContainer.appendChild(iframe);
@@ -59,7 +59,7 @@
 
   // Style elements (this would typically be more extensive)
   bubble.style.cssText =
-    "position:fixed;bottom:40px;right:20px;cursor:pointer;";
+    "position:fixed;bottom:80px;right:20px;cursor:pointer;";
   chatContainer.style.cssText =
     "position:fixed;bottom:20px;right:20px;width:300px;height:400px;";
 })();
