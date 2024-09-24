@@ -24,8 +24,7 @@
   img.setAttribute("width", "60px");
   img.style.borderRadius = "50%";
   img.style.transition = "transform 0.3s ease"; // Add transition for smooth scaling
-  img.style.boxShadow =
-    "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;";
+  img.style.boxShadow = "0px 3px 8px gray";
 
   bubble.appendChild(img);
   document.body.appendChild(bubble);
@@ -45,7 +44,7 @@
       chatContainer.style.paddingBottom = "4px";
       chatContainer.style.marginBottom = "60px";
       chatContainer.style.overflowY = "auto";
-      chatContainer.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
+      chatContainer.style.boxShadow = "0px 3px 8px gray";
 
       // Check if iframe already exists, if not create it
       if (!chatContainer.querySelector("iframe")) {
