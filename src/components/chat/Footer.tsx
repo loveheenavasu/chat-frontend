@@ -42,7 +42,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
   return (
     <form style={{ width: "100%" }} onSubmit={sendMessage}>
       <Flex
-        bottom="-6"
+        bottom="-10"
         color="white"
         w="100%"
         bg={bg}
