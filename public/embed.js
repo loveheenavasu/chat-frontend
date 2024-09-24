@@ -33,6 +33,8 @@
   var chatContainer = document.createElement("div");
   chatContainer.id = "chatbot-container";
   chatContainer.style.display = "none";
+  chatContainer.style.overflow = "hidden";
+
   document.body.appendChild(chatContainer);
 
   // Function to toggle chat visibility
@@ -40,21 +42,23 @@
     if (chatContainer.style.display === "none") {
       chatContainer.style.display = "block";
       chatContainer.style.width = "40vw";
-      chatContainer.style.maxHeight = "70vh";
+      chatContainer.style.height = "80vh";
       chatContainer.style.paddingBottom = "4px";
       chatContainer.style.marginBottom = "60px";
-      chatContainer.style.overflowY = "auto";
+      chatContainer.style.overflow = "hidden";
       chatContainer.style.boxShadow = "0px 3px 8px gray";
 
       // Check if iframe already exists, if not create it
       if (!chatContainer.querySelector("iframe")) {
         var iframe = document.createElement("iframe");
+        iframe.setAttribute("scrolling", "no");
         iframe.src = chatbotUrl;
         iframe.style.width = "100%";
         iframe.style.height = "100%";
         iframe.style.paddingBottom = "4px";
         iframe.style.borderRadius = "10px";
         iframe.style.border = "none";
+        iframe.style.overflow = "hidden";
         chatContainer.appendChild(iframe);
       }
     } else {
@@ -69,7 +73,7 @@
   bubble.style.cssText =
     "position:fixed;bottom:20px;right:20px;cursor:pointer;z-index:1000;";
   chatContainer.style.cssText =
-    "position:fixed;bottom:60px;right:20px;width:300px;height:400px;overflow:hidden;border-radius:10px;z-index:1000;";
+    "position:fixed;bottom:60px;right:20px;width:300px;overflow:hidden;border-radius:10px;z-index:1000;";
 
   // Add hover effect to scale the image
   bubble.addEventListener("mouseover", function () {
