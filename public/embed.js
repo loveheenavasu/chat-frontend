@@ -8,6 +8,7 @@
     console.log("Chatbot URL:", chatbotUrl);
   } else {
     console.error("Chatbot configuration is missing.");
+    return; // Exit if configuration is missing
   }
 
   // Create chat bubble
@@ -28,21 +29,25 @@
   chatContainer.style.display = "none";
   document.body.appendChild(chatContainer);
 
-  // Toggle chat
+  // Function to toggle chat visibility
   function toggleChat() {
     if (chatContainer.style.display === "none") {
       chatContainer.style.display = "block";
       chatContainer.style.width = "40vw";
       chatContainer.style.maxHeight = "70vh";
+      chatContainer.style.paddingBottom = "4px";
       chatContainer.style.marginBottom = "60px";
       chatContainer.style.overflow = "hidden";
+      img.style.boxShadow = "2px 25px 50px -12px white";
+
+      // Check if iframe already exists, if not create it
       if (!chatContainer.querySelector("iframe")) {
         var iframe = document.createElement("iframe");
         iframe.src = chatbotUrl;
         iframe.style.width = "100%";
         iframe.style.height = "100%";
+        iframe.style.paddingBottom = "4px";
         iframe.style.borderRadius = "10px";
-        iframe.style.overflow = "hidden";
         iframe.style.border = "none";
         chatContainer.appendChild(iframe);
       }
@@ -51,12 +56,12 @@
     }
   }
 
-  // Add click event to bubble
+  // Add click event to toggle the chat
   bubble.addEventListener("click", toggleChat);
 
   // Style elements
   bubble.style.cssText =
-    "position:fixed;bottom:20px;right:20px;cursor:pointer;";
+    "position:fixed;bottom:20px;right:20px;cursor:pointer;z-index:1000;";
   chatContainer.style.cssText =
-    "position:fixed;bottom:60px;right:20px;width:300px;height:400px;overflow:hidden;border-radius:10px;";
+    "position:fixed;bottom:60px;right:20px;width:300px;height:400px;overflow:hidden;border-radius:10px;z-index:1000;";
 })();
