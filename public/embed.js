@@ -59,7 +59,7 @@
 
   // Style elements (this would typically be more extensive)
   bubble.style.cssText =
-    "position:fixed;bottom:20px;right:20px;cursor:pointer;";
+    "position:fixed;bottom:40px;right:20px;cursor:pointer;";
   chatContainer.style.cssText =
-    "position:fixed;bottom:60px;right:20px;width:300px;height:400px;";
+    "position:fixed;bottom:20px;right:20px;width:300px;height:400px;";
 })();
