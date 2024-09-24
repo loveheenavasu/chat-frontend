@@ -42,7 +42,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
       bg={bg}
       overflowY="auto"
       h={loading ? "73vh" : "82vh"}
-      paddingTop="20px"
+      paddingTop="25px"
     >
       {chatMessages.map((msg, index) => (
         <Flex
