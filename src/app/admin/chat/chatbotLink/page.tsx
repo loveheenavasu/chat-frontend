@@ -8,7 +8,6 @@ import DynamicForm from "@/components/dynamicForm/DynamicForm";
 import { getLocalStorageItem } from "@/utils/localStorage";
 import { Box, Button, Container, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import Script from "next/script";
 import { useEffect, useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 
@@ -75,17 +74,6 @@ const page = () => {
           </CardContainer>
         )}
       </Flex>
-      <Script>
-        {`window.embeddedChatbotConfig = {
-  chatbotId: "${documentID}",
-  domain: "chat-frontend-three-xi.vercel.app"
-}`}
-      </Script>
-
-      <Script
-        src="https://chat-frontend-three-xi.vercel.app/embed.js"
-        defer
-      ></Script>
     </>
   );
 };

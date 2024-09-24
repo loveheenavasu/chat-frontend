@@ -6,11 +6,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 import { ChatbotLinkProvider } from "@/context/ChatbotLinkProvider";
-import Script from "next/script";
-import { getLocalStorageItem } from "@/utils/localStorage";
 const inter = Inter({ subsets: ["latin"] });
-
-const documentId = getLocalStorageItem("documentId");
 
 export const metadata: Metadata = {
   title: "ChatBot",

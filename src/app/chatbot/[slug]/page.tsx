@@ -13,7 +13,6 @@ import {
   removeLocalStorageItem,
   setLocalStorageItem,
 } from "@/utils/localStorage";
-import Script from "next/script";
 
 interface Message {
   type: "AI" | "USER";
@@ -330,18 +329,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
           isFormCompleted={isFormCompleted}
         />
       </Box>
-
-      {/* <Script>
-        {`window.embeddedChatbotConfig = {
-chatbotId: "${documentId}",
-domain: "chat-frontend-three-xi.vercel.app"
-}`}
-      </Script>
-
-      <Script
-        src="https://chat-frontend-three-xi.vercel.app/embed.js"
-        defer
-      ></Script> */}
     </>
   );
 };
