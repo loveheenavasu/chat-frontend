@@ -2,13 +2,18 @@
   // Configuration
   var config = window.embeddedChatbotConfig || {};
 
-  if (config.domain && config.chatbotId) {
-    var chatbotUrl =
-      "https://" + config.domain + "/chatbot/" + config.chatbotId;
-    console.log("Chatbot URL:", chatbotUrl);
-  } else {
-    console.error("Chatbot configuration is missing.");
-    return; // Exit if configuration is missing
+  if (!window.isChatbotInitialized) {
+    window.isChatbotInitialized = true;
+
+    console.log("Chatbot running");
+    if (config.domain && config.chatbotId) {
+      var chatbotUrl =
+        "https://" + config.domain + "/chatbot/" + config.chatbotId;
+      console.log("Chatbot URL:", chatbotUrl);
+    } else {
+      console.error("Chatbot configuration is missing.");
+      return; // Exit if configuration is missing
+    }
   }
 
   // Create chat bubble
@@ -37,7 +42,7 @@
       chatContainer.style.maxHeight = "70vh";
       chatContainer.style.paddingBottom = "4px";
       chatContainer.style.marginBottom = "60px";
-      chatContainer.style.overflow = "hidden";
+      chatContainer.style.overflowY = "auto";
       img.style.boxShadow = "2px 25px 50px -12px white";
 
       // Check if iframe already exists, if not create it
