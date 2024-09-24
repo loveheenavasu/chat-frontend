@@ -19,6 +19,7 @@
   img.src = "/images/bot.jpg";
   img.setAttribute("width", "60px");
   img.style.borderRadius = "50%";
+  img.style.marginRight = "20px";
   img.style.boxShadow = "0 25px 50px -12px skyblue";
 
   bubble.appendChild(img);
@@ -38,6 +39,7 @@
       chatContainer.style.width = "40vw";
       chatContainer.style.height = "70vh";
       chatContainer.style.marginBottom = "60px";
+
       if (!chatContainer.querySelector("iframe")) {
         var iframe = document.createElement("iframe");
         iframe.src = chatbotUrl;
