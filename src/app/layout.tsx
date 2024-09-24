@@ -36,7 +36,7 @@ export default function RootLayout({
           </GoogleOAuthProvider>
         </ChakraProvider>
 
-        <Script>
+        {/* <Script>
           {`window.embeddedChatbotConfig = {
   chatbotId: "b834035e-fc28-4a84-bd49-e48565a21847",
   domain: "chat-frontend-three-xi.vercel.app"
@@ -46,7 +46,7 @@ export default function RootLayout({
         <Script
           src="https://chat-frontend-three-xi.vercel.app/embed.js"
           defer
-        ></Script>
+        ></Script> */}
       </body>
     </html>
   );
