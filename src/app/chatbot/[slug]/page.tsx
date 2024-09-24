@@ -4,7 +4,7 @@ import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import ChatContainer from "@/components/chat/Container";
 import ChatFooter from "@/components/chat/Footer";
 import Header from "@/components/common/Header";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
 import axiosInstance from "@/utils/axiosInstance";
 import { primaryTheme, secondaryTheme } from "@/theme";
@@ -275,7 +275,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
   return (
     <>
-      <Box padding ={{base:"10px" , md:0}} >
+      <Box>
         <Header bg={theme.background} title={theme.title} />
         <ChatContainer
           chatMessages={chatMessages}
