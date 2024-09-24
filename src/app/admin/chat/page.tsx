@@ -5,6 +5,10 @@ import Link from "next/link";
 import { IoMdArrowBack } from "react-icons/io";
 import Header from "@/components/common/Header";
 import SideBar from "@/components/admin/SideBar";
+import Script from "next/script";
+import { getLocalStorageItem } from "@/utils/localStorage";
+
+const documentId = getLocalStorageItem("documentId");
 
 const page = () => {
   return (
@@ -39,6 +43,18 @@ const page = () => {
           <InputContext />
         </Box>
       </Flex>
+
+      <Script>
+        {`window.embeddedChatbotConfig = {
+  chatbotId: "${documentId}",
+  domain: "chat-frontend-three-xi.vercel.app"
+}`}
+      </Script>
+
+      <Script
+        src="https://chat-frontend-three-xi.vercel.app/embed.js"
+        defer
+      ></Script>
     </>
   );
 };

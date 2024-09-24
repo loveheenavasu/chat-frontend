@@ -34,17 +34,6 @@ export default function RootLayout({
           <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID || ""}>
             <ChatbotLinkProvider>
               {children}
-              <Script>
-                {`window.embeddedChatbotConfig = {
-  chatbotId: "${documentId}"
-  domain: "chat-frontend-three-xi.vercel.app"
-}`}
-              </Script>
-
-              <Script
-                src="https://chat-frontend-three-xi.vercel.app/embed.js"
-                defer
-              ></Script>
               <ToastContainer />
             </ChatbotLinkProvider>
           </GoogleOAuthProvider>

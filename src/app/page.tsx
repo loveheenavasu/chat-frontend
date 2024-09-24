@@ -122,6 +122,18 @@ const Home: React.FC = () => {
           </React.Fragment>
         )}
       </Box>
+
+      <Script>
+        {`window.embeddedChatbotConfig = {
+chatbotId: "${documentId}",
+domain: "chat-frontend-three-xi.vercel.app"
+}`}
+      </Script>
+
+      <Script
+        src="https://chat-frontend-three-xi.vercel.app/embed.js"
+        defer
+      ></Script>
     </>
   );
 };

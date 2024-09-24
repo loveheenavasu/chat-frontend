@@ -13,6 +13,7 @@ import {
   removeLocalStorageItem,
   setLocalStorageItem,
 } from "@/utils/localStorage";
+import Script from "next/script";
 
 interface Message {
   type: "AI" | "USER";
@@ -272,62 +273,76 @@ const Page = ({ params }: { params: { slug: string } }) => {
   }, [fetchInputFields, fetchTheme]);
 
   return (
-    <Box>
-      <Header bg={theme.background} title={theme.title} />
-      <ChatContainer
-        chatMessages={chatMessages}
-        loading={loading}
-        bg={theme.innerContainer}
-        color={theme.color}
-      />
-      {loading && (
-        <Box bg="#e9e9ff">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 100 100"
-            width="70"
-            height="70"
-            preserveAspectRatio="xMidYMid"
-            fill="yellow"
-          >
-            <circle cx="30" cy="50" r="5" fill="#1e90ff">
-              <animate
-                attributeName="cx"
-                values="30;70;30"
-                dur="1.5s"
-                repeatCount="indefinite"
-                begin="0s"
-              />
-            </circle>
-            <circle cx="50" cy="50" r="5" fill="#3cb371">
-              <animate
-                attributeName="cx"
-                values="30;70;30"
-                dur="1.5s"
-                repeatCount="indefinite"
-                begin="-0.75s"
-              />
-            </circle>
-            <circle cx="70" cy="50" r="5" fill="#ff6347">
-              <animate
-                attributeName="cx"
-                values="30;70;30"
-                dur="1.5s"
-                repeatCount="indefinite"
-                begin="-0.5s"
-              />
-            </circle>
-          </svg>
-        </Box>
-      )}
+    <>
+      <Box>
+        <Header bg={theme.background} title={theme.title} />
+        <ChatContainer
+          chatMessages={chatMessages}
+          loading={loading}
+          bg={theme.innerContainer}
+          color={theme.color}
+        />
+        {loading && (
+          <Box bg="#e9e9ff">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 100 100"
+              width="70"
+              height="70"
+              preserveAspectRatio="xMidYMid"
+              fill="yellow"
+            >
+              <circle cx="30" cy="50" r="5" fill="#1e90ff">
+                <animate
+                  attributeName="cx"
+                  values="30;70;30"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                  begin="0s"
+                />
+              </circle>
+              <circle cx="50" cy="50" r="5" fill="#3cb371">
+                <animate
+                  attributeName="cx"
+                  values="30;70;30"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                  begin="-0.75s"
+                />
+              </circle>
+              <circle cx="70" cy="50" r="5" fill="#ff6347">
+                <animate
+                  attributeName="cx"
+                  values="30;70;30"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                  begin="-0.5s"
+                />
+              </circle>
+            </svg>
+          </Box>
+        )}
 
-      <ChatFooter
-        handleSend={handleSend}
-        bg={theme.background}
-        inputFields={inputFields}
-        isFormCompleted={isFormCompleted}
-      />
-    </Box>
+        <ChatFooter
+          handleSend={handleSend}
+          bg={theme.background}
+          inputFields={inputFields}
+          isFormCompleted={isFormCompleted}
+        />
+      </Box>
+
+      <Script>
+        {`window.embeddedChatbotConfig = {
+chatbotId: "${documentId}",
+domain: "chat-frontend-three-xi.vercel.app"
+}`}
+      </Script>
+
+      <Script
+        src="https://chat-frontend-three-xi.vercel.app/embed.js"
+        defer
+      ></Script>
+    </>
   );
 };
 

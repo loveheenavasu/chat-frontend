@@ -6,6 +6,7 @@ import { getLocalStorageItem } from "@/utils/localStorage";
 
 import { Box, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
+import Script from "next/script";
 import React, { useEffect, useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 
@@ -58,6 +59,17 @@ const page = () => {
           </Text>
         )}
       </Flex>
+      <Script>
+        {`window.embeddedChatbotConfig = {
+  chatbotId: "${documentID}",
+  domain: "chat-frontend-three-xi.vercel.app"
+}`}
+      </Script>
+
+      <Script
+        src="https://chat-frontend-three-xi.vercel.app/embed.js"
+        defer
+      ></Script>
     </>
   );
 };
