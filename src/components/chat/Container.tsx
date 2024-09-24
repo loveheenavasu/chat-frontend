@@ -41,7 +41,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
       direction="column"
       bg={bg}
       overflowY="auto"
-      h={loading ? "83vh" : "93vh"}
+      h={loading ? "78vh" : "93vh"}
       paddingY="30px"
       
     >
