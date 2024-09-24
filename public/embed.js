@@ -20,7 +20,7 @@
   var bubble = document.createElement("div");
   bubble.id = "chatbot-bubble";
   var img = document.createElement("img");
-  img.src = chatbotUrl + "/images/bot.jpg";
+  img.src = "https://" + config.domain + "/images/bot.jpg";
   img.setAttribute("width", "60px");
   img.style.borderRadius = "50%";
   img.style.boxShadow = "0 25px 50px -12px skyblue";
