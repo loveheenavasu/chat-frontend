@@ -7,7 +7,10 @@ import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 import { ChatbotLinkProvider } from "@/context/ChatbotLinkProvider";
 import Script from "next/script";
+import { getLocalStorageItem } from "@/utils/localStorage";
 const inter = Inter({ subsets: ["latin"] });
+
+const documentId = getLocalStorageItem("documentId");
 
 export const metadata: Metadata = {
   title: "ChatBot",
@@ -36,9 +39,9 @@ export default function RootLayout({
           </GoogleOAuthProvider>
         </ChakraProvider>
 
-        {/* <Script>
+        <Script>
           {`window.embeddedChatbotConfig = {
-  chatbotId: "b834035e-fc28-4a84-bd49-e48565a21847",
+  chatbotId: "${documentId}",
   domain: "chat-frontend-three-xi.vercel.app"
 }
             `}
@@ -46,7 +49,7 @@ export default function RootLayout({
         <Script
           src="https://chat-frontend-three-xi.vercel.app/embed.js"
           defer
-        ></Script> */}
+        ></Script>
       </body>
     </html>
   );
