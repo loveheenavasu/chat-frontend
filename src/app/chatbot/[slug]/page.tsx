@@ -99,6 +99,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
         console.log("isFormComplete---", isFormCompleted);
 
+        console.log(inputFields?.length, "length");
+
         // if (isFormCompleted === "true") {
         //   console.log("treuuuform", isFormComplete);
         //   console.log("inputt", inputFields);
@@ -107,7 +109,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
         if (isFormCompleted === "false") {
           console.log("!----isFormComplete----", isFormCompleted);
-          if (inputFields.length === 0) {
+          if (inputFields?.length === 0) {
             payload.questionType = questionType;
             payload.nextType = nextType;
             // payload.questionType = "";
