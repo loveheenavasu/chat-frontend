@@ -101,7 +101,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
         console.log(inputFields?.length, "length");
 
-        if (inputFields?.length > 0 && isFormComplete) {
+        if (inputFields?.length > 0 && isFormCompleted) {
           setIsFormComplete(false);
           setLocalStorageItem("isFormCompleted", false);
         }
