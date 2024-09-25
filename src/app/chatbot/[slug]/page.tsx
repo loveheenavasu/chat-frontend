@@ -187,8 +187,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
     if (inputFields.length === 0 && currentFieldIndex === 0) {
       questionType = "";
       nextType = "";
-      setIsFormComplete(true);
-      setLocalStorageItem("isFormCompleted", true);
+      // setIsFormComplete(true);
+      // setLocalStorageItem("isFormCompleted", true);
     } else if (
       currentFieldIndex >= inputFields.length &&
       currentFieldIndex != 0
