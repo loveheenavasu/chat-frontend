@@ -204,7 +204,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
       nextType = "END";
       // setIsFormCompleted(true);
 
-      // setLocalStorageItem("isFormCompleted", true);
+      setLocalStorageItem("isFormCompleted", true);
     } else {
       if (inputFields[currentFieldIndex + 1]?.isCustom) {
         questionType = "CUSTOM";
