@@ -101,9 +101,12 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
         console.log(inputFields?.length, "length");
 
-        if (inputFields?.length > 0 && isFormCompleted) {
-          setIsFormComplete(false);
-          setLocalStorageItem("isFormCompleted", false);
+        if (isFormCompleted === null) {
+          if (inputFields?.length > 0) {
+            setIsFormComplete(false);
+            console.log("iahere2");
+            setLocalStorageItem("isFormCompleted", false);
+          }
         }
 
         if (isFormCompleted === "false") {
@@ -170,6 +173,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   useEffect(() => {
     const storedIsFormCompleted = getLocalStorageItem("isFormCompleted");
     if (storedIsFormCompleted === null) {
+      console.log("iahere1");
       setLocalStorageItem("isFormCompleted", false);
       setIsFormComplete(false);
     } else {

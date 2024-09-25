@@ -220,6 +220,8 @@ const DynamicForm = () => {
       if (response.status === 200) {
         toast.success(response.data?.message);
         setLocalStorageItem("_id", JSON.stringify(response.data.data._id));
+        setLocalStorageItem("isFormCompleted", false);
+
         setIsDataSubmitted(false);
       }
       setFields([]);
