@@ -197,7 +197,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
       nextType = "";
       // setIsFormCompleted(true);
 
-      // setLocalStorageItem("isFormCompleted", true);
+      setLocalStorageItem("isFormCompleted", true);
       console.log("isform", isFormCompleted);
     } else if (currentFieldIndex + 1 === inputFields.length) {
       questionType = "END";
