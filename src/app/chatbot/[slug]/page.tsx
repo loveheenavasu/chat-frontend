@@ -97,18 +97,17 @@ const Page = ({ params }: { params: { slug: string } }) => {
         let questionType = "";
         let nextType = "";
 
-        console.log("isFormComplete---", isFormCompleted);
+        console.log("isFormCompleted---", isFormCompleted);
 
         console.log(inputFields?.length, "length");
 
-        // if (isFormCompleted === "true") {
-        //   console.log("treuuuform", isFormComplete);
-        //   console.log("inputt", inputFields);
-        //   setInputFields([]);
-        // }
+        if (inputFields?.length > 0 && isFormComplete) {
+          setIsFormComplete(false);
+          setLocalStorageItem("isFormCompleted", false);
+        }
 
         if (isFormCompleted === "false") {
-          console.log("!----isFormComplete----", isFormCompleted);
+          console.log("!----isFormCompleted----", isFormCompleted);
           if (inputFields?.length === 0) {
             payload.questionType = questionType;
             payload.nextType = nextType;
@@ -164,7 +163,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
       SOCKET.off("searches", handleSearches);
       SOCKET.disconnect();
     };
-  }, [isFormComplete]);
+  }, [inputFields.length]);
 
   console.log("chat", chatMessages);
 
@@ -176,7 +175,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
     } else {
       setIsFormComplete(storedIsFormCompleted === "false");
     }
-  }, []);
+  }, [isFormComplete]);
 
   const handleSend = (e: React.FormEvent, messageText: string) => {
     e.preventDefault();
@@ -188,7 +187,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
     if (inputFields.length === 0 && currentFieldIndex === 0) {
       questionType = "";
       nextType = "";
-      // setIsFormCompleted(true);
+      setIsFormComplete(true);
       setLocalStorageItem("isFormCompleted", true);
     } else if (
       currentFieldIndex >= inputFields.length &&
@@ -198,14 +197,14 @@ const Page = ({ params }: { params: { slug: string } }) => {
       nextType = "";
       // setIsFormCompleted(true);
 
-      setLocalStorageItem("isFormCompleted", true);
+      // setLocalStorageItem("isFormCompleted", true);
       console.log("isform", isFormCompleted);
     } else if (currentFieldIndex + 1 === inputFields.length) {
       questionType = "END";
       nextType = "END";
       // setIsFormCompleted(true);
 
-      setLocalStorageItem("isFormCompleted", true);
+      // setLocalStorageItem("isFormCompleted", true);
     } else {
       if (inputFields[currentFieldIndex + 1]?.isCustom) {
         questionType = "CUSTOM";
