@@ -14,7 +14,6 @@ const ForgetPassword: React.FC = () => {
   const router = useRouter();
 
   const onSubmit = async (value: FormInputs) => {
-    console.log("Submitting form with:", value);
     try {
       setLoading(true);
       const response = await axiosInstance.post("user/forgot", {
@@ -26,7 +25,6 @@ const ForgetPassword: React.FC = () => {
         router.push(`/otp?email=${value.email}&isForget=true`);
       }
     } catch (error: any) {
-      console.log("Error:", error);
       toast.error(error.response?.data?.message || "An error occurred");
     } finally {
       setLoading(false);

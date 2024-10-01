@@ -21,7 +21,6 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
 }) => {
   const [message, setMessage] = useState<string>("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log("isfromfooter", isFormCompleted);
 
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
@@ -73,6 +72,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
         />
       </Flex>
     </form>
+
   );
 };
 

@@ -39,6 +39,7 @@ const Header: React.FC<themeProps> = ({ bg, title }) => {
     color: string;
   } | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -62,6 +63,10 @@ const Header: React.FC<themeProps> = ({ bg, title }) => {
 
   const handleLogout = async () => {
     try {
+      if (loading) {
+        return;
+      }
+      setLoading(true);
       const response = await axiosInstance.delete(`user/logout`);
       if (response?.data) {
         Cookies.remove("authToken");
@@ -71,6 +76,8 @@ const Header: React.FC<themeProps> = ({ bg, title }) => {
       }
     } catch (error) {
       toast.error("something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,8 +93,6 @@ const Header: React.FC<themeProps> = ({ bg, title }) => {
       toast.error("something went wrong");
     }
   };
-  console.log(selectedTheme, "selectedTheme");
-  console.log(selectedIndex, "setSelectedIndex");
 
   return (
     <Box>

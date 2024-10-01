@@ -14,7 +14,6 @@ interface Fields {
 
 export const UserDataPopUp = ({ onClose }: any) => {
   const [inputFields, setInputFields] = useState<Fields[]>([]);
-  console.log(inputFields, "inputFieldsinputFields");
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchData = useCallback(async () => {
@@ -24,7 +23,6 @@ export const UserDataPopUp = ({ onClose }: any) => {
       const { data } = await axiosInstance.get(
         `/user/form-ip?documentId=${documentId}`
       );
-      console.log("fetch", data);
       if (data) {
         setInputFields(data?.data?.fields);
       }

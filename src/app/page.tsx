@@ -46,7 +46,6 @@ const Home: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(data, "owddeow");
 
   const handleCreateChatbot = () => {
     removeParticularItemFromLocalStorage("documentId");

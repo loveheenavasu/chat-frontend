@@ -81,7 +81,6 @@ const Login = () => {
       const USER_CREDENTIAL = jwtDecode(
         response.credential
       ) as CustomJwtPayload;
-      console.log(USER_CREDENTIAL);
 
       const newLoginData = {
         firstname: USER_CREDENTIAL?.given_name,
@@ -114,11 +113,7 @@ const Login = () => {
         setLocalStorageItem("authToken", accessToken);
         toast.success(response.data.message);
         router.push("/");
-        console.log("Setting token:", accessToken);
-        console.log(
-          "Current token in LocalStorage:",
-          getLocalStorageItem("authToken")
-        );
+       
       } else {
         toast.error("Unexpected response status: " + response.status);
       }
@@ -142,7 +137,6 @@ const Login = () => {
     onSubmit,
     formType: "login",
   });
-
   return (
     <>
       <Text textColor={"white"} p={"20px"} as="b" fontSize={36}>
@@ -185,10 +179,12 @@ const Login = () => {
             />
             {errors.password && <Text color="red.500">{errors.password}</Text>}
           </FormControl>
+
           <Button
             colorScheme="cyan"
             color="white"
             width="full"
+            disabled={loading}
             isLoading={loading}
             type="submit"
           >

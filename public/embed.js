@@ -5,11 +5,9 @@
   if (!window.isChatbotInitialized) {
     window.isChatbotInitialized = true;
 
-    console.log("Chatbot running");
     if (config.domain && config.chatbotId) {
       var chatbotUrl =
         "https://" + config.domain + "/chatbot/" + config.chatbotId;
-      console.log("Chatbot URL:", chatbotUrl);
     } else {
       console.error("Chatbot configuration is missing.");
       return; // Exit if configuration is missing

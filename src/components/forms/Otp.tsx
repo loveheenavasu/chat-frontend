@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation";
 const Otp: React.FC = () => {
   const [otp, setOtp] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [reSendOtpLoading, setReSendOtpLoading] = useState<boolean>(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
@@ -44,12 +45,17 @@ const Otp: React.FC = () => {
   };
   const handleResetOtp = async () => {
     try {
+      if (reSendOtpLoading) return;
+      setReSendOtpLoading(true);
       const response = await axiosInstance.post("/user/resend", { email });
       if (response.status === 200) {
         toast.success(response.data.message);
       }
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
+      setReSendOtpLoading(false);
+    } finally {
+      setReSendOtpLoading(false);
     }
   };
   const handleForgetOtp = async () => {
@@ -61,7 +67,6 @@ const Otp: React.FC = () => {
       if (response.status === 200) {
         toast.success(response?.data?.message);
         setLocalStorageItem("uniqueCode", response?.data?.uniqueCode);
-        console.log("ENTERRRRHERREE");
         router.push("/resetPassword");
       }
     } catch (error: any) {
@@ -127,4 +132,4 @@ const Otp: React.FC = () => {
   );
 };
 
-export default Otp
+export default Otp;

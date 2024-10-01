@@ -40,7 +40,6 @@ const Activity: React.FC<ChatContainerProps> = ({
         const { data } = await axiosInstance.get(`/user/chat-history`, {
           params: { documentId: documentId || undefined },
         });
-        console.log(data);
         setChatMessages(data?.data?.messages || data?.data || []);
       } catch (error) {
         console.error("Error fetching chat records:", error);

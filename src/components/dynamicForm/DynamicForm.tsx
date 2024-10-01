@@ -48,12 +48,7 @@ const DynamicForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean[]>([]);
-  console.log(disabled, "disabled");
   const documentId = getLocalStorageItem("documentId");
-
-  console.log(items, "itemsitems");
-  console.log(fields, "fields");
-
   const staticInputFields = [
     { label: "Name", value: "name", type: "text" },
     { label: "Email", value: "email", type: "email" },
@@ -215,7 +210,6 @@ const DynamicForm = () => {
     // const combinedFields = [...fields, ...selectedFields,];
     try {
       const payload = { documentId, fields: postdata };
-      console.log(payload, "payload");
       const response = await axiosInstance.post("/user/form", payload);
       if (response.status === 200) {
         toast.success(response.data?.message);
@@ -253,7 +247,6 @@ const DynamicForm = () => {
         id = JSON.parse(id);
         const payload = { _id: id, fields: combinedFields };
         const response = await axiosInstance.put(`/user/form`, payload);
-        console.log(response.data.data.fields, "response of put api");
         if (response.status === 200) {
           toast.success(response.data?.message || "Fields Updated");
           // setDataExists(true)

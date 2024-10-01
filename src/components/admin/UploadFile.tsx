@@ -104,7 +104,7 @@ const UploadFile = () => {
   const handleUploadFile = async () => {
     try {
       if (!file) {
-        toast.error("Please Select any file");
+        toast.error("Please Select file");
         return;
       }
       setIsFileUpload(true);
@@ -175,7 +175,6 @@ const UploadFile = () => {
                         {fileTypes?.join(", ")}
                       </Box>
                     </Box>
-
                   }
                   types={fileTypes}
                   onDrop={handleUpload}
@@ -260,10 +259,7 @@ const UploadFile = () => {
                               isLoading={deleteFileLoading === item?._id}
                               onClick={() => {
                                 setDeleteFileLoading(item?._id);
-                                handleDeleteFile(
-                                  item.documentId,
-                                  item?.docNo
-                                );
+                                handleDeleteFile(item.documentId, item?.docNo);
                               }}
                             >
                               <DeleteIcon />

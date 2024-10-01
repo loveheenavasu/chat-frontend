@@ -17,11 +17,9 @@ import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { setLocalStorageItem } from "@/utils/localStorage";
 import CardContainer from "@/components/cardContainer/CardContainer";
-import { FormInputs, useAuth } from "../../hooks/useAuth"
-
+import { FormInputs, useAuth } from "../../hooks/useAuth";
 
 const Signup: React.FC = () => {
-
   const router = useRouter();
   const onSubmit = async (value: FormInputs) => {
     try {
@@ -32,11 +30,9 @@ const Signup: React.FC = () => {
         email: value.email,
         password: value.password,
       };
-      console.log('data', data)
       const response = await axiosInstance.post("user/signup", data);
       toast.success(response?.data?.message);
       if (response.status === 200) {
-        console.log('helo')
         setLocalStorageItem(
           "verifyOtpToken",
           response?.data?.data?.accessToken
@@ -44,12 +40,11 @@ const Signup: React.FC = () => {
         router.push(`/otp?email=${value.email}`);
       }
     } catch (error: any) {
-      console.log(error, 'dneideid')
-      setErrors(errors)
+      setErrors(errors);
       toast.error(error.response?.data?.message);
       setLoading(false);
     }
-  }
+  };
 
   const {
     value,
@@ -58,10 +53,11 @@ const Signup: React.FC = () => {
     handleChange,
     handleSubmit,
     setErrors,
-    setLoading, } = useAuth({
-      onSubmit,
-      formType: 'signup',
-    })
+    setLoading,
+  } = useAuth({
+    onSubmit,
+    formType: "signup",
+  });
 
   return (
     <>
@@ -69,6 +65,7 @@ const Signup: React.FC = () => {
         SignUp
       </Text>
       <CardContainer
+        // width={{base:"auto",sm:"auto",md:"90%"}}
         width="80%"
         padding={"20px"}
         boxShadow={"sm"}
@@ -77,7 +74,7 @@ const Signup: React.FC = () => {
         as={false}
       >
         <>
-          <form onSubmit={handleSubmit} action='javascript:void(0)'>
+          <form onSubmit={handleSubmit} action="javascript:void(0)">
             <FormControl id="firstName" mb={4}>
               <FormLabel display={"flex"} gap={"3px"}>
                 First Name <Text textColor="red">*</Text>
@@ -117,9 +114,7 @@ const Signup: React.FC = () => {
                 value={value.email || ""}
                 onChange={handleChange}
               />
-              {errors.email && (
-                <Text color="red.500">{errors.email}</Text>
-              )}
+              {errors.email && <Text color="red.500">{errors.email}</Text>}
             </FormControl>
             <FormControl id="password" mb={6}>
               <FormLabel display={"flex"} gap={"3px"}>
@@ -165,6 +160,7 @@ const Signup: React.FC = () => {
               color={"white"}
               width="full"
               type="submit"
+              disabled={loading}
               isLoading={loading}
             >
               Send OTP

@@ -56,9 +56,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
       const response = await axiosInstance.get(
         `/user/form-chatbot/?documentId=${storedDocumentId}`
       );
-      console.log(response, "gettttt");
       const fields = response?.data?.data?.fields || [];
-      console.log(fields, "fieldsss");
       setInputFields(fields);
       setIsFormComplete(false);
 
@@ -80,13 +78,10 @@ const Page = ({ params }: { params: { slug: string } }) => {
     }
   }, []);
 
-  // console.log(SOCKET, "Sockett");/
   useEffect(() => {
     SOCKET.connect();
 
     const handleConnect = () => {
-      // console.log(documentId, "Connected to socket with ID:", SOCKET.id);
-
       if (isFormCompleted) {
         const payload: any = {
           type: "AI",
@@ -97,20 +92,14 @@ const Page = ({ params }: { params: { slug: string } }) => {
         let questionType = "";
         let nextType = "";
 
-        console.log("isFormCompleted---", isFormCompleted);
-
-        console.log(inputFields?.length, "length");
-
         if (isFormCompleted === null) {
           if (inputFields?.length > 0) {
             setIsFormComplete(false);
-            console.log("iahere2");
             setLocalStorageItem("isFormCompleted", false);
           }
         }
 
         if (isFormCompleted === "false") {
-          console.log("!----isFormCompleted----", isFormCompleted);
           if (inputFields?.length === 0) {
             payload.questionType = questionType;
             payload.nextType = nextType;
@@ -129,8 +118,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
               payload.label = currentField?.label;
             }
           }
-
-          console.log("Payload before emitting:", payload);
         }
 
         SOCKET.emit("search", payload);
@@ -142,7 +129,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
         setLocalStorageItem("isFormCompleted", false);
         // removeLocalStorageItem();
         location.reload();
-        console.log("isFormCompleted set to false after 2 minutes.");
       }, 5 * 60 * 1000);
     };
 
@@ -150,7 +136,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
     const handleSearches = (data: any) => {
       setLoading(data.type === "USER");
-      console.log("searchData", data, chatMessages);
       setChatSessionId(data?.sessionId);
       setChatMessages((prevMessages) => [...prevMessages, data]);
     };
@@ -168,12 +153,9 @@ const Page = ({ params }: { params: { slug: string } }) => {
     };
   }, [inputFields.length]);
 
-  console.log("chat", chatMessages);
-
   useEffect(() => {
     const storedIsFormCompleted = getLocalStorageItem("isFormCompleted");
     if (storedIsFormCompleted === null) {
-      console.log("iahere1");
       setLocalStorageItem("isFormCompleted", false);
       setIsFormComplete(false);
     } else {
@@ -183,7 +165,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
   const handleSend = (e: React.FormEvent, messageText: string) => {
     e.preventDefault();
-    if (!messageText.trim()) return;
+    if (!messageText.trim() || chatMessages?.length < 1) return;
 
     let questionType = "";
     let nextType = "";
@@ -202,7 +184,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
       // setIsFormCompleted(true);
 
       setLocalStorageItem("isFormCompleted", true);
-      console.log("isform", isFormCompleted);
     } else if (currentFieldIndex + 1 === inputFields.length) {
       questionType = "END";
       nextType = "END";
@@ -216,11 +197,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
         label = inputFields[currentFieldIndex + 1]?.label || "";
       } else {
         const previousIndex = Math.max(0, currentFieldIndex);
-        console.log(previousIndex, "prevvvv");
         questionType = inputFields[previousIndex]?.label.toUpperCase() || "";
-        console.log(questionType, "ques");
         nextType = inputFields[currentFieldIndex + 1]?.name.toUpperCase() || "";
-        console.log(nextType, "nextt");
       }
     }
 
@@ -233,7 +211,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
       // isFormComplete,
     };
 
-    console.log(payload, "payyyyy");
     if (isFormCompleted === "false") {
       if (!(inputFields.length === 0 && currentFieldIndex === 0)) {
         if (questionType) payload.questionType = questionType;
@@ -260,9 +237,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
     fetchTheme();
   }, [fetchInputFields, fetchTheme]);
 
-  console.log(isFormComplete, "formrmm");
-  console.log(currentFieldIndex, "curreernt");
-
   useEffect(() => {
     if (defaultTheme === "Primary") {
       setTheme(primaryTheme);
@@ -275,7 +249,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
     fetchInputFields();
     fetchTheme();
   }, [fetchInputFields, fetchTheme]);
-
+  console.log(chatMessages, "98430204023804823048230482308");
   return (
     <>
       <Box>
