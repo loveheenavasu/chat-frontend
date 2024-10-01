@@ -1,10 +1,27 @@
 "use client";
-import { Box, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spinner,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import ActivityChatBase from "./ActivityChatBase";
 import { useCallback, useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import CardContainer from "@/components/cardContainer/CardContainer";
 import { Message } from "../common/ActivityMessageInterface";
+import { MdBuild, MdCall } from "react-icons/md";
+import { PiExport } from "react-icons/pi";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { getLocalStorageItem } from "@/utils/localStorage";
 
 interface ChatMessage {
   _id?: string;
@@ -31,6 +48,36 @@ const Activity: React.FC<ChatContainerProps> = ({
   const [userMessages, setUserMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(loading);
   const [screenLoading, setscreenLoading] = useState<boolean>(false);
+  const [_loading, setLoading] = useState<boolean>(false);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleChange = (dates: any) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+    // onDateChange({ startDate: start, endDate: end }); // Notify parent component
+  };
+
+  const getDataFormat = async (format: string) => {
+    const documentId = getLocalStorageItem("documentId");
+    try {
+      setLoading(true);
+
+      const response = await axiosInstance.get(
+        `/user/chat-history-export?documentId=${documentId}&exportFile=${format}`
+      );
+      console.log(response, "2342423234234");
+      // window.open(
+      //   `/user/chat-history-export?documentId=${documentId}&exportFile=${format}`,
+      //   "_blank"
+      // );
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching chat records:", error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchChatRecords = async () => {
@@ -115,9 +162,37 @@ const Activity: React.FC<ChatContainerProps> = ({
         borderRadius={"10px"}
         as={false}
       >
-        <Box paddingBottom="20px">
-          <Heading fontSize="20px">Chats Logs</Heading>
-        </Box>
+        <Flex justifyContent="space-between" paddingBottom="20px">
+          <Heading fontSize="20px">Chats Logs </Heading>
+          <Box display="flex" gap={4}>
+            {/* <Menu >
+              <MenuButton as={Button} rightIcon={<PiExport />}>
+                Filter
+              </MenuButton>
+              <MenuList>
+                <DatePicker
+                  selected={startDate}
+                  onChange={handleChange}
+                  startDate={startDate as any}
+                  endDate={endDate as any}
+                  selectsRange
+                  isClearable
+                  placeholderText="Select a date range"
+                />
+              </MenuList>
+            </Menu> */}
+            <Menu>
+              <MenuButton as={Button} rightIcon={<PiExport />}>
+                Export
+              </MenuButton>
+              <MenuList>
+              <MenuItem onClick={() => getDataFormat("JSON")}>JSON</MenuItem>
+                <MenuItem onClick={() => getDataFormat("PDF")}>PDF</MenuItem>
+                <MenuItem onClick={() => getDataFormat("CSV")}>CSV</MenuItem>
+              </MenuList>
+            </Menu>
+          </Box>
+        </Flex>
         <Box>
           {screenLoading ? (
             <Box>
