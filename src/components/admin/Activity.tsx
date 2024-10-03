@@ -9,7 +9,6 @@ import {
   MenuItem,
   MenuList,
   Spinner,
-  Stack,
   Text,
 } from "@chakra-ui/react";
 import ActivityChatBase from "./ActivityChatBase";
@@ -17,11 +16,12 @@ import { useCallback, useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import CardContainer from "@/components/cardContainer/CardContainer";
 import { Message } from "../common/ActivityMessageInterface";
-import { MdBuild, MdCall } from "react-icons/md";
 import { PiExport } from "react-icons/pi";
-import DatePicker from "react-datepicker";
+import { RiFilter2Fill } from "react-icons/ri";
 import "react-datepicker/dist/react-datepicker.css";
 import { getLocalStorageItem } from "@/utils/localStorage";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface ChatMessage {
   _id?: string;
@@ -51,12 +51,34 @@ const Activity: React.FC<ChatContainerProps> = ({
   const [_loading, setLoading] = useState<boolean>(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  // const handleDateChange = async(date: any) => {
+  //   const { startDate, endDate } = date;
 
+  //   if(startDate && endDate ){
+  //        try {
+  //          setLoading(true);
+
+  //          const response = await axiosInstance.get(
+  //            `/user/chat-history-export?documentId=${documentId}&exportFile=${format}`
+  //          );
+  //          console.log(response, "2342423234234");
+  //          window.open(
+  //            `${process.env.NEXT_PUBLIC_BASE_URL}/user/chat-history-export?documentId=${documentId}&exportFile=${format}`,
+  //            "_blank"
+  //          );
+  //          setLoading(false);
+  //        } catch (error) {
+  //          console.error("Error fetching chat records:", error);
+  //          setLoading(false);
+  //        }
+
+  //   }
+  // };
   const handleChange = (dates: any) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
-    // onDateChange({ startDate: start, endDate: end }); // Notify parent component
+    // handleDateChange({ startDate: start, endDate: end });
   };
 
   const getDataFormat = async (format: string) => {
@@ -68,10 +90,10 @@ const Activity: React.FC<ChatContainerProps> = ({
         `/user/chat-history-export?documentId=${documentId}&exportFile=${format}`
       );
       console.log(response, "2342423234234");
-      // window.open(
-      //   `/user/chat-history-export?documentId=${documentId}&exportFile=${format}`,
-      //   "_blank"
-      // );
+      window.open(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/chat-history-export?documentId=${documentId}&exportFile=${format}`,
+        "_blank"
+      );
       setLoading(false);
     } catch (error) {
       console.error("Error fetching chat records:", error);
@@ -142,11 +164,13 @@ const Activity: React.FC<ChatContainerProps> = ({
             </Text>
           </Box>
         ))}
-        {ele.message.map((time, index) => (
-          <Text key={index} textAlign="end" color="gray.400" fontSize="12px">
-            {time.messageType === "AI" ? formatTime(time.createdAt) : null}
-          </Text>
-        ))}
+        {ele.message.map((time, index) =>
+          index === 0 ? (
+            <Text key={index} textAlign="end" color="gray.400" fontSize="12px">
+              {formatTime(time.createdAt)}
+            </Text>
+          ) : null
+        )}
       </CardContainer>
     ));
   };
@@ -162,37 +186,6 @@ const Activity: React.FC<ChatContainerProps> = ({
         borderRadius={"10px"}
         as={false}
       >
-        <Flex justifyContent="space-between" paddingBottom="20px">
-          <Heading fontSize="20px">Chats Logs </Heading>
-          <Box display="flex" gap={4}>
-            {/* <Menu >
-              <MenuButton as={Button} rightIcon={<PiExport />}>
-                Filter
-              </MenuButton>
-              <MenuList>
-                <DatePicker
-                  selected={startDate}
-                  onChange={handleChange}
-                  startDate={startDate as any}
-                  endDate={endDate as any}
-                  selectsRange
-                  isClearable
-                  placeholderText="Select a date range"
-                />
-              </MenuList>
-            </Menu> */}
-            <Menu>
-              <MenuButton as={Button} rightIcon={<PiExport />}>
-                Export
-              </MenuButton>
-              <MenuList>
-              <MenuItem onClick={() => getDataFormat("JSON")}>JSON</MenuItem>
-                <MenuItem onClick={() => getDataFormat("PDF")}>PDF</MenuItem>
-                <MenuItem onClick={() => getDataFormat("CSV")}>CSV</MenuItem>
-              </MenuList>
-            </Menu>
-          </Box>
-        </Flex>
         <Box>
           {screenLoading ? (
             <Box>
@@ -208,6 +201,49 @@ const Activity: React.FC<ChatContainerProps> = ({
             </Box>
           ) : (
             <>
+              <Flex justifyContent="space-between" paddingBottom="20px">
+                <Heading fontSize="20px">Chats Logs </Heading>
+                <Box display="flex" gap={4}>
+                  {/* <Menu>
+                    <MenuButton as={Button} rightIcon={<RiFilter2Fill />}>
+                      Filter
+                    </MenuButton>
+                    <MenuList>
+
+                      <DatePicker
+                        selected={startDate}
+                        onChange={handleChange}
+                        startDate={startDate as any}
+                        endDate={endDate as any}
+                        selectsRange
+                        isClearable
+                        placeholderText="Select a date range"
+                      />
+
+                    </MenuList>
+                  </Menu> */}
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      rightIcon={_loading ? <Spinner /> : <PiExport />}
+                    >
+                      Export
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem onClick={() => getDataFormat("JSON")}>
+                        JSON
+                      </MenuItem>
+                      <MenuItem onClick={() => getDataFormat("PDF")}>
+                        PDF
+                      </MenuItem>
+                      <MenuItem onClick={() => getDataFormat("CSV")}>
+                        CSV
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </Box>
+              </Flex>
+
               {chatMessages.length < 1 ? (
                 <Flex justifyContent="center" alignItems="center" my="4">
                   No chats to display. You will receive chats when a user starts
@@ -215,7 +251,7 @@ const Activity: React.FC<ChatContainerProps> = ({
                 </Flex>
               ) : (
                 <Flex gap="20px">
-                  <Box w={"70%"}>
+                  <Box w={"70%"} overflow="scroll" height="500">
                     <Flex flexDirection={"column"} gap={"10px"}>
                       {RenderChatMessages()}
                     </Flex>
