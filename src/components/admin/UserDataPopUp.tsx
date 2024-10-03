@@ -64,7 +64,6 @@ export const UserDataPopUp = ({ onClose }: any) => {
         };
 
         const { data } = await axiosInstance.post(`/user/form-info`, payload);
-        console.log("user submit", data);
         if (data) {
           toast.success(data.message);
           onClose();

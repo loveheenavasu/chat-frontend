@@ -249,7 +249,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
     fetchInputFields();
     fetchTheme();
   }, [fetchInputFields, fetchTheme]);
-  console.log(chatMessages, "98430204023804823048230482308");
   return (
     <>
       <Box>
