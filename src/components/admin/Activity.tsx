@@ -18,10 +18,8 @@ import CardContainer from "@/components/cardContainer/CardContainer";
 import { Message } from "../common/ActivityMessageInterface";
 import { PiExport } from "react-icons/pi";
 import { RiFilter2Fill } from "react-icons/ri";
-import "react-datepicker/dist/react-datepicker.css";
 import { getLocalStorageItem } from "@/utils/localStorage";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
 
 interface ChatMessage {
   _id?: string;
