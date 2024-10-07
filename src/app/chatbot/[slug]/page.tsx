@@ -47,7 +47,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   const [inputFields, setInputFields] = useState<Fields[]>([]);
   const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
   const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
-  const [themeColor, setThemeColor] = useState({});
+  const [themeColor, setThemeColor] = useState<any>({});
   const pathname = usePathname();
   const documentId = pathname.split("/").pop();
 

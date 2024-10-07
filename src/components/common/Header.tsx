@@ -13,7 +13,10 @@ import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { getLocalStorageItem, removeLocalStorageItem } from "@/utils/localStorage";
+import {
+  getLocalStorageItem,
+  removeLocalStorageItem,
+} from "@/utils/localStorage";
 interface themeProps {
   bg?: string;
   title?: string;
@@ -45,7 +48,7 @@ const Header: React.FC<themeProps> = ({ bg, title }) => {
     }
   };
 
-  const themeColor = getLocalStorageItem("primaryTheme");
+  const themeColor = getLocalStorageItem("primaryTheme") as string;
 
   return (
     <Box>
