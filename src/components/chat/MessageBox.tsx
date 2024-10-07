@@ -28,7 +28,6 @@ const MessageBoxAdmin: React.FC<MessageBoxAdminProps> = ({
   color,
   themeColor,
 }) => {
-  console.log(themeColor, "3204820840283");
   return (
     <>
       <Flex alignItems="start" p="20px" gap="5px" maxW="50%">

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -7,7 +7,6 @@ import {
   Link,
   Spacer,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
@@ -25,9 +24,13 @@ interface themeProps {
 const Header: React.FC<themeProps> = ({ bg, title }) => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [themeColor, setThemeColor] = useState<string>("");
 
   const pathname = usePathname();
-
+  useEffect(() => {
+    const theme = getLocalStorageItem("primaryTheme") as string;
+    setThemeColor(theme);
+  }, []);
   const handleLogout = async () => {
     try {
       if (loading) {
@@ -48,15 +51,14 @@ const Header: React.FC<themeProps> = ({ bg, title }) => {
     }
   };
 
-  const themeColor = getLocalStorageItem("primaryTheme") as string;
-
+  
   return (
     <Box>
       <Box w={"100%"} height={"50px"} position="absolute" top="0">
         <Flex alignItems={"center"} height={"50px"}>
           <Box
             w={"100%"}
-            bg={
+            bgColor={
               themeColor !== "undefined" && pathname.startsWith("/chatbot")
                 ? themeColor
                 : "#cbd5e0"

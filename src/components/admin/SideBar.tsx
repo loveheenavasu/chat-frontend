@@ -47,7 +47,6 @@ const SideBar = () => {
   ];
 
   const handleClick = (label: string, path: string) => {
-    console.log(label, path, "234234234");
 
     if (setActiveButton) {
       setActiveButton(label);

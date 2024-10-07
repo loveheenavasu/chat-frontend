@@ -37,10 +37,10 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
     setMessage("");
     setCurrentIndex((prev) => prev + 1);
   };
-  console.log(bg, "bgsdafasf");
 
   return (
     <form style={{ width: "100%" }} onSubmit={sendMessage}>
+
       <Flex
         bottom="-3px"
         color="white"
@@ -64,7 +64,6 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
           style={{ backgroundColor: "white" }}
           type={isFormCompleted === "false" && inputFields[currentIndex]?.type}
         />
-
         <VscSend
           role="button"
           type="button"
