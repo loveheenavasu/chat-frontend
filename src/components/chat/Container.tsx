@@ -18,6 +18,7 @@ interface ChatContainerProps {
     textBg: string;
     textColor: string;
   };
+  themeColor?: any;
 }
 
 const ChatContainer: React.FC<ChatContainerProps> = ({
@@ -25,6 +26,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
   loading,
   bg,
   color,
+  themeColor,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +45,6 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
       overflowY="auto"
       h={loading ? "78vh" : "93vh"}
       paddingY="30px"
-      
     >
       {chatMessages.map((msg, index) => (
         <Flex
@@ -52,7 +53,12 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
           justifyContent={msg.type === "AI" ? "flex-start" : "flex-end"}
           p={2}
         >
-          <MessageBoxAdmin loading={loading} data={msg} color={color} />
+          <MessageBoxAdmin
+            loading={loading}
+            data={msg}
+            color={color}
+            themeColor={themeColor}
+          />
         </Flex>
       ))}
     </Flex>

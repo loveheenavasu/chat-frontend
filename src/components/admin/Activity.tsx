@@ -17,7 +17,6 @@ import axiosInstance from "@/utils/axiosInstance";
 import CardContainer from "@/components/cardContainer/CardContainer";
 import { Message } from "../common/ActivityMessageInterface";
 import { PiExport } from "react-icons/pi";
-import { RiFilter2Fill } from "react-icons/ri";
 import { getLocalStorageItem } from "@/utils/localStorage";
 
 
@@ -87,7 +86,6 @@ const Activity: React.FC<ChatContainerProps> = ({
       const response = await axiosInstance.get(
         `/user/chat-history-export?documentId=${documentId}&exportFile=${format}`
       );
-      console.log(response, "2342423234234");
       window.open(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/chat-history-export?documentId=${documentId}&exportFile=${format}`,
         "_blank"

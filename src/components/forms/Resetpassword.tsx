@@ -22,7 +22,6 @@ import CardContainer from "@/components/cardContainer/CardContainer";
 import { FormInputs, useAuth } from "@/hooks/useAuth";
 
 const Resetpassword: React.FC = () => {
-
   const router = useRouter();
   const uniqueCode = getLocalStorageItem("uniqueCode");
 
@@ -44,7 +43,7 @@ const Resetpassword: React.FC = () => {
       toast.error(error.response.data.message);
       setLoading(false);
     }
-  }
+  };
 
   const {
     value,
@@ -53,10 +52,11 @@ const Resetpassword: React.FC = () => {
     handleChange,
     handleSubmit,
     setErrors,
-    setLoading, } = useAuth({
-      onSubmit,
-      formType: 'resetpassword'
-    })
+    setLoading,
+  } = useAuth({
+    onSubmit,
+    formType: "resetpassword",
+  });
   return (
     <>
       <Text textColor={"white"} p={"20px"} as="b" fontSize={36}>
@@ -105,7 +105,6 @@ const Resetpassword: React.FC = () => {
                 <Text color="red.500">{errors.confirmPassword}</Text>
               )}
             </FormControl>
-
             <Button
               colorScheme="cyan"
               color={"white"}

@@ -9,9 +9,9 @@ interface ChatFooterProps {
   setMessage?: string;
   message?: string;
   handleSend?: (e: React.FormEvent | React.MouseEvent, message: string) => void;
-  bg: string;
   inputFields?: any;
   isFormCompleted: string | null | undefined;
+  bg?: string;
 }
 const ChatFooter: React.FC<ChatFooterProps> = ({
   handleSend,
@@ -37,6 +37,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
     setMessage("");
     setCurrentIndex((prev) => prev + 1);
   };
+  console.log(bg, "bgsdafasf");
 
   return (
     <form style={{ width: "100%" }} onSubmit={sendMessage}>
@@ -44,7 +45,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
         bottom="-3px"
         color="white"
         w="100%"
-        bg={bg}
+        bg={bg == undefined ? "#cbd5e0" : bg}
         h="80px"
         padding="10px"
         alignItems="center"
@@ -72,7 +73,6 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
         />
       </Flex>
     </form>
-
   );
 };
 

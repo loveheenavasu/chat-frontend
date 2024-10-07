@@ -3,10 +3,12 @@ import { ChatbotLinkContext } from "@/context/Context";
 import { LinkIcon } from "@chakra-ui/icons";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { TbWorld } from "react-icons/tb";
 import { CiFileOn, CiTextAlignLeft } from "react-icons/ci";
 import { LuMessagesSquare } from "react-icons/lu";
+import { MdDarkMode } from "react-icons/md";
+import "react-color-palette/css";
 
 const SideBar = () => {
   const { activeButton, setActiveButton } = useContext(ChatbotLinkContext);
@@ -27,12 +29,6 @@ const SideBar = () => {
       icon: <TbWorld fontSize={25} />,
       path: "/admin/chat/connect",
     },
-
-    // {
-    //   label: "Website",
-    //   icon: <TbWorld fontSize={25} />,
-    //   path: "/admin/chat/website",
-    // },
     {
       label: "Lead",
       icon: <LinkIcon fontSize={25} />,
@@ -43,9 +39,16 @@ const SideBar = () => {
       icon: <LuMessagesSquare fontSize={25} />,
       path: "/admin/chat/activity",
     },
+    {
+      label: "Theme",
+      icon: <MdDarkMode fontSize={25} />,
+      path: "/admin/chat/theme",
+    },
   ];
 
   const handleClick = (label: string, path: string) => {
+    console.log(label, path, "234234234");
+
     if (setActiveButton) {
       setActiveButton(label);
     }
@@ -80,7 +83,7 @@ const SideBar = () => {
               </Box>
             </section>
           );
-        })}
+        })}{" "}
       </Flex>
     </Box>
   );

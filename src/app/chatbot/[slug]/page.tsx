@@ -13,6 +13,9 @@ import {
   removeLocalStorageItem,
   setLocalStorageItem,
 } from "@/utils/localStorage";
+// import { useRouter } from "next/router";
+import axios from "axios";
+import { usePathname } from "next/navigation";
 
 interface Message {
   type: "AI" | "USER";
@@ -44,10 +47,22 @@ const Page = ({ params }: { params: { slug: string } }) => {
   const [inputFields, setInputFields] = useState<Fields[]>([]);
   const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
   const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
-
-  const documentId = params.slug;
+  const [themeColor, setThemeColor] = useState({});
+  const pathname = usePathname();
+  const documentId = pathname.split("/").pop();
 
   const isFormCompleted = getLocalStorageItem("isFormCompleted");
+  const getThemeColors = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/theme-detail/${documentId}`
+      );
+      setThemeColor(response?.data);
+      localStorage.setItem("primaryTheme", response?.data?.primaryTheme);
+    } catch (error) {
+      console.error(error, "Error during authentication");
+    }
+  };
 
   const fetchInputFields = useCallback(async () => {
     try {
@@ -124,12 +139,12 @@ const Page = ({ params }: { params: { slug: string } }) => {
       }
       setChatMessages([]);
 
-      setTimeout(() => {
-        setIsFormComplete(false);
-        setLocalStorageItem("isFormCompleted", false);
-        // removeLocalStorageItem();
-        location.reload();
-      }, 5 * 60 * 1000);
+      // setTimeout(() => {
+      //   setIsFormComplete(false);
+      //   setLocalStorageItem("isFormCompleted", false);
+      //   // removeLocalStorageItem();
+      //   location.reload();
+      // }, 5 * 60 * 1000);
     };
 
     SOCKET.on("connect", handleConnect);
@@ -152,6 +167,9 @@ const Page = ({ params }: { params: { slug: string } }) => {
       SOCKET.disconnect();
     };
   }, [inputFields.length]);
+  useEffect(() => {
+    getThemeColors();
+  }, [documentId]);
 
   useEffect(() => {
     const storedIsFormCompleted = getLocalStorageItem("isFormCompleted");
@@ -258,6 +276,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
           loading={loading}
           bg={theme.innerContainer}
           color={theme.color}
+          themeColor={themeColor}
         />
         {loading && (
           <Box bg="#e9e9ff">
@@ -302,9 +321,9 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
         <ChatFooter
           handleSend={handleSend}
-          bg={theme.background}
           inputFields={inputFields}
           isFormCompleted={isFormCompleted}
+          bg={themeColor?.primaryTheme}
         />
       </Box>
     </>
