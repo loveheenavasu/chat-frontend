@@ -114,7 +114,7 @@ const page = () => {
                       setTheme("1");
                       setPrimaryThemeColor("#cbd5e0");
                       setPrimaryTextColor("#00000");
-                      setSecondaryThemeColor("#cbd5e0");
+                      setSecondaryThemeColor("##0000ff");
                       setSecondaryTextColor("#fdfefe");
                       handleThemeColor();
                     }}
@@ -179,7 +179,7 @@ const page = () => {
                               <SketchPicker
                                 color={primaryTextColor}
                                 onChangeComplete={(color) => {
-                                  setPrimaryTextColor(color.hex); 
+                                  setPrimaryTextColor(color.hex);
                                   handleThemeColor();
                                 }}
                               />
