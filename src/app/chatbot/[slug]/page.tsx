@@ -1,6 +1,6 @@
 "use client";
 
-import React, {  useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ChatContainer from "@/components/chat/Container";
 import ChatFooter from "@/components/chat/Footer";
 import Header from "@/components/common/Header";
@@ -8,10 +8,7 @@ import { Box } from "@chakra-ui/react";
 import { SOCKET } from "../../../services/socket";
 import axiosInstance from "@/utils/axiosInstance";
 import { primaryTheme, secondaryTheme } from "@/theme";
-import {
-  getLocalStorageItem,
-  setLocalStorageItem,
-} from "@/utils/localStorage";
+import { getLocalStorageItem, setLocalStorageItem } from "@/utils/localStorage";
 // import { useRouter } from "next/router";
 import axios from "axios";
 import { usePathname } from "next/navigation";

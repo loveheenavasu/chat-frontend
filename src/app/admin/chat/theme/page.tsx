@@ -1,5 +1,5 @@
 "use client";
-import {  useState } from "react";
+import { useState } from "react";
 import SideBar from "@/components/admin/SideBar";
 // import UserData from "@/components/admin/UserData";
 import CardContainer from "@/components/cardContainer/CardContainer";
@@ -64,6 +64,9 @@ const page = () => {
           },
         }
       );
+      if (response.status === 200) {
+        localStorage.removeItem("primaryTheme");
+      }
     } catch (error) {
       console.error(error, "Error during authentication");
     }
@@ -176,7 +179,7 @@ const page = () => {
                               <SketchPicker
                                 color={primaryTextColor}
                                 onChangeComplete={(color) => {
-                                  setPrimaryTextColor(color.hex);
+                                  setPrimaryTextColor(color.hex); 
                                   handleThemeColor();
                                 }}
                               />
