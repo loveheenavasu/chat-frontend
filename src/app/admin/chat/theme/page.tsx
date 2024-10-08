@@ -1,13 +1,11 @@
 "use client";
 import { useState } from "react";
 import SideBar from "@/components/admin/SideBar";
-// import UserData from "@/components/admin/UserData";
 import CardContainer from "@/components/cardContainer/CardContainer";
 import Header from "@/components/common/Header";
 import Link from "next/link";
 import { IoMdArrowBack } from "react-icons/io";
-
-import { SketchPicker } from "react-color"; // Importing the color picker
+import { SketchPicker } from "react-color";
 
 import {
   Box,
@@ -114,7 +112,7 @@ const page = () => {
                       setTheme("1");
                       setPrimaryThemeColor("#cbd5e0");
                       setPrimaryTextColor("#00000");
-                      setSecondaryThemeColor("##0000ff");
+                      setSecondaryThemeColor("#0000ff");
                       setSecondaryTextColor("#fdfefe");
                       handleThemeColor();
                     }}
@@ -186,7 +184,6 @@ const page = () => {
                             </Text>
                           </Box>
 
-                          {/* Secondary Section */}
                           <Box>
                             <Text fontWeight={600} fontSize={20} mb={2}>
                               Secondary

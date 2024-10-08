@@ -75,7 +75,6 @@ const Activity: React.FC<ChatContainerProps> = ({
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
-    // handleDateChange({ startDate: start, endDate: end });
   };
 
   const getDataFormat = async (format: string) => {
@@ -200,24 +199,7 @@ const Activity: React.FC<ChatContainerProps> = ({
               <Flex justifyContent="space-between" paddingBottom="20px">
                 <Heading fontSize="20px">Chats Logs </Heading>
                 <Box display="flex" gap={4}>
-                  {/* <Menu>
-                    <MenuButton as={Button} rightIcon={<RiFilter2Fill />}>
-                      Filter
-                    </MenuButton>
-                    <MenuList>
-
-                      <DatePicker
-                        selected={startDate}
-                        onChange={handleChange}
-                        startDate={startDate as any}
-                        endDate={endDate as any}
-                        selectsRange
-                        isClearable
-                        placeholderText="Select a date range"
-                      />
-
-                    </MenuList>
-                  </Menu> */}
+               
                   <Menu>
                     <MenuButton
                       as={Button}

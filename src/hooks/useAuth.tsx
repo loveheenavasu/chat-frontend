@@ -106,38 +106,6 @@ export const useAuth = ({ onSubmit, formType }: useFormProps) => {
     return formIsValid;
   };
 
-  // const signUpValidate = () => {
-  //     let formIsValid = true;
-  //     const errors: FormErrors = {};
-  //     if (!value.firstName) {
-  //         formIsValid = false;
-  //         errors.firstName = "First name is required";
-  //     }
-  //     if (!value.email) {
-  //         formIsValid = false;
-  //         errors.email = "Please enter your email.";
-  //     } else if (!/\S+@\S+\.\S+/.test(value.email!)) {
-  //         formIsValid = false;
-  //         errors.email = "Email is not valid.";
-  //     }
-  //     if (!value.password) {
-  //         formIsValid = false;
-  //         errors.password = "Password is required.";
-  //     } else if (value.password.length < 8) {
-  //         formIsValid = false;
-  //         errors.password = "Password must be at least 8 characters long.";
-  //     }
-  //     if (!value.confirmPassword) {
-  //         formIsValid = false;
-  //         errors.confirmPassword = "Please confirm your password.";
-  //     } else if (value.password !== value.confirmPassword) {
-  //         formIsValid = false;
-  //         errors.confirmPassword = "Passwords do not match.";
-  //     }
-  //     setErrors(errors)
-  //     return formIsValid;
-  // }
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setValue((prevState) => ({
@@ -147,15 +115,13 @@ export const useAuth = ({ onSubmit, formType }: useFormProps) => {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     if (validate()) {
       setLoading(true);
       try {
         onSubmit(value);
       } catch (error) {
         console.error("Error during submission", error);
-      } finally {
-        // setLoading(false);
       }
     }
   };

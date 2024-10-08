@@ -180,21 +180,8 @@ const DynamicForm = () => {
     );
   };
 
-  // const handleCheckboxChange = (value: string) => {
-  //     setSelectedIndexes((prev) => {
-  //         if (prev.includes(value)) {
-  //             // If the value is already in the selectedIndexes array, remove it
-  //             return prev.filter((item) => item !== value);
-  //         } else {
-  //             // If the value is not in the selectedIndexes array, add it
-  //             return [...prev, value];
-  //         }
-  //     });
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // setIsLoading(true);
     setLoading(true);
     const selectedFields = selectedIndexes.map((index) => {
       const field = staticInputFields.find((item) => item.value === index);
@@ -207,7 +194,6 @@ const DynamicForm = () => {
     });
 
     const postdata = [...selectedFields, ...fields];
-    // const combinedFields = [...fields, ...selectedFields,];
     try {
       const payload = { documentId, fields: postdata };
       const response = await axiosInstance.post("/user/form", payload);

@@ -122,13 +122,6 @@ const Signup: React.FC = () => {
               </FormLabel>
               <Input
                 type="password"
-                // {...register("password", {
-                //   required: "Password is required",
-                //   minLength: {
-                //     value: 8,
-                //     message: "Password must be at least 8 characters",
-                //   },
-                // })}
                 value={value.password || ""}
                 onChange={handleChange}
                 placeholder="enter your password"
@@ -143,9 +136,6 @@ const Signup: React.FC = () => {
               </FormLabel>
               <Input
                 type="password"
-                // {...register("confirmPassword", {
-                //   required: "Please confirm your password",
-                // })}
                 placeholder="confirm your password"
                 value={value.confirmPassword || ""}
                 onChange={handleChange}

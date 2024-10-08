@@ -174,7 +174,6 @@ const Login = () => {
               type="password"
               value={value?.password}
               onChange={(e) => setValue({ ...value, password: e.target.value })}
-              // onChange={handleChange}
               placeholder="enter your password"
             />
             {errors.password && <Text color="red.500">{errors.password}</Text>}
@@ -197,7 +196,6 @@ const Login = () => {
             cursor="pointer"
             as="b"
             marginLeft={1}
-            // onClick={() => router.push("/forgetPassword")}
             display={"flex"}
             p={2}
             justifyContent={"center"}
