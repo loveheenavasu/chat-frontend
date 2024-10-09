@@ -6,6 +6,7 @@ import Header from "@/components/common/Header";
 import Link from "next/link";
 import { IoMdArrowBack } from "react-icons/io";
 import { SketchPicker } from "react-color";
+import { toast } from "react-toastify";
 
 import {
   Box,
@@ -20,6 +21,7 @@ import {
   CardHeader,
   Grid,
   GridItem,
+  Button,
 } from "@chakra-ui/react";
 import ThemeColor from "@/components/cardContainer/ThemeColor";
 import axios from "axios";
@@ -40,10 +42,11 @@ const page = () => {
   const [primaryTextColor, setPrimaryTextColor] = useState("#00000");
   const [secondaryThemeColor, setSecondaryThemeColor] = useState("#0000ff");
   const [secondaryTextColor, setSecondaryTextColor] = useState("#ffffff");
+  const [isLoading, setIsLoading] = useState(false);
   const handleThemeColor = async () => {
     try {
+      setIsLoading(true);
       const authToken = localStorage.getItem("authToken");
-
       const data = {
         primaryTheme: primaryThemeColor,
         primaryText: primaryTextColor,
@@ -61,11 +64,17 @@ const page = () => {
           },
         }
       );
+      console.log(response, "3242342342");
       if (response.status === 200) {
         localStorage.removeItem("primaryTheme");
+        toast.success(response?.data?.message);
       }
     } catch (error) {
+      setIsLoading(false);
+
       console.error(error, "Error during authentication");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -113,13 +122,12 @@ const page = () => {
                       setPrimaryTextColor("#00000");
                       setSecondaryThemeColor("#0000ff");
                       setSecondaryTextColor("#fdfefe");
-                      handleThemeColor();
                     }}
                   >
                     <Radio colorScheme="blue" value="1">
                       <Text fontWeight={600} fontSize={24}>
                         Default
-                      </Text>
+                      </Text> 
                     </Radio>
                   </Box>
                   {theme === "1" && (
@@ -167,7 +175,7 @@ const page = () => {
                                 color={primaryThemeColor}
                                 onChangeComplete={(color) => {
                                   setPrimaryThemeColor(color.hex);
-                                  handleThemeColor();
+                                  // handleThemeColor();
                                 }}
                               />
                             </Text>
@@ -177,7 +185,7 @@ const page = () => {
                                 color={primaryTextColor}
                                 onChangeComplete={(color) => {
                                   setPrimaryTextColor(color.hex);
-                                  handleThemeColor();
+                                  // handleThemeColor();
                                 }}
                               />
                             </Text>
@@ -193,7 +201,7 @@ const page = () => {
                                 color={secondaryThemeColor}
                                 onChangeComplete={(color) => {
                                   setSecondaryThemeColor(color.hex);
-                                  handleThemeColor();
+                                  // handleThemeColor();
                                 }}
                               />
                             </Text>
@@ -203,7 +211,7 @@ const page = () => {
                                 color={secondaryTextColor}
                                 onChangeComplete={(color) => {
                                   setSecondaryTextColor(color.hex);
-                                  handleThemeColor();
+                                  // handleThemeColor();
                                 }}
                               />
                             </Text>
@@ -275,6 +283,13 @@ const page = () => {
                   </Box>
                 </Card>
               ))}
+              <Button
+                onClick={() => handleThemeColor()}
+                isLoading={isLoading}
+                disabled={isLoading}
+              >
+                Set Theme
+              </Button>
             </Box>
           </Grid>
         </CardContainer>
