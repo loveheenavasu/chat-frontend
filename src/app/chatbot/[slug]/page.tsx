@@ -44,19 +44,25 @@ const Page = ({ params }: { params: { slug: string } }) => {
   const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
   const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
   const [themeColor, setThemeColor] = useState<any>({});
+  const [themeColorLoading, setThemeColorLoading] = useState<any>({});
   const pathname = usePathname();
   const documentId = pathname.split("/").pop();
 
   const isFormCompleted = getLocalStorageItem("isFormCompleted");
   const getThemeColors = async () => {
     try {
+      setThemeColorLoading(true);
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/theme-detail/${documentId}`
       );
       setThemeColor(response?.data);
       localStorage.setItem("primaryTheme", response?.data?.primaryTheme);
     } catch (error) {
+      setThemeColorLoading(false);
+
       console.error(error, "Error during authentication");
+    } finally {
+      setThemeColorLoading(false);
     }
   };
 
@@ -320,6 +326,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
           inputFields={inputFields}
           isFormCompleted={isFormCompleted}
           bg={themeColor?.primaryTheme}
+          loading={themeColorLoading}
         />
       </Box>
     </>

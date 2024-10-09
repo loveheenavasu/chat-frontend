@@ -16,7 +16,6 @@ import {
   Stack,
   Text,
   CardBody,
-  CardFooter,
   Heading,
   CardHeader,
   Grid,
@@ -216,11 +215,16 @@ const page = () => {
                 </Stack>
               </RadioGroup>
             </GridItem>
+
             <Box
               display={"flex"}
-              justifyContent={"center"}
-              alignItems={"start"}
+              justifyContent={"start"}
+              alignItems={"center"}
+              flexDirection={"column"}
             >
+              <Text as="b" fontSize="22" textAlign="center">
+                Preview Theme
+              </Text>
               {themes.map((item, index) => (
                 <Card
                   align="center"
@@ -269,7 +273,6 @@ const page = () => {
                       </Flex>
                     </CardBody>
                   </Box>
-                  <CardFooter p={"0"}></CardFooter>
                 </Card>
               ))}
             </Box>

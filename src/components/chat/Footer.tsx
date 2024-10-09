@@ -1,7 +1,6 @@
 "use client";
-import { Fields } from "@/app/chatbot/[slug]/page";
 import { Flex, Input } from "@chakra-ui/react";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { VscSend } from "react-icons/vsc";
 import { toast } from "react-toastify";
 
@@ -12,15 +11,18 @@ interface ChatFooterProps {
   inputFields?: any;
   isFormCompleted: string | null | undefined;
   bg?: string;
+  loading?: boolean;
 }
 const ChatFooter: React.FC<ChatFooterProps> = ({
   handleSend,
   bg,
   inputFields,
   isFormCompleted,
+  loading,
 }) => {
   const [message, setMessage] = useState<string>("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [backGroundColor, setBackgroundColor] = useState("");
 
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
@@ -37,24 +39,30 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
     setMessage("");
     setCurrentIndex((prev) => prev + 1);
   };
+  useEffect(() => {
+    if (bg) {
+      setBackgroundColor(bg);
+    } else {
+      setBackgroundColor("#cbd5e0");
+    }
+  }, [bg]);
 
   return (
     <form style={{ width: "100%" }} onSubmit={sendMessage}>
-
       <Flex
         bottom="-3px"
         color="white"
         w="100%"
-        bg={bg == undefined ? "#cbd5e0" : bg}
+        bg={!loading ? backGroundColor : ""}
         h="80px"
         padding="10px"
         alignItems="center"
-        paddingLeft="30px"
+        paddingLeft="30px"  
         gap="10px"
         position="fixed"
       >
         <Input
-          bg="white"
+          bg="white"  
           color="black"
           variant="filled"
           height="40px"
